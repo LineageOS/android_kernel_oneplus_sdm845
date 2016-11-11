@@ -1886,7 +1886,6 @@ static int finish_td(struct xhci_hcd *xhci, struct xhci_td *td,
 	int ep_index;
 	struct urb *urb = NULL;
 	struct xhci_ep_ctx *ep_ctx;
-	int ret = 0;
 	struct urb_priv	*urb_priv;
 	u32 trb_comp_code;
 
@@ -1959,7 +1958,6 @@ td_cleanup:
 	urb_priv->td_cnt++;
 	/* Giveback the urb when all the tds are completed */
 	if (urb_priv->td_cnt == urb_priv->length) {
-		ret = 1;
 		if (usb_pipetype(urb->pipe) == PIPE_ISOCHRONOUS) {
 			xhci_to_hcd(xhci)->self.bandwidth_isoc_reqs--;
 			if (xhci_to_hcd(xhci)->self.bandwidth_isoc_reqs == 0) {
@@ -1967,9 +1965,10 @@ td_cleanup:
 					usb_amd_quirk_pll_enable();
 			}
 		}
+		xhci_giveback_urb_locked(xhci, td, *status);
 	}
 
-	return ret;
+	return 0;
 }
 
 /*
@@ -2353,7 +2352,6 @@ static int handle_tx_event(struct xhci_hcd *xhci,
 	struct xhci_ep_ctx *ep_ctx;
 	struct list_head *tmp;
 	u32 trb_comp_code;
-	int ret = 0;
 	int td_num = 0;
 	bool handling_skipped_tds = false;
 
@@ -2531,7 +2529,6 @@ static int handle_tx_event(struct xhci_hcd *xhci,
 				xhci_dbg(xhci, "td_list is empty while skip "
 						"flag set. Clear skip flag.\n");
 			}
-			ret = 0;
 			goto cleanup;
 		}
 
@@ -2540,7 +2537,6 @@ static int handle_tx_event(struct xhci_hcd *xhci,
 			ep->skip = false;
 			xhci_dbg(xhci, "All tds on the ep_ring skipped. "
 						"Clear skip flag.\n");
-			ret = 0;
 			goto cleanup;
 		}
 
@@ -2562,7 +2558,6 @@ static int handle_tx_event(struct xhci_hcd *xhci,
 		 */
 		if (!event_seg && (trb_comp_code == COMP_STOP ||
 				   trb_comp_code == COMP_STOP_INVAL)) {
-			ret = 0;
 			goto cleanup;
 		}
 
@@ -2576,7 +2571,6 @@ static int handle_tx_event(struct xhci_hcd *xhci,
 				if ((xhci->quirks & XHCI_SPURIOUS_SUCCESS) &&
 						ep_ring->last_td_was_short) {
 					ep_ring->last_td_was_short = false;
-					ret = 0;
 					goto cleanup;
 				}
 				/* HC is busted, give up! */
@@ -2591,7 +2585,7 @@ static int handle_tx_event(struct xhci_hcd *xhci,
 				return -ESHUTDOWN;
 			}
 
-			ret = skip_isoc_td(xhci, td, event, ep, &status);
+			skip_isoc_td(xhci, td, event, ep, &status);
 			goto cleanup;
 		}
 		if (trb_comp_code == COMP_SHORT_TX)
@@ -2618,22 +2612,18 @@ static int handle_tx_event(struct xhci_hcd *xhci,
 			goto cleanup;
 		}
 
-		/* Now update the urb's actual_length and give back to
-		 * the core
-		 */
+		/* update the urb's actual_length and give back to the core */
 		if (usb_endpoint_xfer_control(&td->urb->ep->desc))
-			ret = process_ctrl_td(xhci, td, event_trb, event, ep,
-						 &status);
+			process_ctrl_td(xhci, td, event_trb, event, ep,
+					&status);
 		else if (usb_endpoint_xfer_isoc(&td->urb->ep->desc))
-			ret = process_isoc_td(xhci, td, event_trb, event, ep,
-						 &status);
+			process_isoc_td(xhci, td, event_trb, event, ep,
+					&status);
 		else
-			ret = process_bulk_intr_td(xhci, td, event_trb, event,
-						 ep, &status);
+			process_bulk_intr_td(xhci, td, event_trb, event, ep,
+					     &status);
 
 cleanup:
-
-
 		handling_skipped_tds = ep->skip &&
 			trb_comp_code != COMP_MISSED_INT &&
 			trb_comp_code != COMP_PING_ERR;
@@ -2645,8 +2635,6 @@ cleanup:
 		if (!handling_skipped_tds)
 			inc_deq(xhci, xhci->event_ring);
 
-		if (ret)
-			xhci_giveback_urb_locked(xhci, td, status);
 	/*
 	 * If ep->skip is set, it means there are missed tds on the
 	 * endpoint ring need to take care of.
