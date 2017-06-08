@@ -339,7 +339,7 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
 {
 	struct task_struct *tsk;
 	struct mm_struct *mm;
-	int fault, sig, code;
+	int fault, sig, code, major = 0;
 	unsigned long vm_flags = VM_READ | VM_WRITE | VM_EXEC;
 	unsigned int mm_flags = FAULT_FLAG_ALLOW_RETRY | FAULT_FLAG_KILLABLE;
 	struct vm_area_struct *vma = NULL;
@@ -380,6 +380,8 @@ static int __kprobes do_page_fault(unsigned long addr, unsigned int esr,
 			die("Accessing user space memory outside uaccess.h routines", regs, esr);
 	}
 
+	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, addr);
+
 	/*
 	 * let's try a speculative page fault without grabbing the
 	 * mmap_sem.
@@ -414,6 +416,8 @@ retry:
 		vma = find_vma(mm, addr);
 
 	fault = __do_page_fault(vma, addr, mm_flags, vm_flags, tsk);
+	major |= fault & VM_FAULT_MAJOR;
+
 	if (fault & VM_FAULT_RETRY) {
 		/*
 		 * If we need to retry but a fatal signal is pending, handle the
@@ -449,14 +453,17 @@ retry:
 done:
 
 	/*
-	 * Major/minor page fault accounting is only done on the initial
-	 * attempt. If we go through a retry, it is extremely likely that the
-	 * page will be found in page cache at that point.
+	 * Handle the "normal" (no error) case first.
 	 */
-
-	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, addr);
-	if (mm_flags & FAULT_FLAG_ALLOW_RETRY) {
-		if (fault & VM_FAULT_MAJOR) {
+	if (likely(!(fault & (VM_FAULT_ERROR | VM_FAULT_BADMAP |
+			      VM_FAULT_BADACCESS)))) {
+		/*
+		 * Major/minor page fault accounting is only done
+		 * once. If we go through a retry, it is extremely
+		 * likely that the page will be found in page cache at
+		 * that point.
+		 */
+		if (major) {
 			tsk->maj_flt++;
 			perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS_MAJ, 1, regs,
 				      addr);
@@ -465,14 +472,8 @@ done:
 			perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS_MIN, 1, regs,
 				      addr);
 		}
-	}
-
-	/*
-	 * Handle the "normal" case first - VM_FAULT_MAJOR
-	 */
-	if (likely(!(fault & (VM_FAULT_ERROR | VM_FAULT_BADMAP |
-			      VM_FAULT_BADACCESS))))
 		return 0;
+	}
 
 	/*
 	 * If we are in kernel mode at this point, we have no context to
