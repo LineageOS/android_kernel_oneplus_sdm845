@@ -15,6 +15,7 @@
 #include <linux/static_key.h>
 #include <linux/jump_label_ratelimit.h>
 #include <linux/bug.h>
+#include <asm/sections.h>
 
 #ifdef HAVE_JUMP_LABEL
 
@@ -328,15 +329,15 @@ void __init jump_label_init(void)
 	jump_label_unlock();
 }
 
-/* Disable any jump label entries in __init code */
-void __init jump_label_invalidate_init(void)
+/* Disable any jump label entries in __init/__exit code */
+void __init jump_label_invalidate_initmem(void)
 {
 	struct jump_entry *iter_start = __start___jump_table;
 	struct jump_entry *iter_stop = __stop___jump_table;
 	struct jump_entry *iter;
 
 	for (iter = iter_start; iter < iter_stop; iter++) {
-		if (init_kernel_text(iter->code))
+		if (init_section_contains((void *)(unsigned long)iter->code, 1))
 			iter->code = 0;
 	}
 }
