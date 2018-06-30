@@ -1,4 +1,4 @@
-/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -10,12 +10,12 @@
  * GNU General Public License for more details.
  */
 
-#ifndef _CPASTOP_V170_110_H_
-#define _CPASTOP_V170_110_H_
+#ifndef _CPASTOP_V175_101_H_
+#define _CPASTOP_V175_101_H_
 
 #define TEST_IRQ_ENABLE 0
 
-static struct cam_camnoc_irq_sbm cam_cpas110_irq_sbm = {
+static struct cam_camnoc_irq_sbm cam_cpas_v175_101_irq_sbm = {
 	.sbm_enable = {
 		.access_type = CAM_REG_TYPE_READ_WRITE,
 		.enable = true,
@@ -44,7 +44,7 @@ static struct cam_camnoc_irq_sbm cam_cpas110_irq_sbm = {
 };
 
 static struct cam_camnoc_irq_err
-	cam_cpas110_irq_err[] = {
+	cam_cpas_v175_101_irq_err[] = {
 	{
 		.irq_type = CAM_CAMNOC_HW_IRQ_SLAVE_ERROR,
 		.enable = true,
@@ -205,7 +205,7 @@ static struct cam_camnoc_irq_err
 };
 
 static struct cam_camnoc_specific
-	cam_cpas110_camnoc_specific[] = {
+	cam_cpas_v175_101_camnoc_specific[] = {
 	{
 		.port_type = CAM_CAMNOC_CDM,
 		.enable = true,
@@ -505,7 +505,7 @@ static struct cam_camnoc_specific
 	},
 };
 
-static struct cam_camnoc_err_logger_info cam170_cpas110_err_logger_offsets = {
+static struct cam_camnoc_err_logger_info cam175_cpas101_err_logger_offsets = {
 	.mainctrl     =  0x2708, /* ERRLOGGER_MAINCTL_LOW */
 	.errvld       =  0x2710, /* ERRLOGGER_ERRVLD_LOW */
 	.errlog0_low  =  0x2720, /* ERRLOGGER_ERRLOG0_LOW */
@@ -518,7 +518,7 @@ static struct cam_camnoc_err_logger_info cam170_cpas110_err_logger_offsets = {
 	.errlog3_high =  0x273c, /* ERRLOGGER_ERRLOG3_HIGH */
 };
 
-static struct cam_cpas_hw_errata_wa_list cam170_cpas110_errata_wa_list = {
+static struct cam_cpas_hw_errata_wa_list cam175_cpas101_errata_wa_list = {
 	.camnoc_flush_slave_pending_trans = {
 		.enable = false,
 		.data.reg_info = {
@@ -530,16 +530,16 @@ static struct cam_cpas_hw_errata_wa_list cam170_cpas110_errata_wa_list = {
 	},
 };
 
-static struct cam_camnoc_info cam170_cpas110_camnoc_info = {
-	.specific = &cam_cpas110_camnoc_specific[0],
-	.specific_size = sizeof(cam_cpas110_camnoc_specific) /
-		sizeof(cam_cpas110_camnoc_specific[0]),
-	.irq_sbm = &cam_cpas110_irq_sbm,
-	.irq_err = &cam_cpas110_irq_err[0],
-	.irq_err_size = sizeof(cam_cpas110_irq_err) /
-		sizeof(cam_cpas110_irq_err[0]),
-	.err_logger = &cam170_cpas110_err_logger_offsets,
-	.errata_wa_list = &cam170_cpas110_errata_wa_list,
+static struct cam_camnoc_info cam175_cpas101_camnoc_info = {
+	.specific = &cam_cpas_v175_101_camnoc_specific[0],
+	.specific_size = sizeof(cam_cpas_v175_101_camnoc_specific) /
+		sizeof(cam_cpas_v175_101_camnoc_specific[0]),
+	.irq_sbm = &cam_cpas_v175_101_irq_sbm,
+	.irq_err = &cam_cpas_v175_101_irq_err[0],
+	.irq_err_size = sizeof(cam_cpas_v175_101_irq_err) /
+		sizeof(cam_cpas_v175_101_irq_err[0]),
+	.err_logger = &cam175_cpas101_err_logger_offsets,
+	.errata_wa_list = &cam175_cpas101_errata_wa_list,
 };
 
-#endif /* _CPASTOP_V170_110_H_ */
+#endif /* _CPASTOP_V175_101_H_ */
