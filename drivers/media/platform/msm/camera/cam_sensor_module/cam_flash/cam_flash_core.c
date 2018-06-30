@@ -140,6 +140,35 @@ static int cam_flash_ops(struct cam_flash_ctrl *flash_ctrl,
 	soc_private = (struct cam_flash_private_soc *)
 		flash_ctrl->soc_info.soc_private;
 
+
+	if (op == CAMERA_SENSOR_FLASH_OP_FIRELOW) {
+		for (i = 0; i < flash_ctrl->torch_num_sources; i++) {
+			if (flash_data->led_current_ma[i]) {
+				if (i)
+					flash_data->led_current_ma[i-1] =
+					flash_data->led_current_ma[i];
+				else
+					flash_data->led_current_ma[i+1] =
+					flash_data->led_current_ma[i];
+				break;
+			}
+		}
+	} else if (op == CAMERA_SENSOR_FLASH_OP_FIREHIGH) {
+		for (i = 0; i < flash_ctrl->flash_num_sources; i++) {
+			if (flash_data->led_current_ma[i]) {
+				if (i)
+					flash_data->led_current_ma[i-1] =
+					flash_data->led_current_ma[i];
+				else
+					flash_data->led_current_ma[i+1] =
+					flash_data->led_current_ma[i];
+				break;
+			}
+		}
+	} else {
+		CAM_ERR(CAM_FLASH, "Wrong Operation: %d", op);
+	}
+
 	if (op == CAMERA_SENSOR_FLASH_OP_FIRELOW) {
 		for (i = 0; i < flash_ctrl->torch_num_sources; i++) {
 			if (flash_ctrl->torch_trigger[i]) {
