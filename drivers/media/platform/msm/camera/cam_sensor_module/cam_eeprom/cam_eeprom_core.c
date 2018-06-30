@@ -341,6 +341,7 @@ static int32_t cam_eeprom_get_dev_handle(struct cam_eeprom_ctrl_t *e_ctrl,
 		CAM_ERR(CAM_EEPROM, "Device is already acquired");
 		return -EFAULT;
 	}
+
 	if (copy_from_user(&eeprom_acq_dev, (void __user *) cmd->handle,
 		sizeof(eeprom_acq_dev))) {
 		CAM_ERR(CAM_EEPROM,
@@ -864,6 +865,11 @@ int32_t cam_eeprom_driver_cmd(struct cam_eeprom_ctrl_t *e_ctrl, void *arg)
 	if (cmd->handle_type != CAM_HANDLE_USER_POINTER) {
 		CAM_ERR(CAM_EEPROM, "Invalid handle type: %d",
 			cmd->handle_type);
+		return -EINVAL;
+	}
+
+	if (cmd->handle_type != CAM_HANDLE_USER_POINTER) {
+		CAM_ERR(CAM_EEPROM, "Invalid Handle Type");
 		return -EINVAL;
 	}
 
