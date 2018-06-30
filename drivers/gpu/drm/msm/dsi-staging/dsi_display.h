@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017, The Linux Foundation.All rights reserved.
+ * Copyright (c) 2015-2018, The Linux Foundation.All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -134,6 +134,7 @@ struct dsi_display_clk_info {
  * @display_lock:     Mutex for dsi_display interface.
  * @disp_te_gpio:     GPIO for panel TE interrupt.
  * @is_te_irq_enabled:bool to specify whether TE interrupt is enabled.
+ * @te_irq_triggered: atomic state notifying panel TE interrupt.
  * @esd_te_gate:      completion gate to signal TE interrupt.
  * @ctrl_count:       Number of DSI interfaces required by panel.
  * @ctrl:             Controller information for DSI display.
@@ -180,6 +181,7 @@ struct dsi_display {
 	struct mutex display_lock;
 	int disp_te_gpio;
 	bool is_te_irq_enabled;
+	atomic_t te_irq_triggered;
 	struct completion esd_te_gate;
 
 	u32 ctrl_count;
@@ -374,6 +376,8 @@ int dsi_display_validate_mode_vrr(struct dsi_display *display,
 			struct dsi_display_mode *cur_dsi_mode,
 			struct dsi_display_mode *mode);
 
+extern int connector_state_crtc_index;
+extern int msm_drm_notifier_call_chain(unsigned long val, void *v);
 /**
  * dsi_display_set_mode() - Set mode on the display.
  * @display:           Handle to display.
