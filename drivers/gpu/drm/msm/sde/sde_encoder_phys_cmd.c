@@ -962,12 +962,20 @@ static bool sde_encoder_phys_cmd_is_autorefresh_enabled(
 static void sde_encoder_phys_cmd_connect_te(
 		struct sde_encoder_phys *phys_enc, bool enable)
 {
+	u32 vsync_cfg;
+
 	if (!phys_enc || !phys_enc->hw_pp ||
 			!phys_enc->hw_pp->ops.connect_external_te)
 		return;
 
 	SDE_EVT32(DRMID(phys_enc->parent), enable);
-	phys_enc->hw_pp->ops.connect_external_te(phys_enc->hw_pp, enable);
+	vsync_cfg = phys_enc->hw_pp->ops.connect_external_te(phys_enc->hw_pp, enable);
+
+	/* panic only if frame pending - vsync enable is not configured */
+	if (((vsync_cfg & BIT(19)) == 0) && enable &&
+			atomic_read(&phys_enc->pending_kickoff_cnt))
+		SDE_DBG_DUMP("all", "dbg_bus", "vbif_dbg_bus", "panic");
+
 }
 
 static int sde_encoder_phys_cmd_get_line_count(
