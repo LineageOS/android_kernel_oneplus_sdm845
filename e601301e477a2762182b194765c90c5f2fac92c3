@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24be4b8d_1b9a5214",
+        "filename": "drivers/gpu/drm/msm/sde/sde_hw_pingpong.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T21:02:34Z",
+      "side": 0,
+      "message": "useless",
+      "range": {
+        "startLine": 270,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 1
+      },
+      "revId": "e601301e477a2762182b194765c90c5f2fac92c3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}

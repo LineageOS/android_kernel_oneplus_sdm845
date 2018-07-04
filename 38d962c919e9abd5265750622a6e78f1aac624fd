@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aebdecfc_b739b0bd",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T21:02:34Z",
+      "side": 1,
+      "message": "remove all the qos changes",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 0
+      },
+      "revId": "38d962c919e9abd5265750622a6e78f1aac624fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "507397a2_78f293fe",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 7600,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T21:02:34Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 7521,
+        "startChar": 0,
+        "endLine": 7600,
+        "endChar": 45
+      },
+      "revId": "38d962c919e9abd5265750622a6e78f1aac624fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c930102_dd871b13",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T21:02:34Z",
+      "side": 1,
+      "message": "useless?",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 11
+      },
+      "revId": "38d962c919e9abd5265750622a6e78f1aac624fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f69d099_98f09b9f",
+        "filename": "drivers/gpu/drm/msm/sde/sde_encoder_phys_cmd.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T21:02:34Z",
+      "side": 1,
+      "message": "remove, debug only",
+      "range": {
+        "startLine": 965,
+        "startChar": 0,
+        "endLine": 978,
+        "endChar": 0
+      },
+      "revId": "38d962c919e9abd5265750622a6e78f1aac624fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c2fd089_026adb33",
+        "filename": "drivers/gpu/drm/msm/sde/sde_hw_pingpong.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T21:02:34Z",
+      "side": 1,
+      "message": "done in sde_hw_pp_setup_autorefresh_config",
+      "revId": "38d962c919e9abd5265750622a6e78f1aac624fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b9ab244_44828d34",
+        "filename": "drivers/gpu/drm/msm/sde/sde_hw_pingpong.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T21:02:34Z",
+      "side": 1,
+      "message": "useless",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 28
+      },
+      "revId": "38d962c919e9abd5265750622a6e78f1aac624fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
