@@ -1,0 +1,279 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4bf223b_4743ee43",
+        "filename": "drivers/media/platform/msm/camera/cam_icp/icp_hw/ipe_hw/ipe_soc.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can go",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 64
+      },
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "badce875_73efd135",
+        "filename": "drivers/media/platform/msm/camera/cam_sensor_module/cam_eeprom/cam_eeprom_core.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can go",
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd3a24d5_20f9311b",
+        "filename": "drivers/media/platform/msm/camera/cam_sensor_module/cam_eeprom/cam_eeprom_core.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can go\nduplicated",
+      "range": {
+        "startLine": 871,
+        "startChar": 0,
+        "endLine": 875,
+        "endChar": 0
+      },
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "423ab822_11236531",
+        "filename": "drivers/media/platform/msm/camera/cam_sensor_module/cam_ois/cam_ois_core.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can go",
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4729ff5_a53404e8",
+        "filename": "drivers/media/platform/msm/camera/cam_sensor_module/cam_ois/cam_ois_core.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can probably go",
+      "range": {
+        "startLine": 581,
+        "startChar": 0,
+        "endLine": 586,
+        "endChar": 63
+      },
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff1244dc_ddfc791d",
+        "filename": "drivers/media/platform/msm/camera/cam_sensor_module/cam_ois/cam_ois_core.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can go",
+      "range": {
+        "startLine": 732,
+        "startChar": 0,
+        "endLine": 732,
+        "endChar": 41
+      },
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "729a5039_748b9556",
+        "filename": "drivers/media/platform/msm/camera/cam_sensor_module/cam_ois/cam_ois_core.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can go",
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac4231b9_6a860dd7",
+        "filename": "drivers/media/platform/msm/camera/cam_sensor_module/cam_ois/cam_ois_core.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can go\nduplicated",
+      "range": {
+        "startLine": 796,
+        "startChar": 0,
+        "endLine": 801,
+        "endChar": 2
+      },
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "390786be_aca37a7e",
+        "filename": "drivers/media/platform/msm/camera/cam_sensor_module/cam_ois/cam_ois_core.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can go",
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebfa7330_ce29b16b",
+        "filename": "drivers/media/platform/msm/camera/cam_sensor_module/cam_sensor/cam_sensor_core.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can go",
+      "range": {
+        "startLine": 661,
+        "startChar": 0,
+        "endLine": 662,
+        "endChar": 38
+      },
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "089d8d56_abe6ed66",
+        "filename": "drivers/media/platform/msm/camera/cam_sensor_module/cam_sensor/cam_sensor_core.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can go",
+      "range": {
+        "startLine": 682,
+        "startChar": 0,
+        "endLine": 691,
+        "endChar": 2
+      },
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2edae5e_b8fab28c",
+        "filename": "drivers/media/platform/msm/camera/cam_sensor_module/cam_sensor/cam_sensor_core.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can go",
+      "range": {
+        "startLine": 716,
+        "startChar": 0,
+        "endLine": 718,
+        "endChar": 30
+      },
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d7a51c1_e32f213c",
+        "filename": "drivers/media/platform/msm/camera/cam_sensor_module/cam_sensor/cam_sensor_core.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T19:26:31Z",
+      "side": 1,
+      "message": "can go",
+      "range": {
+        "startLine": 828,
+        "startChar": 0,
+        "endLine": 848,
+        "endChar": 30
+      },
+      "revId": "872de8220452a704f9eff8e0a20d96807722db18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
