@@ -22,6 +22,30 @@
       "revId": "5feb6ffc0f20600a84dc780924713455efe3307b",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9880930b_f6ffa264",
+        "filename": "drivers/gpu/msm/adreno_sysfs.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 13648
+      },
+      "writtenOn": "2018-07-04T21:59:59Z",
+      "side": 1,
+      "message": "Xiaomi has the same change. If you leave 0644, then macros _ADRENO_SYSFS_ATTR and _ADRENO_SYSFS_ATTR_RO are the same. Note the \"_RO\" at the end.",
+      "parentUuid": "ec8f6ce3_893acc2f",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "5feb6ffc0f20600a84dc780924713455efe3307b",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
     }
   ]
 }
