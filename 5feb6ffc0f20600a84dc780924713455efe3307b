@@ -46,6 +46,30 @@
       "revId": "5feb6ffc0f20600a84dc780924713455efe3307b",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6092116f_af9b74f8",
+        "filename": "drivers/gpu/msm/adreno_sysfs.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-04T22:03:11Z",
+      "side": 1,
+      "message": "Missed the _RO part\nthen this is good",
+      "parentUuid": "9880930b_f6ffa264",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "5feb6ffc0f20600a84dc780924713455efe3307b",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
     }
   ]
 }
