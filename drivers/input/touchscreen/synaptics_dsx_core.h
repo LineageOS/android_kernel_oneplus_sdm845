@@ -137,8 +137,6 @@
 #define MASK_2BIT 0x03
 #define MASK_1BIT 0x01
 
-extern void msm_cpuidle_set_sleep_disable(bool disable);
-
 enum exp_fn {
 	RMI_DEV = 0,
 	RMI_FW_UPDATER,

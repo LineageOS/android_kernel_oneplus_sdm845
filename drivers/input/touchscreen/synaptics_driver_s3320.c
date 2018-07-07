@@ -2198,7 +2198,6 @@ static ssize_t tp_baseline_show(struct device_driver *ddri, char *buf)
 	synaptics_read_register_map_page1(ts);
 
 	TPD_DEBUG("\nstep 1:select report type 0x03 baseline\n");
-	msm_cpuidle_set_sleep_disable(true);
 	/*step 1:check raw capacitance*/
 	ret = i2c_smbus_write_byte_data(ts->client, F54_ANALOG_DATA_BASE, 0x03);//select report type 0x03
 	if( ret < 0 ){
@@ -2259,7 +2258,6 @@ static ssize_t tp_baseline_show(struct device_driver *ddri, char *buf)
 	TPD_DEBUG("\nread all is oK\n");
 	ret = i2c_smbus_write_byte_data(ts->client, F54_ANALOG_COMMAND_BASE, 0X02);
 	delay_qt_ms(60);
-	msm_cpuidle_set_sleep_disable(false);
 #ifdef SUPPORT_GLOVES_MODE
 	synaptics_glove_mode_enable(ts);
 #endif
@@ -2776,7 +2774,6 @@ static ssize_t synaptics_rmi4_baseline_show_s3706(
 
 	struct synaptics_ts_data *ts = dev_get_drvdata(dev);
 
-	msm_cpuidle_set_sleep_disable(true);
 	ret = synaptics_rmi4_i2c_write_byte(ts->client, 0xff, 0x0);
 	synaptics_rmi4_i2c_read_block(ts->client,
 		F34_FLASH_CTRL00, 8, buf);
@@ -3144,7 +3141,6 @@ END:
 #endif
 	TPD_ERR("status...first_check:%d:readdata_fail:%d\n",
 					first_check, readdata_fail);
-	msm_cpuidle_set_sleep_disable(false);
 	num_read_chars += snprintf(&(buf[num_read_chars]), 128,
 					"imageid=0x%lx,deviceid=0x%lx\n",
 					TP_FW, TP_FW);
@@ -3178,7 +3174,6 @@ static ssize_t tp_baseline_show_with_cbc(struct device_driver *ddri, char *buf)
 	synaptics_hard_reset(ts);
 	synaptics_read_register_map_page1(ts);
 	TPD_DEBUG("\nstep 1:select report type 0x03 baseline\n");
-	msm_cpuidle_set_sleep_disable(true);
 	//step 1:check raw capacitance.
 	//select report type 0x03/* Report Type */
 	ret = synaptics_rmi4_i2c_write_byte(ts->client,
@@ -3264,7 +3259,6 @@ static ssize_t tp_baseline_show_with_cbc(struct device_driver *ddri, char *buf)
 
 	ret = synaptics_rmi4_i2c_write_byte(ts->client,F54_ANALOG_COMMAND_BASE,0X02);
 	delay_qt_ms(60);
-	msm_cpuidle_set_sleep_disable(false);
 	synaptics_enable_interrupt(ts,1);
 	mutex_unlock(&ts->mutex);
 	touch_enable(ts);
