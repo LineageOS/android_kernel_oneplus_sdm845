@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51daf8b8_e957a906",
+        "filename": "arch/arm64/mm/dma-mapping.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 0,
+      "message": "not sure about that",
+      "range": {
+        "startLine": 256,
+        "startChar": 5,
+        "endLine": 256,
+        "endChar": 34
+      },
+      "revId": "8cf27ac92577fece435c44577cf5e52200b150df",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6542be4_a90b19b1",
+        "filename": "drivers/input/misc/qpnp-power-on.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 0,
+      "message": "keep",
+      "range": {
+        "startLine": 197,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 2
+      },
+      "revId": "8cf27ac92577fece435c44577cf5e52200b150df",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f068fa52_b3407469",
+        "filename": "drivers/soc/qcom/pil-q6v5-mss.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 0,
+      "message": "we have to check this one, but it looks intentional",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 13
+      },
+      "revId": "8cf27ac92577fece435c44577cf5e52200b150df",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}

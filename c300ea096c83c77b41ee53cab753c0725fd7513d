@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1032728_bd8b7f6e",
+        "filename": "drivers/input/misc/qpnp-power-on.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 1,
+      "message": "all the other changes are only used by OnePlus EngineeringMode",
+      "revId": "c300ea096c83c77b41ee53cab753c0725fd7513d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f9c3c75_ea4b70f7",
+        "filename": "drivers/irqchip/qcom/pdc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 1,
+      "message": "newline",
+      "revId": "c300ea096c83c77b41ee53cab753c0725fd7513d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6d3cfed_5ea9effa",
+        "filename": "drivers/leds/leds-qpnp.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 1,
+      "message": "shutdown doesn\u0027t seem to be any usefull",
+      "revId": "c300ea096c83c77b41ee53cab753c0725fd7513d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ca9b39a_5c766f45",
+        "filename": "drivers/leds/leds-qpnp.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2607,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 1,
+      "message": "breaks our lights hal",
+      "range": {
+        "startLine": 2589,
+        "startChar": 0,
+        "endLine": 2607,
+        "endChar": 20
+      },
+      "revId": "c300ea096c83c77b41ee53cab753c0725fd7513d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ef408bb_55da06bf",
+        "filename": "drivers/media/platform/msm/vidc/msm_vidc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1605,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 1,
+      "message": "useless changes",
+      "revId": "c300ea096c83c77b41ee53cab753c0725fd7513d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cf81893_310a4016",
+        "filename": "drivers/soc/qcom/icnss.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 1,
+      "message": "used only by prebuilt qcacld module, will be removed when we switch to OSS",
+      "revId": "c300ea096c83c77b41ee53cab753c0725fd7513d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4e66afd_c8a37ad6",
+        "filename": "drivers/usb/core/driver.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1814,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 1,
+      "message": "probably useless, the rest of the code doesn\u0027t check for it",
+      "range": {
+        "startLine": 1809,
+        "startChar": 0,
+        "endLine": 1814,
+        "endChar": 4
+      },
+      "revId": "c300ea096c83c77b41ee53cab753c0725fd7513d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e26dd60_e8403f55",
+        "filename": "drivers/usb/phy/phy-msm-qusb-v2.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 1,
+      "message": "never used in userspace",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 49
+      },
+      "revId": "c300ea096c83c77b41ee53cab753c0725fd7513d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d4f8e32_046ca209",
+        "filename": "include/soc/qcom/icnss.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 1,
+      "message": "same as per icnss",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 54
+      },
+      "revId": "c300ea096c83c77b41ee53cab753c0725fd7513d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c254728d_63022f5f",
+        "filename": "net/netfilter/xt_qtaguid.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2034,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2018-07-09T15:08:01Z",
+      "side": 1,
+      "message": "no clue about these",
+      "revId": "c300ea096c83c77b41ee53cab753c0725fd7513d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
