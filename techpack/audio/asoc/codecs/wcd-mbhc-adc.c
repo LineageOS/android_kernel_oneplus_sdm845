@@ -30,9 +30,9 @@
 #include "wcd-mbhc-adc.h"
 #include "wcd-mbhc-v2.h"
 
-#define WCD_MBHC_ADC_HS_THRESHOLD_MV    1700
+#define WCD_MBHC_ADC_HS_THRESHOLD_MV    1800
 #define WCD_MBHC_ADC_HPH_THRESHOLD_MV   75
-#define WCD_MBHC_ADC_MICBIAS_MV         1800
+#define WCD_MBHC_ADC_MICBIAS_MV         2700
 #define WCD_MBHC_FAKE_INS_RETRY         4
 
 static int wcd_mbhc_get_micbias(struct wcd_mbhc *mbhc)
