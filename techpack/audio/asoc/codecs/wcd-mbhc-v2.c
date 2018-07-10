@@ -557,6 +557,11 @@ void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 	bool is_pa_on = false;
 	u8 fsm_en = 0;
 
+
+	unsigned int i = 0;
+	pr_debug("%s:-----start, name:%s\n", __func__, mbhc->wcd934x_edev->name);
+
+
 	WCD_MBHC_RSC_ASSERT_LOCKED(mbhc);
 
 	pr_debug("%s: enter insertion %d hph_status %x\n",
@@ -599,6 +604,19 @@ void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 		mbhc->zl = mbhc->zr = 0;
 		pr_debug("%s: Reporting removal %d(%x)\n", __func__,
 			 jack_type, mbhc->hph_status);
+
+
+		for (i = EXTCON_PLUG_TYPE_NONE; i <= EXTCON_PLUG_TYPE_GND_MIC_SWAP; i++)
+			extcon_set_state(mbhc->wcd934x_edev, i, 0); //clean state, not uevent
+
+        extcon_set_state_sync(mbhc->wcd934x_edev, EXTCON_PLUG_TYPE_NONE, 1);
+		pr_info("%s: remove: "  \
+		        "no connect = %d, headset = %d, headphone = %d, G_M_SWAP = %d\n",
+		        __func__,
+				extcon_get_state(mbhc->wcd934x_edev, 19),
+				extcon_get_state(mbhc->wcd934x_edev, 20),
+				extcon_get_state(mbhc->wcd934x_edev, 21),
+				extcon_get_state(mbhc->wcd934x_edev, 22));
 		wcd_mbhc_jack_report(mbhc, &mbhc->headset_jack,
 				mbhc->hph_status, WCD_MBHC_JACK_MASK);
 		wcd_mbhc_set_and_turnoff_hph_padac(mbhc);
@@ -718,6 +736,36 @@ void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 		}
 
 		mbhc->hph_status |= jack_type;
+
+
+		pr_info("%s: current_plug: %d\n", __func__, mbhc->current_plug);
+
+		for (i = EXTCON_PLUG_TYPE_NONE; i <= EXTCON_PLUG_TYPE_GND_MIC_SWAP; i++)
+			extcon_set_state(mbhc->wcd934x_edev, i, 0);
+
+		switch(mbhc->current_plug) {
+			case MBHC_PLUG_TYPE_HEADPHONE:
+			case MBHC_PLUG_TYPE_HIGH_HPH:
+				extcon_set_state_sync(mbhc->wcd934x_edev, EXTCON_PLUG_TYPE_HEADPHONE, 1);  //21  headphone id	in extcon_edev
+				break;
+			case MBHC_PLUG_TYPE_GND_MIC_SWAP:
+				extcon_set_state_sync(mbhc->wcd934x_edev, EXTCON_PLUG_TYPE_GND_MIC_SWAP, 1);
+				break;
+			case MBHC_PLUG_TYPE_HEADSET:
+				extcon_set_state_sync(mbhc->wcd934x_edev, EXTCON_PLUG_TYPE_HEADSET, 1);
+				break;
+			default:
+				extcon_set_state_sync(mbhc->wcd934x_edev, EXTCON_PLUG_TYPE_NONE, 1);
+                break;
+		}
+
+		pr_info("%s: insert: "  \
+		        "no_connect = %d, headset = %d, headphone = %d, G_M_SWAP = %d\n",
+		        __func__,
+				extcon_get_state(mbhc->wcd934x_edev, 19),
+				extcon_get_state(mbhc->wcd934x_edev, 20),
+				extcon_get_state(mbhc->wcd934x_edev, 21),
+				extcon_get_state(mbhc->wcd934x_edev, 22));
 
 		pr_debug("%s: Reporting insertion %d(%x)\n", __func__,
 			 jack_type, mbhc->hph_status);
