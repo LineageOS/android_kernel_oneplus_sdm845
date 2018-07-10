@@ -963,6 +963,27 @@ static const struct snd_kcontrol_new impedance_detect_controls[] = {
 		       tavil_hph_impedance_get, NULL),
 };
 
+/* liuhaituo@MM.Audio 2018/7/17 add for headset impedance detect */
+extern bool headset_imp_enable;
+
+static int headset_imp_feature_put(struct snd_kcontrol *kcontrol,
+				struct snd_ctl_elem_value *ucontrol)
+{
+	int type = ucontrol->value.integer.value[0];
+	if (type != 0)
+		headset_imp_enable = true;
+
+	pr_info("%s: headset_imp_feature is  %d\n",
+				__func__, headset_imp_enable);
+
+	return 0;
+}
+
+static const struct snd_kcontrol_new headset_feature_controls[] = {
+	SOC_SINGLE_EXT("headset_imp_feature", 0, 0, UINT_MAX, 0,
+				NULL, headset_imp_feature_put),
+};
+
 /*
  * tavil_mbhc_get_impedance: get impedance of headphone left and right channels
  * @wcd934x_mbhc: handle to struct wcd934x_mbhc *
@@ -1132,6 +1153,9 @@ int tavil_mbhc_init(struct wcd934x_mbhc **mbhc, struct snd_soc_codec *codec,
 				   ARRAY_SIZE(impedance_detect_controls));
 	snd_soc_add_codec_controls(codec, hph_type_detect_controls,
 				   ARRAY_SIZE(hph_type_detect_controls));
+/* liuhaituo@MM.Audio 2018/7/17 add for headset impedance detect */
+	snd_soc_add_codec_controls(codec, headset_feature_controls,
+				   ARRAY_SIZE(headset_feature_controls));
 
 	if (wcd_mbhc->mbhc_detection_logic == WCD_DETECTION_LEGACY) {
 		snd_soc_update_bits(codec, WCD934X_MBHC_NEW_CTL_1, 0x04, 0x04);
