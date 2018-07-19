@@ -4761,14 +4761,85 @@ error:
 	return ret == 0 ? count : ret;
 }
 
+static ssize_t sysfs_display_mode_read(struct device *dev,
+		struct device_attribute *attr, char *buf)
+{
+	struct dsi_display *display = dev_get_drvdata(dev);
+	if (!display->panel)
+		return 0;
+
+	return scnprintf(buf, PAGE_SIZE, "%s\n",
+		display->panel->display_mode == DISPLAY_MODE_SRGB ? "srgb" :
+		display->panel->display_mode == DISPLAY_MODE_DCI_P3 ? "dci-p3" :
+		display->panel->display_mode == DISPLAY_MODE_WIDE_COLOR ? "widecolor" :
+		"default");
+}
+
+static ssize_t sysfs_display_mode_write(struct device *dev,
+	    struct device_attribute *attr, const char *buf, size_t count)
+{
+	struct dsi_display *display = dev_get_drvdata(dev);
+	enum dsi_panel_display_mode mode;
+	int ret = 0;
+
+	if (!display->panel)
+		return -EINVAL;
+
+	if (!strcmp(buf, "srgb"))
+		mode = DISPLAY_MODE_SRGB;
+	else if (!strcmp(buf, "dci-p3"))
+		mode = DISPLAY_MODE_DCI_P3;
+	else if (!strcmp(buf, "widecolor"))
+		mode = DISPLAY_MODE_WIDE_COLOR;
+	else if (!strcmp(buf, "default"))
+		mode = DISPLAY_MODE_DEFAULT;
+	else
+		return -EINVAL;
+
+	mutex_lock(&display->display_lock);
+
+	display->panel->display_mode = mode;
+	if (!dsi_panel_initialized(display->panel)) {
+                printk("not initialized\n");
+		goto error;
+	}
+
+	ret = dsi_display_clk_ctrl(display->dsi_clk_handle,
+			DSI_CORE_CLK, DSI_CLK_ON);
+	if (ret) {
+		pr_err("[%s] failed to enable DSI core clocks, rc=%d\n",
+		       display->name, ret);
+		goto error;
+	}
+
+	ret = dsi_panel_apply_display_mode(display->panel);
+	if (ret)
+		pr_err("unable to set display mode\n");
+
+	ret = dsi_display_clk_ctrl(display->dsi_clk_handle,
+			DSI_CORE_CLK, DSI_CLK_OFF);
+	if (ret) {
+		pr_err("[%s] failed to disable DSI core clocks, rc=%d\n",
+		       display->name, ret);
+		goto error;
+	}
+error:
+	mutex_unlock(&display->display_lock);
+	return ret == 0 ? count : ret;
+}
+
 static DEVICE_ATTR(dynamic_dsi_clock, 0644,
 			sysfs_dynamic_dsi_clk_read,
 			sysfs_dynamic_dsi_clk_write);
 static DEVICE_ATTR(hbm, 0644, sysfs_hbm_read, sysfs_hbm_write);
+static DEVICE_ATTR(display_mode, 0644,
+			sysfs_display_mode_read,
+			sysfs_display_mode_write);
 
 static struct attribute *dsi_sysfs_attrs[] = {
 	&dev_attr_dynamic_dsi_clock.attr,
 	&dev_attr_hbm.attr,
+	&dev_attr_display_mode.attr,
 	NULL,
 };
 static struct attribute_group dsi_sysfs_attrs_group = {
