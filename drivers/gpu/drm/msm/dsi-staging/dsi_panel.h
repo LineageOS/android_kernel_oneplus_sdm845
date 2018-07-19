@@ -162,6 +162,13 @@ enum dsi_panel_type {
 	DSI_PANEL_TYPE_MAX,
 };
 
+enum dsi_panel_display_mode {
+	DISPLAY_MODE_DEFAULT,
+	DISPLAY_MODE_SRGB,
+	DISPLAY_MODE_DCI_P3,
+	DISPLAY_MODE_WIDE_COLOR,
+};
+
 /* Extended Panel config for panels with additional gpios */
 struct dsi_panel_exd_config {
 	int display_1p8_en;
@@ -204,6 +211,7 @@ struct dsi_panel {
 	struct drm_panel_esd_config esd_config;
 
 	int hbm_mode;
+	enum dsi_panel_display_mode display_mode;
 
 	bool lp11_init;
 	bool ulps_enabled;
@@ -300,6 +308,8 @@ int dsi_panel_unprepare(struct dsi_panel *panel);
 int dsi_panel_post_unprepare(struct dsi_panel *panel);
 
 int dsi_panel_apply_hbm_mode(struct dsi_panel *panel);
+
+int dsi_panel_apply_display_mode(struct dsi_panel *panel);
 
 int dsi_panel_set_backlight(struct dsi_panel *panel, u32 bl_lvl);
 
