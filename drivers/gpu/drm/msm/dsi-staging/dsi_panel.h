@@ -192,6 +192,8 @@ struct dsi_panel {
 	struct drm_panel_hdr_properties hdr_props;
 	struct drm_panel_esd_config esd_config;
 
+	int hbm_mode;
+
 	bool lp11_init;
 	bool ulps_enabled;
 	bool ulps_suspend_enabled;
@@ -283,6 +285,8 @@ int dsi_panel_disable(struct dsi_panel *panel);
 int dsi_panel_unprepare(struct dsi_panel *panel);
 
 int dsi_panel_post_unprepare(struct dsi_panel *panel);
+
+int dsi_panel_apply_hbm_mode(struct dsi_panel *panel);
 
 int dsi_panel_set_backlight(struct dsi_panel *panel, u32 bl_lvl);
 
