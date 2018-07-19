@@ -1416,6 +1416,12 @@ const char *cmd_set_prop_map[DSI_CMD_SET_MAX] = {
 	"qcom,mdss-dsi-panel-hbm-on-command-3",
 	"qcom,mdss-dsi-panel-hbm-on-command-4",
 	"qcom,mdss-dsi-panel-hbm-on-command-5",
+	"qcom,mdss-dsi-panel-srgb-on-command",
+	"qcom,mdss-dsi-panel-dci-p3-on-command",
+	"qcom,mdss-dsi-panel-night-mode-on-command",
+	"qcom,mdss-dsi-panel-oneplus-mode-on-command",
+	"qcom,mdss-dsi-panel-adaption-mode-on-command",
+	"qcom,mdss-dsi-panel-srgb-off-command", // also disables DCI P3, night and OP modes
 };
 
 const char *cmd_set_state_map[DSI_CMD_SET_MAX] = {
@@ -1446,6 +1452,12 @@ const char *cmd_set_state_map[DSI_CMD_SET_MAX] = {
 	"qcom,mdss-dsi-hbm-on-command-state",
 	"qcom,mdss-dsi-hbm-on-command-state",
 	"qcom,mdss-dsi-hbm-on-command-state",
+	"qcom,mdss-dsi-srgb-on-command-state",
+	"qcom,mdss-dsi-dci-p3-on-command-state",
+	"qcom,mdss-dsi-night-mode-on-command-state",
+	"qcom,mdss-dsi-panel-oneplus-mode-on-command-state",
+	"qcom,mdss-dsi-adaption-mode-on-command-state",
+	"qcom,mdss-dsi-srgb-off-command-state",
 };
 
 static int dsi_panel_get_cmd_pkt_count(const char *data, u32 length, u32 *cnt)
@@ -3561,6 +3573,8 @@ int dsi_panel_enable(struct dsi_panel *panel)
 
 	if (panel->hbm_mode)
 		dsi_panel_apply_hbm_mode(panel);
+	if (panel->display_mode != DISPLAY_MODE_DEFAULT)
+		dsi_panel_apply_display_mode(panel);
 
 	return rc;
 }
@@ -3707,6 +3721,27 @@ int dsi_panel_apply_hbm_mode(struct dsi_panel *panel)
 		type = type_map[panel->hbm_mode];
 	else
 		type = DSI_CMD_SET_HBM_OFF;
+
+	mutex_lock(&panel->panel_lock);
+	rc = dsi_panel_tx_cmd_set(panel, type);
+	mutex_unlock(&panel->panel_lock);
+
+	return rc;
+}
+
+int dsi_panel_apply_display_mode(struct dsi_panel *panel)
+{
+	enum dsi_cmd_set_type type;
+	int rc;
+
+	switch (panel->display_mode) {
+		case DISPLAY_MODE_SRGB: type = DSI_CMD_SET_MODE_SRGB; break;
+		case DISPLAY_MODE_DCI_P3: type = DSI_CMD_SET_MODE_DCI_P3; break;
+		case DISPLAY_MODE_NIGHT: type = DSI_CMD_SET_MODE_NIGHT; break;
+		case DISPLAY_MODE_ONEPLUS: type = DSI_CMD_SET_MODE_ONEPLUS; break;
+		case DISPLAY_MODE_ADAPTION: type = DSI_CMD_SET_MODE_ADAPTION; break;
+		default: type = DSI_CMD_SET_MODE_DEFAULT; break;
+	}
 
 	mutex_lock(&panel->panel_lock);
 	rc = dsi_panel_tx_cmd_set(panel, type);
