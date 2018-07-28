@@ -106,6 +106,7 @@ struct dsi_backlight_config {
 	u32 bl_level;
 	u32 bl_scale;
 	u32 bl_scale_ad;
+	bool bl_high2bit;
 
 	int en_gpio;
 	/* PWM params */
