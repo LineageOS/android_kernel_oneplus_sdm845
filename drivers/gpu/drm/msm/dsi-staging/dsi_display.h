@@ -606,4 +606,7 @@ int dsi_display_pre_kickoff(struct dsi_display *display,
  */
 enum dsi_pixel_format dsi_display_get_dst_format(void *display);
 
+extern int connector_state_crtc_index;
+extern int msm_drm_notifier_call_chain(unsigned long val, void *v);
+
 #endif /* _DSI_DISPLAY_H_ */
