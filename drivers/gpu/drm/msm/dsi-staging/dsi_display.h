@@ -666,4 +666,7 @@ int dsi_display_cont_splash_config(void *display);
 int dsi_display_get_panel_vfp(void *display,
 	int h_active, int v_active);
 
+extern int connector_state_crtc_index;
+extern int msm_drm_notifier_call_chain(unsigned long val, void *v);
+
 #endif /* _DSI_DISPLAY_H_ */
