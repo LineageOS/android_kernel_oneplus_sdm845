@@ -1313,4 +1313,10 @@ config TOUCHSCREEN_EKTF3XXX_CHIPSET
 
 		  If unusre, say N.
 
+config TOUCHSCREEN_SYNAPTICS_S3320_I2C_RMI
+	tristate "Synaptics s3320 i2c touchscreen"
+	depends on I2C
+	help
+	  This enables support for Synaptics s1302 RMI over I2C based touch key.
+
 endif
