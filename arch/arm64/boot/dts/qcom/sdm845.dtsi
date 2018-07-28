@@ -530,7 +530,7 @@
 
 		removed_region: removed_region@85fc0000 {
 			no-map;
-			reg = <0 0x85fc0000 0 0x2f40000>;
+			reg = <0 0x85fc0000 0 0x4b40000>; /* enlarge TA memory size from 34M to 62M on 2018/09/03 */
 		};
 
 		qseecom_mem: qseecom_region@0x8ab00000 {
@@ -1732,7 +1732,7 @@
 		clock-names = "xo";
 		qcom,proxy-clock-names = "xo";
 		qcom,pil-generic-irq-handler;
-		status = "ok";
+		status = "disabled";
 
 		qcom,pas-id = <14>;
 		qcom,proxy-timeout-ms = <10000>;
@@ -2498,7 +2498,7 @@
 
 	qcom_seecom: qseecom@86d00000 {
 		compatible = "qcom,qseecom";
-		reg = <0x86d00000 0x2200000>;
+		reg = <0x86d00000 0x03E00000>;  /* enlarge TA memory size from 34M to 62M on 2018/09/03 */
 		reg-names = "secapp-region";
 		qcom,hlos-num-ce-hw-instances = <1>;
 		qcom,hlos-ce-hw-instance = <0>;
@@ -2678,7 +2678,6 @@
 		qcom,ipa-wdi2;
 		qcom,use-64-bit-dma-mask;
 		qcom,arm-smmu;
-		qcom,smmu-fast-map;
 		qcom,bandwidth-vote-for-ipa;
 		qcom,msm-bus,name = "ipa";
 		qcom,msm-bus,num-cases = <5>;
@@ -2801,6 +2800,7 @@
 
 		ipa_smmu_ap: ipa_smmu_ap {
 			compatible = "qcom,ipa-smmu-ap-cb";
+			qcom,smmu-s1-bypass;
 			iommus = <&apps_smmu 0x720 0x0>;
 			qcom,iova-mapping = <0x20000000 0x40000000>;
 			qcom,additional-mapping =
@@ -2810,6 +2810,7 @@
 
 		ipa_smmu_wlan: ipa_smmu_wlan {
 			compatible = "qcom,ipa-smmu-wlan-cb";
+			qcom,smmu-s1-bypass;
 			iommus = <&apps_smmu 0x721 0x0>;
 			qcom,additional-mapping =
 			/* ipa-uc ram */
@@ -2818,6 +2819,7 @@
 
 		ipa_smmu_uc: ipa_smmu_uc {
 			compatible = "qcom,ipa-smmu-uc-cb";
+			qcom,smmu-s1-bypass;
 			iommus = <&apps_smmu 0x722 0x0>;
 			qcom,iova-mapping = <0x40000000 0x20000000>;
 		};
@@ -3108,6 +3110,7 @@
 		vdd-3.3-ch0-supply = <&pm8998_l25>;
 		qcom,vdd-0.8-cx-mx-config = <800000 800000>;
 		qcom,vdd-3.3-ch0-config = <3104000 3312000>;
+		qcom,smmu-s1-bypass;
 	};
 
 	qmi-tmd-devices {
@@ -3469,8 +3472,9 @@
 
 		gpu-virt-max-step {
 			polling-delay-passive = <10>;
-			polling-delay = <100>;
+			polling-delay = <0>;
 			thermal-governor = "step_wise";
+			disable-thermal-zone;
 			trips {
 				gpu_trip0: gpu-trip0 {
 					temperature = <95000>;
