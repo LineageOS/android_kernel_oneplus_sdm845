@@ -1,4 +1,4 @@
-/* Copyright (c) 2017, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -9,15 +9,20 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-
-/dts-v1/;
-
-#include "sdm845.dtsi"
-#include "sdm845_enchilada_soc.dtsi"
+/*don't suggest add to this file, this file is only for different hw*/
 
 
-/ {
-	model = "Qualcomm Technologies, Inc. SDM845 v1 SoC";
-	compatible = "qcom,sdm845";
-	qcom,board-id = <0 0 0 0>;
+&vendor {
+
 };
+&soc {
+
+};
+
+&qupv3_se10_i2c {
+	oneplus_fastchg@26{
+		microchip,ap-clk = <&tlmm 44 0x00>;
+		microchip,ap-data = <&tlmm 43 0x00>;
+	};
+};
+

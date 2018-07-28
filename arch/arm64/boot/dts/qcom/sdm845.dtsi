@@ -1550,7 +1550,6 @@
 		qcom,firmware-name = "modem";
 		qcom,pil-self-auth;
 		qcom,sysmon-id = <0>;
-		qcom,minidump-id = <3>;
 		qcom,ssctl-instance-id = <0x12>;
 		qcom,override-acc;
 		qcom,signal-aop;
@@ -1910,14 +1909,14 @@
 			reg = <0x65c 4>;
 		};
 
-		dload_type@1c {
-			compatible = "qcom,msm-imem-dload-type";
-			reg = <0x1c 0x4>;
-		};
-
 		boot_stats@6b0 {
 			compatible = "qcom,msm-imem-boot_stats";
 			reg = <0x6b0 32>;
+		};
+
+		dload_type@1c {
+			compatible = "qcom,msm-imem-dload-type";
+			reg = <0x1c 0x4>;
 		};
 
 		pil@94c {
@@ -3463,8 +3462,9 @@
 
 		gpu-virt-max-step {
 			polling-delay-passive = <10>;
-			polling-delay = <100>;
+			polling-delay = <0>;
 			thermal-governor = "step_wise";
+			disable-thermal-zone;
 			trips {
 				gpu_trip0: gpu-trip0 {
 					temperature = <95000>;
@@ -3787,7 +3787,7 @@
 		};
 
 		fcm {
-			qcom,dump-size = <0x8400>;
+			qcom,dump-size = <0x400>;
 			qcom,dump-id = <0xee>;
 		};
 
