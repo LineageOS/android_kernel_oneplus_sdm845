@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b236e7d4_5963e6df",
+        "filename": "arch/arm64/configs/enchilada_defconfig",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 17257
+      },
+      "writtenOn": "2018-07-29T08:13:28Z",
+      "side": 1,
+      "message": "unused",
+      "range": {
+        "startLine": 474,
+        "startChar": 0,
+        "endLine": 475,
+        "endChar": 32
+      },
+      "revId": "4f82887e84488b7a3347831ec5b2deb7f83d3564",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
