@@ -267,7 +267,10 @@ struct hap_lra_ares_param {
  *  @ ares_cfg - auto resonance configuration
  *  @ play_time_ms - play time set by the user in ms
  *  @ max_play_time_ms - max play time in ms
+ *  @ vcurrent_mv - current voltage in mv
  *  @ vmax_mv - max voltage in mv
+ *  @ vmin_mv - min voltage in mv
+ *  @ vdefault_mv - default voltage in mv
  *  @ ilim_ma - limiting current in ma
  *  @ sc_deb_cycles - short circuit debounce cycles
  *  @ wave_play_rate_us - play rate for waveform
@@ -322,7 +325,10 @@ struct hap_chip {
 	struct hap_lra_ares_param	ares_cfg;
 	u32				play_time_ms;
 	u32				max_play_time_ms;
+	u32				vcurrent_mv;
 	u32				vmax_mv;
+	u32				vmin_mv;
+	u32				vdefault_mv;
 	u8				ilim_ma;
 	u32				sc_deb_cycles;
 	u32				wave_play_rate_us;
@@ -1058,26 +1064,26 @@ static int qpnp_haptics_play_mode_config(struct hap_chip *chip)
 	return rc;
 }
 
-/* configuration api for max voltage */
-static int qpnp_haptics_vmax_config(struct hap_chip *chip, int vmax_mv,
+/* configuration api for vmax voltage */
+static int qpnp_haptics_vmax_config(struct hap_chip *chip, int vcurrent_mv,
 				bool overdrive)
 {
 	u8 val = 0;
 	int rc;
 
-	if (vmax_mv < 0)
+	if (vcurrent_mv < 0)
 		return -EINVAL;
 
 	/* Allow setting override bit in VMAX_CFG only for PM660 */
 	if (chip->revid->pmic_subtype != PM660_SUBTYPE)
 		overdrive = false;
 
-	if (vmax_mv < HAP_VMAX_MIN_MV)
-		vmax_mv = HAP_VMAX_MIN_MV;
-	else if (vmax_mv > HAP_VMAX_MAX_MV)
-		vmax_mv = HAP_VMAX_MAX_MV;
+	if (vcurrent_mv < HAP_VMAX_MIN_MV)
+		vcurrent_mv = HAP_VMAX_MIN_MV;
+	else if (vcurrent_mv > HAP_VMAX_MAX_MV)
+		vcurrent_mv = HAP_VMAX_MAX_MV;
 
-	val = DIV_ROUND_CLOSEST(vmax_mv, HAP_VMAX_MIN_MV);
+	val = DIV_ROUND_CLOSEST(vcurrent_mv, HAP_VMAX_MIN_MV);
 	val <<= HAP_VMAX_SHIFT;
 	if (overdrive)
 		val |= HAP_VMAX_OVD_BIT;
@@ -1166,7 +1172,7 @@ static int qpnp_haptics_auto_mode_config(struct hap_chip *chip, int time_ms)
 	u8 old_ares_mode;
 	u32 brake_pat[HAP_BRAKE_PAT_LEN] = {0};
 	u32 wave_samp[HAP_WAVE_SAMP_LEN] = {0};
-	int rc, vmax_mv;
+	int rc, vcurrent_mv;
 
 	if (!chip->lra_auto_mode)
 		return false;
@@ -1215,8 +1221,8 @@ static int qpnp_haptics_auto_mode_config(struct hap_chip *chip, int time_ms)
 			ares_cfg.calibrate_at_eop = -EINVAL;
 		}
 
-		vmax_mv = HAP_VMAX_MAX_MV;
-		rc = qpnp_haptics_vmax_config(chip, vmax_mv, true);
+		vcurrent_mv = HAP_VMAX_MAX_MV;
+		rc = qpnp_haptics_vmax_config(chip, vcurrent_mv, true);
 		if (rc < 0)
 			return rc;
 
@@ -1248,8 +1254,8 @@ static int qpnp_haptics_auto_mode_config(struct hap_chip *chip, int time_ms)
 			ares_cfg.calibrate_at_eop = -EINVAL;
 		}
 
-		vmax_mv = chip->vmax_mv;
-		rc = qpnp_haptics_vmax_config(chip, vmax_mv, false);
+		vcurrent_mv = chip->vcurrent_mv;
+		rc = qpnp_haptics_vmax_config(chip, vcurrent_mv, false);
 		if (rc < 0)
 			return rc;
 
@@ -1712,31 +1718,31 @@ static ssize_t qpnp_haptics_store_wf_s_rep_count(struct device *dev,
 	return count;
 }
 
-static ssize_t qpnp_haptics_show_vmax(struct device *dev,
+static ssize_t qpnp_haptics_show_vcurrent_mv(struct device *dev,
 		struct device_attribute *attr, char *buf)
 {
 	struct led_classdev *cdev = dev_get_drvdata(dev);
 	struct hap_chip *chip = container_of(cdev, struct hap_chip, cdev);
 
-	return snprintf(buf, PAGE_SIZE, "%d\n", chip->vmax_mv);
+	return snprintf(buf, PAGE_SIZE, "%d\n", chip->vcurrent_mv);
 }
 
-static ssize_t qpnp_haptics_store_vmax(struct device *dev,
+static ssize_t qpnp_haptics_store_vcurrent_mv(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)
 {
 	struct led_classdev *cdev = dev_get_drvdata(dev);
 	struct hap_chip *chip = container_of(cdev, struct hap_chip, cdev);
-	int data, rc, old_vmax_mv;
+	int data, rc, old_vcurrent_mv;
 
 	rc = kstrtoint(buf, 10, &data);
 	if (rc < 0)
 		return rc;
 
-	old_vmax_mv = chip->vmax_mv;
-	chip->vmax_mv = data;
-	rc = qpnp_haptics_vmax_config(chip, chip->vmax_mv, false);
+	old_vcurrent_mv = chip->vcurrent_mv;
+	chip->vcurrent_mv = data;
+	rc = qpnp_haptics_vmax_config(chip, chip->vcurrent_mv, false);
 	if (rc < 0) {
-		chip->vmax_mv = old_vmax_mv;
+		chip->vcurrent_mv = old_vcurrent_mv;
 		return rc;
 	}
 
@@ -1770,6 +1776,33 @@ static ssize_t qpnp_haptics_store_lra_auto_mode(struct device *dev,
 	return count;
 }
 
+static ssize_t qpnp_haptics_show_vmax_mv(struct device *dev,
+		struct device_attribute *attr, char *buf)
+{
+	struct led_classdev *cdev = dev_get_drvdata(dev);
+	struct hap_chip *chip = container_of(cdev, struct hap_chip, cdev);
+
+	return scnprintf(buf, PAGE_SIZE, "%d\n", chip->vmax_mv);
+}
+
+static ssize_t qpnp_haptics_show_vmin_mv(struct device *dev,
+		struct device_attribute *attr, char *buf)
+{
+	struct led_classdev *cdev = dev_get_drvdata(dev);
+	struct hap_chip *chip = container_of(cdev, struct hap_chip, cdev);
+
+	return scnprintf(buf, PAGE_SIZE, "%d\n", chip->vmin_mv);
+}
+
+static ssize_t qpnp_haptics_show_vdefault_mv(struct device *dev,
+		struct device_attribute *attr, char *buf)
+{
+	struct led_classdev *cdev = dev_get_drvdata(dev);
+	struct hap_chip *chip = container_of(cdev, struct hap_chip, cdev);
+
+	return scnprintf(buf, PAGE_SIZE, "%d\n", chip->vdefault_mv);
+}
+
 static struct device_attribute qpnp_haptics_attrs[] = {
 	__ATTR(state, 0664, qpnp_haptics_show_state, qpnp_haptics_store_state),
 	__ATTR(duration, 0664, qpnp_haptics_show_duration,
@@ -1784,7 +1817,11 @@ static struct device_attribute qpnp_haptics_attrs[] = {
 		qpnp_haptics_store_wf_rep_count),
 	__ATTR(wf_s_rep_count, 0664, qpnp_haptics_show_wf_s_rep_count,
 		qpnp_haptics_store_wf_s_rep_count),
-	__ATTR(vmax_mv, 0664, qpnp_haptics_show_vmax, qpnp_haptics_store_vmax),
+	__ATTR(vcurrent_mv, 0664, qpnp_haptics_show_vcurrent_mv,
+		qpnp_haptics_store_vcurrent_mv),
+	__ATTR(vmax_mv, 0444, qpnp_haptics_show_vmax_mv, NULL),
+	__ATTR(vmin_mv, 0444, qpnp_haptics_show_vmin_mv, NULL),
+	__ATTR(vdefault_mv, 0664, qpnp_haptics_show_vdefault_mv, NULL),
 	__ATTR(lra_auto_mode, 0664, qpnp_haptics_show_lra_auto_mode,
 		qpnp_haptics_store_lra_auto_mode),
 };
@@ -1824,7 +1861,7 @@ static int qpnp_haptics_config(struct hap_chip *chip)
 		return rc;
 
 	/* Configure the VMAX register */
-	rc = qpnp_haptics_vmax_config(chip, chip->vmax_mv, false);
+	rc = qpnp_haptics_vmax_config(chip, chip->vcurrent_mv, false);
 	if (rc < 0)
 		return rc;
 
@@ -2159,6 +2196,15 @@ static int qpnp_haptics_parse_dt(struct hap_chip *chip)
 		return rc;
 	}
 
+	chip->vdefault_mv = HAP_VMAX_MAX_MV;
+	rc = of_property_read_u32(node, "qcom,vdefault-mv", &temp);
+	if (!rc) {
+		chip->vdefault_mv = temp;
+	} else if (rc != -EINVAL) {
+		pr_err("Unable to read Vdefault rc=%d\n", rc);
+		return rc;
+	}
+
 	chip->vmax_mv = HAP_VMAX_MAX_MV;
 	rc = of_property_read_u32(node, "qcom,vmax-mv", &temp);
 	if (!rc) {
@@ -2167,6 +2213,18 @@ static int qpnp_haptics_parse_dt(struct hap_chip *chip)
 		pr_err("Unable to read Vmax rc=%d\n", rc);
 		return rc;
 	}
+
+	chip->vmin_mv = HAP_VMAX_MIN_MV;
+	rc = of_property_read_u32(node, "qcom,vmin-mv", &temp);
+	if (!rc) {
+		chip->vmin_mv = temp;
+	} else if (rc != -EINVAL) {
+		pr_err("Unable to read Vmin rc=%d\n", rc);
+		return rc;
+	}
+
+	/* Default vcurrent_mv to vdefault_mv */
+	chip->vcurrent_mv = chip->vdefault_mv;
 
 	chip->ilim_ma = HAP_ILIM_400_MA;
 	rc = of_property_read_u32(node, "qcom,ilim-ma", &temp);
