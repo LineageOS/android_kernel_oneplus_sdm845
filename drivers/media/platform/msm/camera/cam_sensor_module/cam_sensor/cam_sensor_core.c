@@ -610,7 +610,7 @@ void cam_sensor_shutdown(struct cam_sensor_ctrl_t *s_ctrl)
 	int rc = 0;
 
 	if ((s_ctrl->sensor_state == CAM_SENSOR_INIT) &&
-		(s_ctrl->is_probe_succeed == 0))
+		(s_ctrl->is_probe_succeed == 1))
 		return;
 
      CAM_INFO(CAM_SENSOR, "streamoff Sensor");
