@@ -3343,7 +3343,6 @@ static int cam_smmu_probe(struct platform_device *pdev)
 		rc = cam_populate_smmu_context_banks(dev, CAM_ARM_SMMU);
 		if (rc < 0) {
 			CAM_ERR(CAM_SMMU, "Error: populating context banks");
-			cam_smmu_release_cb(pdev);
 			return -ENOMEM;
 		}
 		return rc;
@@ -3394,7 +3393,6 @@ static struct platform_driver cam_smmu_driver = {
 		.name = "msm_cam_smmu",
 		.owner = THIS_MODULE,
 		.of_match_table = msm_cam_smmu_dt_match,
-		.suppress_bind_attrs = true,
 	},
 };
 
