@@ -1,4 +1,4 @@
-/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2017, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -14,7 +14,6 @@
 #include "cam_req_mgr_dev.h"
 #include "cam_sensor_soc.h"
 #include "cam_sensor_core.h"
-
 
 struct cam_sensor_i2c_reg_setting_array {
 	struct cam_sensor_i2c_reg_array reg_setting[512];
@@ -40,14 +39,12 @@ static long cam_sensor_subdev_ioctl(struct v4l2_subdev *sd,
 	int rc = 0;
 	struct cam_sensor_ctrl_t *s_ctrl =
 		v4l2_get_subdevdata(sd);
-
 	struct cam_sensor_i2c_reg_setting sensor_setting;
 
 	switch (cmd) {
 	case VIDIOC_CAM_CONTROL:
 		rc = cam_sensor_driver_cmd(s_ctrl, arg);
 		break;
-
 	case VIDIOC_CAM_FTM_POWNER_DOWN:
 		CAM_INFO(CAM_SENSOR, "FTM power down");
 		return cam_sensor_power_down(s_ctrl);
@@ -400,7 +397,6 @@ static struct platform_driver cam_sensor_platform_driver = {
 		.name = "qcom,camera",
 		.owner = THIS_MODULE,
 		.of_match_table = cam_sensor_driver_dt_match,
-		.suppress_bind_attrs = true,
 	},
 	.remove = cam_sensor_platform_remove,
 };
