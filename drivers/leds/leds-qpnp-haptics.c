@@ -1203,10 +1203,14 @@ static int qpnp_haptics_auto_mode_config(struct hap_chip *chip, int time_ms)
 	old_play_mode = chip->play_mode;
 	pr_debug("auto_mode, time_ms: %d\n", time_ms);
 	if (time_ms <= 20) {
-		wave_samp[0] = HAP_WF_SAMP_MAX;
-		wave_samp[1] = HAP_WF_SAMP_MAX;
-		if (time_ms > 15)
-			wave_samp[2] = HAP_WF_SAMP_MAX;
+		wave_samp[0] = 0x7e;
+		wave_samp[1] = 0x7e;
+		wave_samp[2] = 0x7e;
+		wave_samp[3] = 0x7e;
+		wave_samp[4] = 0x7e;
+		wave_samp[5] = 0x28;
+		wave_samp[6] = 0x28;
+		wave_samp[7] = 0x28;
 
 		/* short pattern */
 		rc = qpnp_haptics_parse_buffer_dt(chip);
@@ -1219,7 +1223,7 @@ static int qpnp_haptics_auto_mode_config(struct hap_chip *chip, int time_ms)
 				return rc;
 			}
 
-			rc = qpnp_haptics_buffer_config(chip, wave_samp, true);
+			rc = qpnp_haptics_buffer_config(chip, wave_samp, false);
 			if (rc < 0) {
 				pr_err("Error in configuring buffer mode %d\n",
 					rc);
@@ -1234,13 +1238,24 @@ static int qpnp_haptics_auto_mode_config(struct hap_chip *chip, int time_ms)
 			ares_cfg.lra_qwd_drive_duration = 0;
 			ares_cfg.calibrate_at_eop = 0;
 		} else {
-			ares_cfg.auto_res_mode = HAP_AUTO_RES_ZXD_EOP;
+			ares_cfg.auto_res_mode = HAP_AUTO_RES_QWD;
 			ares_cfg.lra_qwd_drive_duration = -EINVAL;
 			ares_cfg.calibrate_at_eop = -EINVAL;
 		}
 
-		vmax_mv = HAP_VMAX_MAX_MV;
+		if (chip->vmax_mv >= 2320)
+			vmax_mv = HAP_VMAX_MAX_MV;
+		else
+			vmax_mv = chip->vmax_mv;
 		rc = qpnp_haptics_vmax_config(chip, vmax_mv, true);
+		if (rc < 0)
+			return rc;
+
+		brake_pat[0] = 0x3;
+		brake_pat[1] = 0x3;
+		brake_pat[2] = 0x3;
+		brake_pat[3] = 0x3;
+		rc = qpnp_haptics_brake_config(chip, brake_pat);
 		if (rc < 0)
 			return rc;
 
@@ -1250,10 +1265,34 @@ static int qpnp_haptics_auto_mode_config(struct hap_chip *chip, int time_ms)
 			chip->play_irq_en = true;
 		}
 
-		brake_pat[0] = BRAKE_VMAX;
 		chip->play_mode = HAP_BUFFER;
-		chip->wave_shape = HAP_WAVE_SQUARE;
+		chip->wave_shape = HAP_WAVE_SINE;
 	} else {
+		wave_samp[0] = 0x28;
+		wave_samp[1] = 0x28;
+		wave_samp[2] = 0x28;
+		wave_samp[3] = 0x28;
+		wave_samp[4] = 0x28;
+		wave_samp[5] = 0x28;
+		wave_samp[6] = 0x28;
+		wave_samp[7] = 0x28;
+		rc = qpnp_haptics_parse_buffer_dt(chip);
+		if (!rc) {
+			rc = qpnp_haptics_wave_rep_config(chip,
+				HAP_WAVE_REPEAT | HAP_WAVE_SAMP_REPEAT);
+			if (rc < 0) {
+				pr_err("Error in configuring wave_rep config %d\n",
+					rc);
+				return rc;
+			}
+
+			rc = qpnp_haptics_buffer_config(chip, wave_samp, false);
+			if (rc < 0) {
+				pr_err("Error in configuring buffer mode %d\n",
+					rc);
+				return rc;
+			}
+		}
 		/* long pattern */
 		ares_cfg.lra_high_z = HAP_LRA_HIGH_Z_OPT1;
 		if (chip->revid->pmic_subtype == PM660_SUBTYPE) {
@@ -1263,7 +1302,7 @@ static int qpnp_haptics_auto_mode_config(struct hap_chip *chip, int time_ms)
 			ares_cfg.lra_qwd_drive_duration = 0;
 			ares_cfg.calibrate_at_eop = 1;
 		} else {
-			ares_cfg.auto_res_mode = HAP_AUTO_RES_QWD;
+			ares_cfg.auto_res_mode = HAP_AUTO_RES_ZXD_EOP;
 			ares_cfg.lra_res_cal_period = HAP_RES_CAL_PERIOD_MAX;
 			ares_cfg.lra_qwd_drive_duration = -EINVAL;
 			ares_cfg.calibrate_at_eop = -EINVAL;
@@ -1274,13 +1313,21 @@ static int qpnp_haptics_auto_mode_config(struct hap_chip *chip, int time_ms)
 		if (rc < 0)
 			return rc;
 
+		brake_pat[0] = 0x3;
+		brake_pat[1] = 0x3;
+		brake_pat[2] = 0x3;
+		brake_pat[3] = 0x3;
+		rc = qpnp_haptics_brake_config(chip, brake_pat);
+		if (rc < 0)
+			return rc;
+
 		/* enable play_irq for direct mode */
 		if (chip->play_irq >= 0 && chip->play_irq_en) {
 			disable_irq(chip->play_irq);
 			chip->play_irq_en = false;
 		}
 
-		chip->play_mode = HAP_DIRECT;
+		chip->play_mode = HAP_BUFFER;
 		chip->wave_shape = HAP_WAVE_SINE;
 	}
 
@@ -1296,10 +1343,6 @@ static int qpnp_haptics_auto_mode_config(struct hap_chip *chip, int time_ms)
 		chip->play_mode = old_play_mode;
 		return rc;
 	}
-
-	rc = qpnp_haptics_brake_config(chip, brake_pat);
-	if (rc < 0)
-		return rc;
 
 	rc = qpnp_haptics_masked_write_reg(chip, HAP_CFG2_REG(chip),
 			HAP_LRA_RES_TYPE_MASK, chip->wave_shape);
