@@ -1070,15 +1070,6 @@ static int qpnp_haptics_play_mode_config(struct hap_chip *chip)
 	val = chip->play_mode << HAP_WF_SOURCE_SHIFT;
 	rc = qpnp_haptics_masked_write_reg(chip, HAP_SEL_REG(chip),
 			HAP_WF_SOURCE_MASK, val);
-	if (!rc) {
-		if (chip->play_mode == HAP_BUFFER && !chip->play_irq_en) {
-			enable_irq(chip->play_irq);
-			chip->play_irq_en = true;
-		} else if (chip->play_mode != HAP_BUFFER && chip->play_irq_en) {
-			disable_irq(chip->play_irq);
-			chip->play_irq_en = false;
-		}
-	}
 	return rc;
 }
 
