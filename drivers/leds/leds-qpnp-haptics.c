@@ -739,11 +739,10 @@ static int qpnp_haptics_play(struct hap_chip *chip, bool enable)
 			goto out;
 		}
 
-		if (chip->play_mode != HAP_BUFFER)
-			hrtimer_start(&chip->stop_timer,
-				ktime_set(time_ms / MSEC_PER_SEC,
-				(time_ms % MSEC_PER_SEC) * NSEC_PER_MSEC),
-				HRTIMER_MODE_REL);
+		hrtimer_start(&chip->stop_timer,
+			ktime_set(time_ms / MSEC_PER_SEC,
+			(time_ms % MSEC_PER_SEC) * NSEC_PER_MSEC),
+			HRTIMER_MODE_REL);
 
 		rc = qpnp_haptics_auto_res_enable(chip, true);
 		if (rc < 0) {
@@ -1070,15 +1069,6 @@ static int qpnp_haptics_play_mode_config(struct hap_chip *chip)
 	val = chip->play_mode << HAP_WF_SOURCE_SHIFT;
 	rc = qpnp_haptics_masked_write_reg(chip, HAP_SEL_REG(chip),
 			HAP_WF_SOURCE_MASK, val);
-	if (!rc) {
-		if (chip->play_mode == HAP_BUFFER && !chip->play_irq_en) {
-			enable_irq(chip->play_irq);
-			chip->play_irq_en = true;
-		} else if (chip->play_mode != HAP_BUFFER && chip->play_irq_en) {
-			disable_irq(chip->play_irq);
-			chip->play_irq_en = false;
-		}
-	}
 	return rc;
 }
 
@@ -1979,6 +1969,7 @@ static int qpnp_haptics_config(struct hap_chip *chip)
 			return rc;
 		}
 
+		chip->play_irq_en = true;
 		/* use play_irq only for buffer mode */
 		if (chip->play_mode != HAP_BUFFER) {
 			disable_irq(chip->play_irq);
