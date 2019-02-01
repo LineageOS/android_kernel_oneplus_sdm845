@@ -877,6 +877,8 @@ enable_supply:
 	if (mbhc->mbhc_cb->mbhc_micbias_control)
 		wcd_mbhc_adc_update_fsm_source(mbhc, plug_type);
 exit:
+	if (plug_type == MBHC_PLUG_TYPE_HEADSET)
+		mbhc->micbias_enable = true;
 	if (mbhc->mbhc_cb->mbhc_micbias_control &&
 	    !mbhc->micbias_enable)
 		mbhc->mbhc_cb->mbhc_micbias_control(codec, MIC_BIAS_2,
@@ -946,6 +948,10 @@ static irqreturn_t wcd_mbhc_adc_hs_rem_irq(int irq, void *data)
 	timeout = jiffies +
 		  msecs_to_jiffies(WCD_FAKE_REMOVAL_MIN_PERIOD_MS);
 
+/* liuhaituo@MM.Audio 2018/6/8 modify adc_threshold is consistent with OMR1 */
+	adc_threshold = ((WCD_MBHC_ADC_HS_THRESHOLD_MV *
+				wcd_mbhc_get_micbias(mbhc)) /
+				WCD_MBHC_ADC_MICBIAS_MV);
 	do {
 		retry++;
 		/*

@@ -23,6 +23,7 @@
 #include <linux/regmap.h>
 #include <linux/mfd/wcd9xxx/wcd9xxx_registers.h>
 #include <sound/soc.h>
+#include <linux/of_gpio.h>
 #include "core.h"
 #include "pdata.h"
 #include "msm-cdc-pinctrl.h"
@@ -59,6 +60,8 @@
 #define VAL_BYTES 1
 #define WCD9XXX_PAGE_NUM(reg)    (((reg) >> 8) & 0xff)
 #define WCD9XXX_PAGE_SIZE 256
+
+extern bool fsa4480_enable;
 
 struct wcd9xxx_i2c {
 	struct i2c_client *client;
