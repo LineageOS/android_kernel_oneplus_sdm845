@@ -643,6 +643,7 @@ void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 	struct snd_soc_codec *codec = mbhc->codec;
 	bool is_pa_on = false;
 	u8 fsm_en = 0;
+	unsigned int i = 0;
 
 	WCD_MBHC_RSC_ASSERT_LOCKED(mbhc);
 
@@ -686,6 +687,12 @@ void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 		mbhc->zl = mbhc->zr = 0;
 		pr_debug("%s: Reporting removal %d(%x)\n", __func__,
 			 jack_type, mbhc->hph_status);
+
+/* tony.liu@Multimedia.Audio,2017.12.21 add headset plug type detect */
+		for (i = EXTCON_PLUG_TYPE_NONE; i <= EXTCON_PLUG_TYPE_GND_MIC_SWAP; i++)
+			extcon_set_state(mbhc->wcd934x_edev, i, 0); // clean state, not uevent
+		extcon_set_state_sync(mbhc->wcd934x_edev, EXTCON_PLUG_TYPE_NONE, 1);
+
 		wcd_mbhc_jack_report(mbhc, &mbhc->headset_jack,
 				mbhc->hph_status, WCD_MBHC_JACK_MASK);
 		wcd_mbhc_set_and_turnoff_hph_padac(mbhc);
@@ -808,6 +815,26 @@ void wcd_mbhc_report_plug(struct wcd_mbhc *mbhc, int insertion,
 /* liuhaituo@MM.Audio add new function to adapt headset volume */
 		if (headset_imp_enable)
 			judge_headset_impedance(mbhc);
+
+/* tony.liu@Multimedia.Audio,2017.12.21 add headset plug type detect */
+		for (i = EXTCON_PLUG_TYPE_NONE; i <= EXTCON_PLUG_TYPE_GND_MIC_SWAP; i++)
+			extcon_set_state(mbhc->wcd934x_edev, i, 0);
+
+		switch (mbhc->current_plug) {
+			case MBHC_PLUG_TYPE_HEADPHONE:
+			case MBHC_PLUG_TYPE_HIGH_HPH:
+				extcon_set_state_sync(mbhc->wcd934x_edev, EXTCON_PLUG_TYPE_HEADPHONE, 1);
+				break;
+			case MBHC_PLUG_TYPE_GND_MIC_SWAP:
+				extcon_set_state_sync(mbhc->wcd934x_edev, EXTCON_PLUG_TYPE_GND_MIC_SWAP, 1);
+				break;
+			case MBHC_PLUG_TYPE_HEADSET:
+				extcon_set_state_sync(mbhc->wcd934x_edev, EXTCON_PLUG_TYPE_HEADSET, 1);
+				break;
+			default:
+				extcon_set_state_sync(mbhc->wcd934x_edev, EXTCON_PLUG_TYPE_NONE, 1);
+				break;
+		}
 
 		pr_debug("%s: Reporting insertion %d(%x)\n", __func__,
 			 jack_type, mbhc->hph_status);

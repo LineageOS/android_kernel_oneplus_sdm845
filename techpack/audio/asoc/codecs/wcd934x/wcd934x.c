@@ -10085,6 +10085,15 @@ done:
 	return ret;
 }
 
+/* tony.liu@Multimedia.Audio,2017.12.21 add headset plug type detect */
+static const unsigned int plug_type_extcon_tab[] = {
+	EXTCON_PLUG_TYPE_NONE,             //19
+	EXTCON_PLUG_TYPE_HEADSET,          //20
+	EXTCON_PLUG_TYPE_HEADPHONE,        //21
+	EXTCON_PLUG_TYPE_GND_MIC_SWAP,     //22
+	EXTCON_NONE,                       //0
+};
+
 static int tavil_soc_codec_probe(struct snd_soc_codec *codec)
 {
 	struct wcd9xxx *control;
@@ -10139,6 +10148,16 @@ static int tavil_soc_codec_probe(struct snd_soc_codec *codec)
 		pr_err("%s: mbhc initialization failed\n", __func__);
 		goto err_hwdep;
 	}
+
+/* tony.liu@Multimedia.Audio,2017.12.21 add headset plug type detect */
+	tavil->mbhc->wcd_mbhc.wcd934x_edev = devm_extcon_dev_allocate(codec->dev,
+			plug_type_extcon_tab);
+	tavil->mbhc->wcd_mbhc.wcd934x_edev->name = "soc:h2w";
+	ret = devm_extcon_dev_register(codec->dev, tavil->mbhc->wcd_mbhc.wcd934x_edev);
+	if (ret < 0)
+		goto err_hwdep;
+	extcon_set_state(tavil->mbhc->wcd_mbhc.wcd934x_edev, EXTCON_PLUG_TYPE_NONE, 1);
+	pr_err(".....wcd934x_edev probe success!\n");
 
 	tavil->codec = codec;
 	for (i = 0; i < COMPANDER_MAX; i++)
@@ -10272,6 +10291,9 @@ static int tavil_soc_codec_remove(struct snd_soc_codec *codec)
 {
 	struct wcd9xxx *control;
 	struct tavil_priv *tavil = snd_soc_codec_get_drvdata(codec);
+
+/* tony.liu@Multimedia.Audio,2017.12.21 add headset plug type detect */
+	extcon_dev_unregister(tavil->mbhc->wcd_mbhc.wcd934x_edev);
 
 	control = dev_get_drvdata(codec->dev->parent);
 	devm_kfree(codec->dev, control->rx_chs);
