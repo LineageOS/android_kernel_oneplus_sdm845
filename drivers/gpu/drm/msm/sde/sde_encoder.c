@@ -2815,6 +2815,7 @@ static void sde_encoder_virt_disable(struct drm_encoder *drm_enc)
 	struct sde_encoder_virt *sde_enc = NULL;
 	struct msm_drm_private *priv;
 	struct sde_kms *sde_kms;
+	struct drm_connector *drm_conn = NULL;
 	enum sde_intf_mode intf_mode;
 	int i = 0;
 
@@ -2842,6 +2843,10 @@ static void sde_encoder_virt_disable(struct drm_encoder *drm_enc)
 	intf_mode = sde_encoder_get_intf_mode(drm_enc);
 
 	SDE_EVT32(DRMID(drm_enc));
+	/* Disable ESD thread */
+	drm_conn = sde_enc->cur_master->connector;
+	sde_connector_schedule_status_work(drm_conn, false);
+
 
 	if (sde_enc->input_handler && sde_enc->input_handler_registered) {
 		input_unregister_handler(sde_enc->input_handler);
@@ -3304,8 +3309,8 @@ void sde_encoder_helper_hw_reset(struct sde_encoder_phys *phys_enc)
 			if (rc) {
 				SDE_ERROR_ENC(sde_enc,
 						"connector soft reset failure\n");
-				SDE_DBG_DUMP("all", "dbg_bus", "vbif_dbg_bus",
-								"panic");
+			//	SDE_DBG_DUMP("all", "dbg_bus", "vbif_dbg_bus",
+			//					"panic");
 			}
 		}
 	}
@@ -3329,11 +3334,16 @@ static void _sde_encoder_kickoff_phys(struct sde_encoder_virt *sde_enc)
 	unsigned long lock_flags;
 	struct msm_drm_private *priv = NULL;
 	struct sde_kms *sde_kms = NULL;
+	bool is_vid_mode = false;
 
 	if (!sde_enc) {
 		SDE_ERROR("invalid encoder\n");
 		return;
 	}
+
+	is_vid_mode = sde_enc->disp_info.capabilities &
+					MSM_DISPLAY_CAP_VID_MODE;
+
 
 	pending_flush = 0x0;
 
@@ -3343,7 +3353,6 @@ static void _sde_encoder_kickoff_phys(struct sde_encoder_virt *sde_enc)
 	 */
 	for (i = 0; i < sde_enc->num_phys_encs; i++) {
 		struct sde_encoder_phys *phys = sde_enc->phys_encs[i];
-		bool wait_for_dma = false;
 
 		if (!phys || phys->enable_state == SDE_ENC_DISABLED)
 			continue;
@@ -3352,12 +3361,10 @@ static void _sde_encoder_kickoff_phys(struct sde_encoder_virt *sde_enc)
 		if (!ctl)
 			continue;
 
-		if (phys->ops.wait_dma_trigger)
-			wait_for_dma = phys->ops.wait_dma_trigger(phys);
-
+		/* make reg dma kickoff as blocking for vidoe-mode */
 		if (phys->hw_ctl->ops.reg_dma_flush)
 			phys->hw_ctl->ops.reg_dma_flush(phys->hw_ctl,
-					wait_for_dma);
+					is_vid_mode);
 	}
 
 	/* update pending counts and trigger kickoff ctl flush atomically */
@@ -3592,6 +3599,35 @@ void sde_encoder_trigger_kickoff_pending(struct drm_encoder *drm_enc)
 	}
 }
 
+extern bool sde_crtc_get_fingerprint_mode(struct drm_crtc_state *crtc_state);
+static bool
+_sde_encoder_setup_dither_for_onscreenfingerprint(struct sde_encoder_phys *phys,
+						  void *dither_cfg, int len)
+{
+	struct drm_encoder *drm_enc = phys->parent;
+	struct drm_msm_dither dither;
+
+	if (!drm_enc || !drm_enc->crtc)
+		return -EFAULT;
+
+	if (!sde_crtc_get_fingerprint_mode(drm_enc->crtc->state))
+		return -EINVAL;
+
+	if (len != sizeof(dither))
+		return -EINVAL;
+
+	memcpy(&dither, dither_cfg, len);
+	dither.c0_bitdepth = 6;
+	dither.c1_bitdepth = 6;
+	dither.c2_bitdepth = 6;
+	dither.c3_bitdepth = 6;
+	dither.temporal_en = 1;
+
+	phys->hw_pp->ops.setup_dither(phys->hw_pp, &dither, len);
+
+	return 0;
+}
+
 static void _sde_encoder_setup_dither(struct sde_encoder_phys *phys)
 {
 	void *dither_cfg;
@@ -3642,7 +3678,8 @@ static void _sde_encoder_setup_dither(struct sde_encoder_phys *phys)
 			}
 		}
 	} else {
-		phys->hw_pp->ops.setup_dither(phys->hw_pp, dither_cfg, len);
+		if (_sde_encoder_setup_dither_for_onscreenfingerprint(phys, dither_cfg, len))
+            phys->hw_pp->ops.setup_dither(phys->hw_pp, dither_cfg, len);
 	}
 }
 
