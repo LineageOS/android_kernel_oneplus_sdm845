@@ -1,0 +1,3302 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98adf1cb_86eedd08",
+        "filename": "drivers/gpu/drm/drm_sysfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Only keep the first 5 tabs of indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9e4322d_95a5c872",
+        "filename": "drivers/gpu/drm/drm_sysfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Only keep the first 5 tabs of indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91dc4a35_ec3cd48c",
+        "filename": "drivers/gpu/drm/drm_sysfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Only keep the first 5 tabs of indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b95f5b_ec83fe9b",
+        "filename": "drivers/gpu/drm/drm_sysfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "harmonize indentation (with tabs of the previous 5 lines)",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c113543d_dca1a62b",
+        "filename": "drivers/gpu/drm/drm_sysfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Only keep the first 5 tabs of indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dd3fa83_cacf79dc",
+        "filename": "drivers/gpu/drm/drm_sysfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Only keep the first 5 tabs of indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a2248c7_13c61fe6",
+        "filename": "drivers/gpu/drm/drm_sysfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Only keep the first 5 tabs of indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "696d8795_bbca621f",
+        "filename": "drivers/gpu/drm/drm_sysfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Only keep the first 5 tabs of indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "febf3b54_7890570a",
+        "filename": "drivers/gpu/drm/drm_sysfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Only keep the first 5 tabs of indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "258ab408_2792a14c",
+        "filename": "drivers/gpu/drm/drm_sysfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Only keep the first 5 tabs of indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9e5703b_b2f1a0b2",
+        "filename": "drivers/gpu/drm/drm_sysfs.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Only keep the first 5 tabs of indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7645e83_3290fbd8",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_defs.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Remove extra tab/indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f92ca37_23edeaa3",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Keep original tha was indetned properly and did\u0027nt have a extra blank line",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "062d48e1_c27631d7",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22a077af_c884ce63",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with 2 tabs instead of 8 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aaaed77_5cc51f9a",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with 2 tabs instead of 8 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "615c8ada_b75d1fbd",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with 3 tabs instead of 12 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba9f64e9_084ad137",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with 3 tabs instead of 12 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d5f1000_d054cdf2",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f86125e_296de775",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Inent with a tab instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16cdc78d_ede03120",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Remove extra space after 2nd tab",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cbaf8c6_a6dc60c2",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "And 1 tab indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40963b7c_1ca7cee5",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4791,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for the 5 previous lines use tab instead of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4dbfc99_f3fb97dd",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6652,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c62d1ec6_a19edfa0",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6657,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4dfa1d4_05f02bfc",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6658,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with 2 tabs not 12 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf42a7ba_1b07725f",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6659,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with 2 tabs not 12 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8927ff2_b56b74e1",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6661,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46c7cc87_172a8373",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6662,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "007f1119_411d3cc7",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6709,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60f9800b_eee21ec0",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6729,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f738d0c0_4c88c89c",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6777,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2d8350e_8c70ba3d",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6789,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac32a9dd_197f643b",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6799,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cb270b4_531e143c",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6849,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01498b6c_f4cb9b84",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6859,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e22d9c62_6b147457",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6869,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27993158_dfb7aaed",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6917,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4372bdcc_52c5293a",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6927,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f42362f_ed620ade",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6937,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b5a0545_74c534ab",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6985,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcb950cc_2dfba21c",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 6995,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fe0a68f_9d7a74cb",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7005,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70906be3_fe18c5b1",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7053,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a54aeaae_9b851ed8",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7063,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c525917_e565bb50",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7073,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d75c4518_7716451a",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7121,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4bc6645_ebf1aa77",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7131,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Inednt with a tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f3a1a9e_033d9c1b",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7141,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6086d7bc_ae455477",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7189,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cbbc585_d851727a",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7199,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "576bdc6f_a8408ce2",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7209,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d513fa3_34cd4205",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7223,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Remove final tab",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec7cc0f8_3366c97c",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7263,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "597d3a6f_dad938c5",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7273,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with a tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a39b7090_00e47a48",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7283,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5e63bf4_517a8c3b",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7306,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabls not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "913d228f_1aa61c31",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7324,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 5 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d1088f0_bc35c209",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7333,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 5 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d001f16f_0c7c1794",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7337,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tabs not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69ddbf89_b51fe1e4",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7345,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 2 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f45176da_9bb18e67",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7350,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tabs not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8340902_62eb4ed8",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7368,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tabs not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e053580_ffe35fb0",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7387,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0b4b848_b8b4ba4c",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7395,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tabs not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdc7bbdb_94d2074d",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7398,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tabs not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd9ea96b_ddc7f69d",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7464,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 64 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "247787fe_1ca7f746",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7480,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50cb4817_8ac28b9b",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7498,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a2e7aa3_1dde760f",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7516,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "836f4efe_68cd4b17",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7534,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9689bac2_655c9b13",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7552,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b92aa2b4_2cd9ba52",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7570,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 5 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cc4d424_6fa169d6",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7579,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 5 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5470aa7_97ae1ea9",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7583,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcb41265_788ee954",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7591,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 2 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d80df471_cd9e38c6",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7596,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06218172_9affb15b",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7615,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f97c41a_2fba9051",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7629,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0826f5ef_b30ee5e0",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7638,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 2 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "673a7e9a_37a2b9d8",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7643,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Fix indentataio with 2 tabs instead 1 tab and 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e0c9e5e_c9483d3e",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7648,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27030304_50218048",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7675,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from line 1950 to 7675 use tabs instade of multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c545563_b3267a22",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7691,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "For the previous 6 lines uses tabs not multiples of 4 spaces for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0edabb0_d66b4c5c",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7765,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "add a line before to seperate from end of previsous function",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6bd5f6b_226fc318",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_display.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 7766,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "just 1 tab for indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f66d62d_aee3b332",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "From line 431 to 466 indent with tabs not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fb9232e_eaa830ed",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6f7e371_2c66c10c",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "From line 497 to 510 Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f8f19d5_0a0b9061",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with 2 tab not 1 tab and 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53ca8627_14cecea9",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b4ac60b_3c262efc",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f51c52f_e0cd8fdd",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "add a line before and after this one",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d12e28b_0ee16e35",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d08bdb1_d3cc3d2e",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cf52814_7d9b8cc9",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1647,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "From line1632 to 1647 fix indentation  by using just a tab instead of spaces + tab or just 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9613fe24_bc148d62",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2788,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for the previous6 lines indent with a tab instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a117bb7_22a7c05e",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2792,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e203c0fb_ff65fd5e",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2794,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tabs not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78a3653e_f247a5a0",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2804,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "978811df_2660ed1c",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2827,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09b01ed5_b632b069",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2835,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cff1c41_1af97f81",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2838,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d5739c3_13150b39",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2841,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a6bb970_9ce15fb5",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2844,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7025b517_36a8b860",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2850,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e5a22f1_89122ab1",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 3176,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb662b09_ef4f95b4",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 3718,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from line 3709 to 3718 Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "510437a2_8940fd12",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 3894,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "add aextra line before and after",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1611b581_9d7cc6ab",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 3940,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from line 3921 to 3940 Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eee6418e_7448667f",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4022,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "add 1 tab indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af3cadf9_6e3be267",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4024,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "add 1 tab indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7446c29a_8126dd08",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4027,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "add 1 tab indentation",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20506844_eb2d3397",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4121,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for 3 previous lines indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f133452_eabbf7cb",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4132,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for 4 previous lines indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b374e58_07601379",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4140,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for 2 previous lines indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b23491a_4ca6347f",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4145,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283844e3_ac88db38",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4157,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd68ed8e_f578668d",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4175,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from line 4166 to 4175 indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68772ca5_3d3fb00b",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4226,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from line 4178 to 4226 indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c46d72a_70c85df1",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4246,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from line 4228 to 4245 indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dc0385d_01f5a8ad",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4255,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from line 4249 to 4255 indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32fed8db_ca9bf22c",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4271,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "726321e0_0d82b47e",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4288,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from line 4280 to 4288 indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b2b9d5d_e156e74b",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4307,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from line 4291 to 4307 indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee65ead0_c4c25eec",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4323,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33cc355b_27172438",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4328,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d754199_04e679b5",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4340,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for line 4330 to 4340 indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27ec6148_52deead7",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4349,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93530c6b_b8fd0a3a",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4355,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58f2ae14_ca65ee73",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4358,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for previous 2 lines indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b208580_16891ba4",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4375,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20e49db4_d57c825c",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4381,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50b1ec00_06c8e6a4",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4384,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for previous 2 lines indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12a8ed90_ace7efa1",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4389,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for previous 4 lines indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ffe131f_402500fb",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4393,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for previous 3 lines indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b428c41c_2c1843ad",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4402,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a777971_ef63be54",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4431,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from line 4411 to 4431 indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "625503fd_63992b37",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4434,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab58c650_d9d5760b",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4446,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6048566e_8bf248cb",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4459,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "erase end of ine spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c205ee_f8269e8a",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4465,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from line 455 to 4465 indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4df41f6_9273c4c4",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4474,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tab instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ecafd06_10012139",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4481,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from previous 3 lines indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c39fa75_4c43de8b",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4486,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from previous 3 lines indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "227b7f61_619900ea",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4493,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from previous 4 lines indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b550fdf_5ef38ce1",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4496,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e32f8151_b98ea2c8",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4500,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "erase spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "029eb167_13dc1ce3",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4503,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from previous 3 lines indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1edb31b4_41d05fd3",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4529,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from previous 7 lines indent with tabs instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b807236c_96c7c400",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa808d5_3ab9e349",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a93e3a01_600c033b",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fc31c48_2f58c096",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for the previous 4 lines Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ee4b693_90c8a3e0",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "Indent with tab not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5a47477_21a6d2db",
+        "filename": "drivers/gpu/drm/msm/msm_atomic.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "useless empty line",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a14fac30_b6fb073f",
+        "filename": "drivers/gpu/drm/msm/msm_atomic.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "useless empty line",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ee0e67f_1cf19aa3",
+        "filename": "drivers/gpu/drm/msm/msm_drv.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tab instead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2bd756a_66e9feb0",
+        "filename": "drivers/gpu/drm/msm/msm_drv.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tab instead of 8 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1d0cc00_0f889b22",
+        "filename": "drivers/gpu/drm/msm/msm_drv.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "remove trailing tab or better remove empty line",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e99d49a9_3080b533",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with a tab insteaad of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0480f792_a932baf4",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "1 indentation tab too many",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5693807_69d3b073",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "previous 5 lines have 1 indentation tab too many",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1acb34ff_db85313d",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "trailing spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "693b1487_3a068143",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "1 indentation tab too many",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fc3d2af_7573b2e4",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "from line 646 to 655 Indent with tabs not 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47d2288c_0dd858d5",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "trailing tab",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78a5b600_a6e3a80d",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "trailing tab",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04970550_e8c10df6",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "should be indented with 4 tabs",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fe3d9fc_5d85bd40",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "previous 4 lines should be indented with 5 tabs",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af000c6a_bb2f8b49",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "remove useless empty line",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a3ff6aa_34168fbb",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "should be indented with 4 tabs",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "371f4acc_e4ec23b3",
+        "filename": "drivers/gpu/drm/msm/sde/sde_connector.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "previous 2 lines should be indented with 5 tabs",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecffc113_bfda48e9",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2736,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "remove trailing tabs",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d378911_83b5276f",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2738,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "remove trailing tabs",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00152309_a21de148",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2740,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "remove trailing tabs",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f45bf4b_09fbcc29",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2780,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for previous 4 lines indent with tabs istead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a42f0e9f_1dfca01b",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2814,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "remove space at beginning of line",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbb6bd70_c4128be2",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2844,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs istead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10544751_f832e154",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 2853,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs istead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c44f8a30_e3a9b611",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4911,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs istead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e899a668_be2efc37",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4916,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs istead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c572142_108eafe0",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4918,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs istead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4382fc5_e12ec52e",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4930,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for lines 4923 to 4930 indent with tabs istead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2679fc6_9ad081ec",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4934,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with tabs istead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b075adc_1418dbf4",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4945,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "for previous 2 lines indent with tabs istead of 4 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9cbea2d_a5581fa5",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4991,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "remove trailing spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a731c659_82b8bb72",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4992,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with 3 tabs istead of 12 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8288faea_bf198c93",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4994,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with 4 tabs istead of 16 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b3a4572_d2a37aee",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4997,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with 4 tabs istead of 16 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e22a26c_7a08f046",
+        "filename": "drivers/gpu/drm/msm/sde/sde_crtc.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 5001,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indent with 2 tabs istead of 8 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "692db565_7c0f5a96",
+        "filename": "drivers/gpu/drm/msm/sde/sde_encoder.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 3682,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "indentation : 3 tabs instead of 12 spaces",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d1856a7_7e9e43d9",
+        "filename": "drivers/gpu/drm/msm/sde/sde_plane.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 3849,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "no reason for empty line, keep previous version",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2257bc55_30a80ab5",
+        "filename": "drivers/gpu/drm/msm/sde/sde_plane.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 4302,
+      "author": {
+        "id": 23281
+      },
+      "writtenOn": "2019-06-01T15:04:22Z",
+      "side": 1,
+      "message": "keep previous version (with correct indentation and extra line after)",
+      "revId": "e56192d6154c3e1b7806bd8200bb1e6688ac2907",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
