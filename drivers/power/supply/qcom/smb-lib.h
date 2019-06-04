@@ -90,6 +90,7 @@ enum print_reason {
 #define HVDCP2_ICL_VOTER		"HVDCP2_ICL_VOTER"
 #define OV_VOTER			"OV_VOTER"
 #define FG_ESR_VOTER			"FG_ESR_VOTER"
+#define FCC_STEPPER_VOTER		"FCC_STEPPER_VOTER"
 
 #define VCONN_MAX_ATTEMPTS	3
 #define OTG_MAX_ATTEMPTS	3
@@ -474,6 +475,7 @@ struct smb_charger {
 	bool			is_audio_adapter;
 	bool			disable_stat_sw_override;
 	bool			in_chg_lock;
+	bool			fcc_stepper_enable;
 
 	/* workaround flag */
 	u32			wa_flags;

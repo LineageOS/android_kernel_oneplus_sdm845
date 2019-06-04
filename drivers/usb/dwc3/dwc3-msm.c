@@ -3744,12 +3744,6 @@ err:
 	return ret;
 }
 
-static int dwc3_msm_remove_children(struct device *dev, void *data)
-{
-	device_unregister(dev);
-	return 0;
-}
-
 static int dwc3_msm_remove(struct platform_device *pdev)
 {
 	struct dwc3_msm	*mdwc = platform_get_drvdata(pdev);
@@ -3790,8 +3784,7 @@ static int dwc3_msm_remove(struct platform_device *pdev)
 	if (mdwc->hs_phy)
 		mdwc->hs_phy->flags &= ~PHY_HOST_MODE;
 	platform_device_put(mdwc->dwc3);
-	device_for_each_child(&pdev->dev,
-		NULL, dwc3_msm_remove_children);
+	of_platform_depopulate(&pdev->dev);
 
 	pm_runtime_disable(mdwc->dev);
 	pm_runtime_barrier(mdwc->dev);
