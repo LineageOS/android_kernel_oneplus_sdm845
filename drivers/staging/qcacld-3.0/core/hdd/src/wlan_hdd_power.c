@@ -1309,7 +1309,6 @@ hdd_suspend_wlan(void (*callback)(void *callbackContext, bool suspended),
 		return;
 	}
 
-
 	status = hdd_get_front_adapter(pHddCtx, &pAdapterNode);
 	while (NULL != pAdapterNode && QDF_STATUS_SUCCESS == status) {
 		pAdapter = pAdapterNode->pAdapter;
@@ -1806,13 +1805,13 @@ void wlan_hdd_inc_suspend_stats(hdd_context_t *hdd_ctx,
 }
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 12, 0)
-static inline void
+void
 hdd_sched_scan_results(struct wiphy *wiphy, uint64_t reqid)
 {
 	cfg80211_sched_scan_results(wiphy);
 }
 #else
-static inline void
+void
 hdd_sched_scan_results(struct wiphy *wiphy, uint64_t reqid)
 {
 	cfg80211_sched_scan_results(wiphy, reqid);
@@ -2094,8 +2093,11 @@ next_adapter:
 	while (pAdapterNode && QDF_IS_STATUS_SUCCESS(status)) {
 		pAdapter = pAdapterNode->pAdapter;
 
-		sme_ps_timer_flush_sync(pHddCtx->hHal, pAdapter->sessionId);
+		if (pAdapter->sessionId >= MAX_NUMBER_OF_ADAPTERS)
+			goto fetch_adapter;
 
+		sme_ps_timer_flush_sync(pHddCtx->hHal, pAdapter->sessionId);
+fetch_adapter:
 		status = hdd_get_next_adapter(pHddCtx, pAdapterNode,
 					      &pAdapterNode);
 	}
