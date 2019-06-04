@@ -81,6 +81,7 @@ int msm_drm_notifier_call_chain(unsigned long val, void *v)
 }
 EXPORT_SYMBOL(msm_drm_notifier_call_chain);
 
+
 /* block until specified crtcs are no longer pending update, and
  * atomically mark them as pending update
  */
@@ -571,6 +572,8 @@ static void complete_commit(struct msm_commit *c)
 	kms->funcs->complete_commit(kms, state);
 
 	drm_atomic_state_free(state);
+
+	priv->commit_end_time =  ktime_get(); //commit end time
 
 	commit_destroy(c);
 }
