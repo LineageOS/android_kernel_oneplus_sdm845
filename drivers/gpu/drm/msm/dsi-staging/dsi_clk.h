@@ -320,20 +320,6 @@ int dsi_clk_update_parent(struct dsi_clk_link_set *parent,
 			  struct dsi_clk_link_set *child);
 
 /**
- * dsi_clk_prepare_enable() - prepare and enable dsi src clocks
- * @clk:       list of src clocks.
- *
- * @return:	Zero on success and err no on failure
- */
-int dsi_clk_prepare_enable(struct dsi_clk_link_set *clk);
-
-/**
- * dsi_clk_disable_unprepare() - disable and unprepare dsi src clocks
- * @clk:       list of src clocks.
- */
-void dsi_clk_disable_unprepare(struct dsi_clk_link_set *clk);
-
-/**
  * dsi_clk_req_state() - request to change dsi clock state
  * @client:       DSI clocl client pointer.
  * @clk:          DSI clock list.
