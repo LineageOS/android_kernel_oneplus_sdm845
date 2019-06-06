@@ -157,7 +157,7 @@ reserved-memory {
 		qcom,dsi-phy = <&mdss_dsi_phy0>;
 		clocks = <&mdss_dsi0_pll BYTECLK_MUX_0_CLK>,
 			<&mdss_dsi0_pll PCLK_MUX_0_CLK>;
-		clock-names = "mux_byte_clk", "mux_pixel_clk";
+		clock-names = "src_byte_clk", "src_pixel_clk";
 		pinctrl-names = "panel_active", "panel_suspend";
 		pinctrl-0 = <&sde_dsi_active &sde_te_active &esd_check_active>;
 		pinctrl-1 = <&sde_dsi_suspend &sde_te_suspend &esd_check_suspend>;
@@ -174,7 +174,7 @@ reserved-memory {
 		qcom,dsi-phy = <&mdss_dsi_phy0>;
 		clocks = <&mdss_dsi0_pll BYTECLK_MUX_0_CLK>,
 			<&mdss_dsi0_pll PCLK_MUX_0_CLK>;
-		clock-names = "mux_byte_clk", "mux_pixel_clk";
+		clock-names = "src_byte_clk", "src_pixel_clk";
 		pinctrl-names = "panel_active", "panel_suspend";
 		pinctrl-0 = <&sde_dsi_active &sde_te_active &esd_check_active>;
 		pinctrl-1 = <&sde_dsi_suspend &sde_te_suspend &esd_check_suspend>;
@@ -191,7 +191,7 @@ reserved-memory {
 		qcom,dsi-phy = <&mdss_dsi_phy0>;
 		clocks = <&mdss_dsi0_pll BYTECLK_MUX_0_CLK>,
 			<&mdss_dsi0_pll PCLK_MUX_0_CLK>;
-		clock-names = "mux_byte_clk", "mux_pixel_clk";
+		clock-names = "src_byte_clk", "src_pixel_clk";
 		pinctrl-names = "panel_active", "panel_suspend";
 		pinctrl-0 = <&sde_dsi_active &sde_te_active &esd_check_active>;
 		pinctrl-1 = <&sde_dsi_suspend &sde_te_suspend &esd_check_suspend>;
@@ -208,7 +208,7 @@ dsi_samsung_sofeg01_s_cmd_display: qcom,dsi-display@20 {
 		qcom,dsi-phy = <&mdss_dsi_phy0>;
 		clocks = <&mdss_dsi0_pll BYTECLK_MUX_0_CLK>,
 			<&mdss_dsi0_pll PCLK_MUX_0_CLK>;
-		clock-names = "mux_byte_clk", "mux_pixel_clk";
+		clock-names = "src_byte_clk", "src_pixel_clk";
 		pinctrl-names = "panel_active", "panel_suspend";
 		pinctrl-0 = <&sde_dsi_active &sde_te_active &esd_check_active>;
 		pinctrl-1 = <&sde_dsi_suspend &sde_te_suspend &esd_check_suspend>;
@@ -224,7 +224,7 @@ dsi_samsung_s6e3fc2x01_cmd_display: qcom,dsi-display@21 {
 		qcom,dsi-phy = <&mdss_dsi_phy0>;
 		clocks = <&mdss_dsi0_pll BYTECLK_MUX_0_CLK>,
 			<&mdss_dsi0_pll PCLK_MUX_0_CLK>;
-		clock-names = "mux_byte_clk", "mux_pixel_clk";
+		clock-names = "src_byte_clk", "src_pixel_clk";
 		pinctrl-names = "panel_active", "panel_suspend";
 		pinctrl-0 = <&sde_dsi_active &sde_te_active &esd_check_active>;
 		pinctrl-1 = <&sde_dsi_suspend &sde_te_suspend &esd_check_suspend>;
@@ -241,7 +241,7 @@ dsi_samsung_dsc_cmd_display: qcom,dsi-display@22 {
 		qcom,dsi-phy = <&mdss_dsi_phy0>;
 		clocks = <&mdss_dsi0_pll BYTECLK_MUX_0_CLK>,
 			<&mdss_dsi0_pll PCLK_MUX_0_CLK>;
-		clock-names = "mux_byte_clk", "mux_pixel_clk";
+		clock-names = "src_byte_clk", "src_pixel_clk";
 		pinctrl-names = "panel_active", "panel_suspend";
 		pinctrl-0 = <&sde_dsi_active &sde_te_active &esd_check_active>;
 		pinctrl-1 = <&sde_dsi_suspend &sde_te_suspend &esd_check_suspend>;
