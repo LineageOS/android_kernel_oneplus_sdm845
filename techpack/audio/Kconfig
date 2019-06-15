@@ -72,8 +72,12 @@ config SND_SOC_SDM660_CDC
 	tristate "SND_SOC_SDM660_CDC"
 config SND_SOC_SDM670
 	tristate "SND_SOC_SDM670"
+config SND_SOC_MACHINE_SDM845
+        tristate "SND_SOC_MACHINE_SDM845"
+        depends on SND_SOC_SDM845
 config SND_SOC_SDM845
 	tristate "SND_SOC_SDM845"
+	select SND_SOC_MACHINE_SDM845
 config SND_SOC_WCD9335
 	tristate "SND_SOC_WCD9335"
 config SND_SOC_WCD934X
