@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66e708cb_b259d512",
+        "filename": "techpack/audio/asoc/codecs/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2019-06-21T12:56:42Z",
+      "side": 1,
+      "message": "obj-tfa98xx-objs probably",
+      "parentUuid": "",
+      "revId": "7a51b1e7072b85dfa15ccfae9c384f03a5b32277",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da4a6d34_f24343e4",
+        "filename": "techpack/audio/asoc/codecs/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2019-06-21T12:56:42Z",
+      "side": 1,
+      "message": "up to here",
+      "revId": "7a51b1e7072b85dfa15ccfae9c384f03a5b32277",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
