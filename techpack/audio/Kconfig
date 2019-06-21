@@ -46,6 +46,8 @@ config SND_SOC_DIGITAL_CDC
 	tristate "SND_SOC_DIGITAL_CDC"
 config SND_SOC_EXT_CODEC
 	tristate "SND_SOC_EXT_CODEC"
+config SND_SOC_FSA4840
+	tristate "SND_SOC_FSA4840"
 config SND_SOC_INT_CODEC
 	tristate "SND_SOC_INT_CODEC"
 config SND_SOC_MACHINE_SDM845
@@ -74,6 +76,8 @@ config SND_SOC_SDM670
 	tristate "SND_SOC_SDM670"
 config SND_SOC_SDM845
 	tristate "SND_SOC_SDM845"
+config SND_SOC_TFA9874
+	tristate "SND_SOC_TFA9874"
 config SND_SOC_WCD9335
 	tristate "SND_SOC_WCD9335"
 config SND_SOC_WCD934X
