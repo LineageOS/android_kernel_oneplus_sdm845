@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7eab2c08_b70e6ddf",
+        "filename": "techpack/audio/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2019-06-21T11:28:14Z",
+      "side": 0,
+      "message": "so that we get errors while merging new techpack revisions instead of silently adding an entry in the config",
+      "revId": "e59b96c4fab93f003db91ed818910186d6cec8f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb6e42ea_c35b34c5",
+        "filename": "techpack/audio/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2019-06-21T11:28:14Z",
+      "side": 0,
+      "message": "remove .conf files",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 5
+      },
+      "revId": "e59b96c4fab93f003db91ed818910186d6cec8f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8d1b451_e191c014",
+        "filename": "techpack/audio/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2019-06-21T11:28:14Z",
+      "side": 0,
+      "message": "remove .h files",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 5
+      },
+      "revId": "e59b96c4fab93f003db91ed818910186d6cec8f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
