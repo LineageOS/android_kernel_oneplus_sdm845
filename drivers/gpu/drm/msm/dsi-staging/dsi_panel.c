@@ -664,6 +664,7 @@ int dsi_panel_set_backlight(struct dsi_panel *panel, u32 bl_lvl)
 		led_trigger_event(bl->wled, bl_lvl);
 		break;
 	case DSI_BACKLIGHT_DCS:
+		panel->hbm_backlight = bl_lvl;
 		rc = dsi_panel_update_backlight(panel, bl_lvl);
 		break;
 	default:
@@ -1487,6 +1488,8 @@ const char *cmd_set_prop_map[DSI_CMD_SET_MAX] = {
 	"qcom,mdss-dsi-panel-oneplus-mode-on-command",
 	"qcom,mdss-dsi-panel-adaption-mode-on-command",
 	"qcom,mdss-dsi-panel-srgb-off-command", // also disables DCI P3, night and OP modes
+	"qcom,mdss-dsi-panel-aod-off-hbm-on-command",
+	"qcom,mdss-dsi-panel-hbm-off-aod-on-command",
 };
 
 const char *cmd_set_state_map[DSI_CMD_SET_MAX] = {
@@ -1523,6 +1526,8 @@ const char *cmd_set_state_map[DSI_CMD_SET_MAX] = {
 	"qcom,mdss-dsi-panel-oneplus-mode-on-command-state",
 	"qcom,mdss-dsi-adaption-mode-on-command-state",
 	"qcom,mdss-dsi-srgb-off-command-state",
+	"qcom,mdss-dsi-panel-aod-off-hbm-on-command-state",
+	"qcom,mdss-dsi-panel-hbm-off-aod-on-command-state",
 };
 
 static int dsi_panel_get_cmd_pkt_count(const char *data, u32 length, u32 *cnt)
@@ -3898,6 +3903,56 @@ int dsi_panel_apply_hbm_mode(struct dsi_panel *panel)
 
 	mutex_lock(&panel->panel_lock);
 	rc = dsi_panel_tx_cmd_set(panel, type);
+	mutex_unlock(&panel->panel_lock);
+
+	return rc;
+}
+
+int dsi_panel_op_set_hbm_mode(struct dsi_panel *panel, int level)
+{
+	int rc = 0;
+	u32 count;
+	struct dsi_display_mode *mode;
+
+	if (!panel || !panel->cur_mode) {
+		pr_err("Invalid params\n");
+		return -EINVAL;
+	}
+
+	mutex_lock(&panel->panel_lock);
+
+	mode = panel->cur_mode;
+	switch (level) {
+	case 0:
+		count = mode->priv_info->cmd_sets[DSI_CMD_SET_HBM_OFF].count;
+		if (!count) {
+			pr_err("This panel does not support HBM mode off.\n");
+			goto error;
+		} else {
+			rc = dsi_panel_tx_cmd_set(panel, DSI_CMD_SET_HBM_OFF);
+			printk(KERN_ERR "When HBM OFF -->hbm_backight = %d panel->bl_config.bl_level =%d\n", panel->hbm_backlight,panel->bl_config.bl_level);
+			rc= dsi_panel_update_backlight(panel,panel->hbm_backlight);
+		}
+	break;
+
+	case 1:
+		count = mode->priv_info->cmd_sets[DSI_CMD_SET_HBM_ON_5].count;
+		if (!count) {
+			pr_err("This panel does not support HBM mode.\n");
+			goto error;
+		} else {
+			rc = dsi_panel_tx_cmd_set(panel, DSI_CMD_SET_HBM_ON_5);
+		}
+	break;
+	default:
+	break;
+
+	}
+	pr_err("Set HBM Mode = %d\n", level);
+	if (level == 5)
+		pr_err("HBM == 5 for fingerprint\n");
+
+error:
 	mutex_unlock(&panel->panel_lock);
 
 	return rc;
