@@ -572,6 +572,8 @@ static void complete_commit(struct msm_commit *c)
 
 	drm_atomic_state_free(state);
 
+	priv->commit_end_time =  ktime_get();
+
 	commit_destroy(c);
 }
 
