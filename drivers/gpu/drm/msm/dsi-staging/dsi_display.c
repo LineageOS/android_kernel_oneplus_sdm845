@@ -33,6 +33,7 @@
 #include "dsi_pwr.h"
 #include "sde_dbg.h"
 
+#define to_dsi_bridge(x) container_of((x), struct dsi_bridge, base)
 #define to_dsi_display(x) container_of(x, struct dsi_display, host)
 #define INT_BASE_10 10
 #define NO_OVERRIDE -1
@@ -155,6 +156,7 @@ int dsi_display_set_backlight(void *display, u32 bl_lvl)
 
 	mutex_lock(&panel->panel_lock);
 	if (!dsi_panel_initialized(panel)) {
+		panel->hbm_backlight = bl_lvl;
 		rc = -EINVAL;
 		goto error;
 	}
@@ -6387,6 +6389,131 @@ static void dsi_display_register_error_handler(struct dsi_display *display)
 	}
 }
 
+int dsi_display_set_hbm_mode(struct drm_connector *connector, int level)
+{
+	struct dsi_display *dsi_display = NULL;
+	struct dsi_panel *panel = NULL;
+	struct dsi_bridge *c_bridge;
+	int rc = 0;
+
+	if ((connector == NULL) ||
+	    (connector->encoder == NULL) ||
+	    (connector->encoder->bridge == NULL))
+		return 0;
+
+	c_bridge =  to_dsi_bridge(connector->encoder->bridge);
+	dsi_display = c_bridge->display;
+
+	if ((dsi_display == NULL) || (dsi_display->panel == NULL))
+		return -EINVAL;
+
+	panel = dsi_display->panel;
+
+	mutex_lock(&dsi_display->display_lock);
+
+	panel->hbm_mode = level;
+	if (!dsi_panel_initialized(panel)) {
+		goto error;
+	}
+
+	rc = dsi_display_clk_ctrl(dsi_display->dsi_clk_handle,
+			DSI_CORE_CLK, DSI_CLK_ON);
+	if (rc) {
+		pr_err("[%s] failed to enable DSI core clocks, rc=%d\n",
+			dsi_display->name, rc);
+		goto error;
+	}
+
+	rc = dsi_panel_set_hbm_mode(panel, level);
+	if (rc)
+		pr_err("unable to set hbm mode\n");
+
+	rc = dsi_display_clk_ctrl(dsi_display->dsi_clk_handle,
+			DSI_CORE_CLK, DSI_CLK_OFF);
+	if (rc) {
+		pr_err("[%s] failed to disable DSI core clocks, rc=%d\n",
+			dsi_display->name, rc);
+		goto error;
+	}
+error:
+	mutex_unlock(&dsi_display->display_lock);
+	return rc;
+}
+
+int dsi_display_get_hbm_mode(struct drm_connector *connector)
+{
+	struct dsi_display *dsi_display = NULL;
+	struct dsi_bridge *c_bridge;
+
+	if ((connector == NULL) ||
+	    (connector->encoder == NULL) ||
+	    (connector->encoder->bridge == NULL))
+		return 0;
+
+	c_bridge =  to_dsi_bridge(connector->encoder->bridge);
+	dsi_display = c_bridge->display;
+
+	if ((dsi_display == NULL) || (dsi_display->panel == NULL))
+		return 0;
+
+	return dsi_display->panel->hbm_mode;
+}
+
+
+extern int oneplus_force_screenfp;
+
+int dsi_display_set_fp_hbm_mode(struct drm_connector *connector, int level)
+{
+	struct dsi_display *dsi_display = NULL;
+	struct dsi_panel *panel = NULL;
+	struct dsi_bridge *c_bridge;
+	int rc = 0;
+
+	if ((connector == NULL) ||
+	    (connector->encoder == NULL) ||
+	    (connector->encoder->bridge == NULL))
+		return 0;
+
+	c_bridge = to_dsi_bridge(connector->encoder->bridge);
+	dsi_display = c_bridge->display;
+
+	if ((dsi_display == NULL) || (dsi_display->panel == NULL))
+		return -EINVAL;
+
+	panel = dsi_display->panel;
+
+	mutex_lock(&dsi_display->display_lock);
+
+	panel->op_force_screenfp = level;
+	oneplus_force_screenfp=panel->op_force_screenfp;
+
+	if (!dsi_panel_initialized(panel))
+		goto error;
+
+	rc = dsi_display_clk_ctrl(dsi_display->dsi_clk_handle,
+			DSI_CORE_CLK, DSI_CLK_ON);
+	if (rc) {
+		pr_err("[%s] failed to enable DSI core clocks, rc=%d\n",
+			dsi_display->name, rc);
+		goto error;
+	}
+
+	rc = dsi_panel_op_set_hbm_mode(panel, level);
+	if (rc)
+		pr_err("unable to set hbm mode\n");
+
+	rc = dsi_display_clk_ctrl(dsi_display->dsi_clk_handle,
+			DSI_CORE_CLK, DSI_CLK_OFF);
+	if (rc) {
+		pr_err("[%s] failed to disable DSI core clocks, rc=%d\n",
+			dsi_display->name, rc);
+		goto error;
+	}
+error:
+	mutex_unlock(&dsi_display->display_lock);
+	return rc;
+}
+
 static void dsi_display_unregister_error_handler(struct dsi_display *display)
 {
 	int i = 0;
@@ -7052,6 +7179,104 @@ int dsi_display_unprepare(struct dsi_display *display)
 	SDE_EVT32(SDE_EVTLOG_FUNC_EXIT);
 	return rc;
 }
+
+int dsi_display_set_aod_mode(struct drm_connector *connector, int level)
+{
+	struct dsi_display *dsi_display = NULL;
+	struct dsi_panel *panel = NULL;
+	struct dsi_bridge *c_bridge;
+	int rc = 0;
+
+	if ((connector == NULL) ||
+	    (connector->encoder == NULL) ||
+	    (connector->encoder->bridge == NULL))
+		return 0;
+
+	c_bridge =  to_dsi_bridge(connector->encoder->bridge);
+	dsi_display = c_bridge->display;
+
+	if ((dsi_display == NULL) || (dsi_display->panel == NULL))
+		return -EINVAL;
+
+	panel = dsi_display->panel;
+	panel->aod_mode = level;
+	if (strcmp(dsi_display->panel->name, "samsung s6e3fc2x01 cmd mode dsi panel") == 0) {
+		printk(KERN_ERR "dsi_display_set_aod_mode\n");
+	} else {
+		dsi_display->panel->aod_mode = 0;
+		return 0;
+	}
+	mutex_lock(&dsi_display->display_lock);
+	if (!dsi_panel_initialized(panel)) {
+		goto error;
+	}
+	rc = dsi_display_clk_ctrl(dsi_display->dsi_clk_handle,
+			DSI_CORE_CLK, DSI_CLK_ON);
+	if (rc) {
+		pr_err("[%s] failed to enable DSI core clocks, rc=%d\n",
+			dsi_display->name, rc);
+		goto error;
+	}
+	rc = dsi_panel_set_aod_mode(panel, level);
+	if (rc)
+		pr_err("unable to set aod mode\n");
+
+	rc = dsi_display_clk_ctrl(dsi_display->dsi_clk_handle,
+			DSI_CORE_CLK, DSI_CLK_OFF);
+	if (rc) {
+		pr_err("[%s] failed to disable DSI core clocks, rc=%d\n",
+			dsi_display->name, rc);
+		goto error;
+	}
+
+error:
+	mutex_unlock(&dsi_display->display_lock);
+
+	return rc;
+}
+
+int dsi_display_get_aod_mode(struct drm_connector *connector)
+{
+	struct dsi_display *dsi_display = NULL;
+	struct dsi_bridge *c_bridge;
+
+	if ((connector == NULL) ||
+	    (connector->encoder == NULL) ||
+	    (connector->encoder->bridge == NULL))
+		return 0;
+
+	c_bridge =  to_dsi_bridge(connector->encoder->bridge);
+	dsi_display = c_bridge->display;
+
+	if ((dsi_display == NULL) || (dsi_display->panel == NULL))
+		return 0;
+
+	return dsi_display->panel->aod_mode;
+}
+
+int dsi_display_get_fp_hbm_mode(struct drm_connector *connector)
+{
+	struct dsi_display *dsi_display = NULL;
+	struct dsi_bridge *c_bridge;
+
+	if ((connector == NULL) ||
+	    (connector->encoder == NULL) ||
+	    (connector->encoder->bridge == NULL))
+		return 0;
+
+	c_bridge =  to_dsi_bridge(connector->encoder->bridge);
+	dsi_display = c_bridge->display;
+
+	if ((dsi_display == NULL) || (dsi_display->panel == NULL))
+		return 0;
+
+	return dsi_display->panel->op_force_screenfp;
+}
+
+struct dsi_display *get_main_display(void) {
+	return primary_display;
+}
+EXPORT_SYMBOL(get_main_display);
 
 static int __init dsi_display_register(void)
 {

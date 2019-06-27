@@ -202,6 +202,15 @@ struct dsi_panel {
 	int hbm_mode;
 	enum dsi_panel_display_mode display_mode;
 
+	int aod_mode;
+	int aod_status;
+	int aod_curr_mode;
+	int aod_disable;
+	int hbm_backlight;
+	bool is_hbm_enabled;
+	int  op_force_screenfp;
+	bool dim_status;
+
 	bool lp11_init;
 	bool ulps_enabled;
 	bool ulps_suspend_enabled;
@@ -319,5 +328,10 @@ int dsi_panel_parse_esd_reg_read_configs(struct dsi_panel *panel,
 				struct device_node *of_node);
 
 void dsi_panel_ext_bridge_put(struct dsi_panel *panel);
+
+int dsi_panel_set_hbm_mode(struct dsi_panel *panel, int level);
+int dsi_panel_op_set_hbm_mode(struct dsi_panel *panel, int level);
+
+int dsi_panel_set_aod_mode(struct dsi_panel *panel, int level);
 
 #endif /* _DSI_PANEL_H_ */
