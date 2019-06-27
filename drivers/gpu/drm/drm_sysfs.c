@@ -215,16 +215,215 @@ static ssize_t modes_show(struct device *device,
 	return written;
 }
 
+static ssize_t hbm_show(struct device *dev,
+			struct device_attribute *attr,
+			char *buf)
+{
+	struct drm_connector *connector = to_drm_connector(dev);
+	int ret = 0;
+	int hbm_mode = 0;
+
+	hbm_mode = dsi_display_get_hbm_mode(connector);
+
+	ret = scnprintf(buf, PAGE_SIZE, "%d\n", hbm_mode);
+	return ret;
+}
+
+static ssize_t hbm_store(struct device *dev,
+			 struct device_attribute *attr,
+			 const char *buf,
+			 size_t count)
+{
+	struct drm_connector *connector = to_drm_connector(dev);
+	int ret = 0;
+	int hbm_mode = 0;
+
+	ret = kstrtoint(buf, 10, &hbm_mode);
+	if (ret) {
+		pr_err("kstrtoint failed. ret=%d\n", ret);
+		return ret;
+	}
+
+	ret = dsi_display_set_hbm_mode(connector, hbm_mode);
+	if (ret)
+		pr_err("set hbm mode(%d) fail\n", hbm_mode);
+
+	return count;
+}
+
+static ssize_t op_friginer_print_hbm_show(struct device *dev,
+					  struct device_attribute *attr,
+					  char *buf)
+{
+	struct drm_connector *connector = to_drm_connector(dev);
+	int ret = 0;
+	int op_hbm_mode = 0;
+
+	op_hbm_mode = dsi_display_get_fp_hbm_mode(connector);
+
+	ret = scnprintf(buf, PAGE_SIZE, "OP_FP mode = %d\n"
+					"0--finger-hbm mode(off)\n"
+					"1--finger-hbm mode(600)\n",
+					op_hbm_mode);
+	return ret;
+}
+
+static ssize_t op_friginer_print_hbm_store(struct device *dev,
+					   struct device_attribute *attr,
+					   const char *buf,
+					   size_t count)
+{
+	struct drm_connector *connector = to_drm_connector(dev);
+	int ret = 0;
+	int op_hbm_mode = 0;
+
+	ret = kstrtoint(buf, 10, &op_hbm_mode);
+	if (ret) {
+		pr_err("kstrtoint failed. ret=%d\n", ret);
+		return ret;
+	}
+
+	ret = dsi_display_set_fp_hbm_mode(connector, op_hbm_mode);
+	if (ret)
+		pr_err("set hbm mode(%d) fail\n", op_hbm_mode);
+
+	return count;
+}
+
+static ssize_t aod_show(struct device *dev,
+			struct device_attribute *attr,
+			char *buf)
+{
+	struct drm_connector *connector = to_drm_connector(dev);
+	int ret = 0;
+	int aod_mode = 0;
+
+	aod_mode = dsi_display_get_aod_mode(connector);
+
+	ret = scnprintf(buf, PAGE_SIZE, "%d\n", aod_mode);
+	return ret;
+}
+
+static ssize_t aod_store(struct device *dev,
+			 struct device_attribute *attr,
+			 const char *buf,
+			 size_t count)
+{
+	struct drm_connector *connector = to_drm_connector(dev);
+	int ret = 0;
+	int aod_mode = 0;
+
+	ret = kstrtoint(buf, 10, &aod_mode);
+	if (ret) {
+		pr_err("kstrtoint failed. ret=%d\n", ret);
+		return ret;
+	}
+	printk(KERN_ERR " node aod_mode=%d\n",aod_mode);
+	ret = dsi_display_set_aod_mode(connector, aod_mode);
+	if (ret)
+		pr_err("set AOD mode(%d) fail\n", aod_mode);
+	return count;
+}
+
+
+int oneplus_force_screenfp = 0;
+int oneplus_panel_alpha = 0;
+extern int oneplus_get_panel_brightness_to_alpha(void);
+
+static ssize_t oneplus_display_get_dim_alpha(struct device *dev,
+					     struct device_attribute *attr,
+					     char *buf)
+{
+	return sprintf(buf, "%d\n", oneplus_get_panel_brightness_to_alpha());
+}
+
+static ssize_t oneplus_display_set_dim_alpha(struct device *dev,
+					     struct device_attribute *attr,
+					     const char *buf,
+					     size_t count)
+{
+	sscanf(buf, "%x", &oneplus_panel_alpha);
+
+	return count;
+}
+
+static ssize_t oneplus_display_get_forcescreenfp(struct device *dev,
+						 struct device_attribute *attr,
+						 char *buf)
+{
+
+	struct drm_connector *connector = to_drm_connector(dev);
+	int ret = 0;
+	oneplus_force_screenfp = dsi_display_get_fp_hbm_mode(connector);
+
+	ret = scnprintf(buf, PAGE_SIZE, "OP_FP mode = %d\n"
+					"0--finger-hbm mode(off)\n"
+					"1--finger-hbm mode(600)\n",
+					oneplus_force_screenfp);
+	return sprintf(buf, "%d\n", oneplus_force_screenfp);
+
+}
+
+static ssize_t oneplus_display_set_forcescreenfp(struct device *dev,
+						 struct device_attribute *attr,
+						 const char *buf,
+						 size_t count)
+{
+	struct drm_connector *connector = to_drm_connector(dev);
+	int ret = 0;
+	ret = kstrtoint(buf, 10, &oneplus_force_screenfp);
+	if (ret) {
+		pr_err("kstrtoint failed. ret=%d\n", ret);
+		return ret;
+	}
+
+	ret = dsi_display_set_fp_hbm_mode(connector, oneplus_force_screenfp);
+	if (ret)
+		pr_err("set hbm mode(%d) fail\n", oneplus_force_screenfp);
+	return count;
+}
+
+extern ssize_t oneplus_display_notify_fp_press(struct device *dev,
+					       struct device_attribute *attr,
+					       const char *buf,
+					       size_t count);
+
+extern ssize_t oneplus_display_notify_dim(struct device *dev,
+					  struct device_attribute *attr,
+					  const char *buf,
+					  size_t count);
+
+extern ssize_t oneplus_display_notify_aod_hid(struct device *dev,
+					      struct device_attribute *attr,
+					      const char *buf,
+					      size_t count);
+
 static DEVICE_ATTR_RW(status);
 static DEVICE_ATTR_RO(enabled);
 static DEVICE_ATTR_RO(dpms);
 static DEVICE_ATTR_RO(modes);
+static DEVICE_ATTR_RW(hbm);
+static DEVICE_ATTR_RW(op_friginer_print_hbm);
+static DEVICE_ATTR_RW(aod);
+static DEVICE_ATTR(force_screenfp, S_IRUGO | S_IWUSR, oneplus_display_get_forcescreenfp, oneplus_display_set_forcescreenfp);
+static DEVICE_ATTR(notify_fppress, S_IRUGO | S_IWUSR, NULL, oneplus_display_notify_fp_press);
+static DEVICE_ATTR(dim_alpha, S_IRUGO | S_IWUSR, oneplus_display_get_dim_alpha, oneplus_display_set_dim_alpha);
+static DEVICE_ATTR(notify_dim, S_IRUGO | S_IWUSR, NULL, oneplus_display_notify_dim);
+static DEVICE_ATTR(notify_aod, S_IRUGO | S_IWUSR, NULL, oneplus_display_notify_aod_hid);
 
 static struct attribute *connector_dev_attrs[] = {
 	&dev_attr_status.attr,
 	&dev_attr_enabled.attr,
 	&dev_attr_dpms.attr,
 	&dev_attr_modes.attr,
+	&dev_attr_hbm.attr,
+	&dev_attr_op_friginer_print_hbm.attr,
+	&dev_attr_aod.attr,
+	&dev_attr_force_screenfp.attr,
+	&dev_attr_dim_alpha.attr,
+	&dev_attr_notify_fppress.attr,
+	&dev_attr_notify_dim.attr,
+	&dev_attr_notify_aod.attr,
 	NULL
 };
 
