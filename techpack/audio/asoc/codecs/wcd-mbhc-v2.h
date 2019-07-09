@@ -12,6 +12,7 @@
 #ifndef __WCD_MBHC_V2_H__
 #define __WCD_MBHC_V2_H__
 
+#include <linux/extcon.h>
 #include <linux/wait.h>
 #include <linux/stringify.h>
 #include <linux/power_supply.h>
@@ -153,6 +154,14 @@ do {                                                    \
 #define WCD_MBHC_BTN_PRESS_COMPL_TIMEOUT_MS  50
 #define ANC_DETECT_RETRY_CNT 7
 #define WCD_MBHC_SPL_HS_CNT  1
+
+/* tony.liu@Multimedia.Audio,2017.12.21 add headset plug type detect */
+enum extcon_plug_type {
+	EXTCON_PLUG_TYPE_NONE = 19,
+	EXTCON_PLUG_TYPE_HEADSET = 20,
+	EXTCON_PLUG_TYPE_HEADPHONE,
+	EXTCON_PLUG_TYPE_GND_MIC_SWAP,
+};
 
 enum wcd_mbhc_detect_logic {
 	WCD_DETECTION_LEGACY,
@@ -513,6 +522,9 @@ struct wcd_mbhc {
 	int buttons_pressed;
 	struct wcd_mbhc_config *mbhc_cfg;
 	const struct wcd_mbhc_cb *mbhc_cb;
+
+	/* tony.liu@Multimedia.Audio,2017.12.21 add headset plug type detect */
+	struct extcon_dev *wcd934x_edev;
 
 	u32 hph_status; /* track headhpone status */
 	u8 hphlocp_cnt; /* headphone left ocp retry */
