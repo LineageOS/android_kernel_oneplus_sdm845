@@ -962,6 +962,11 @@ static int fg_get_prop_capacity(struct fg_chip *chip, int *val)
 	return 0;
 }
 
+static int fg_get_prop_real_capacity(struct fg_chip *chip, int *val)
+{
+	return fg_get_msoc(chip, val);
+}
+
 #define DEFAULT_BATT_TYPE	"Unknown Battery"
 #define MISSING_BATT_TYPE	"Missing Battery"
 #define LOADING_BATT_TYPE	"Loading Battery"
@@ -4147,6 +4152,9 @@ static int fg_psy_get_property(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_CC_STEP_SEL:
 		pval->intval = chip->ttf.cc_step.sel;
 		break;
+	case POWER_SUPPLY_PROP_REAL_CAPACITY:
+		rc = fg_get_prop_real_capacity(chip, &pval->intval);
+		break;
 	default:
 		pr_err("unsupported property %d\n", psp);
 		rc = -EINVAL;
@@ -4370,6 +4378,7 @@ static enum power_supply_property fg_psy_props[] = {
 	POWER_SUPPLY_PROP_CC_STEP_SEL,
 	POWER_SUPPLY_PROP_SET_ALLOW_READ_EXTERN_FG_IIC,
 	POWER_SUPPLY_PROP_BQ_SOC,
+	POWER_SUPPLY_PROP_REAL_CAPACITY,
 };
 
 static const struct power_supply_desc fg_psy_desc = {
