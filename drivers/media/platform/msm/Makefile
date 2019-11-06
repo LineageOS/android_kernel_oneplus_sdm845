@@ -8,6 +8,8 @@ obj-$(CONFIG_MSM_VIDC_3X_V4L2) += vidc_3x/
 obj-y += sde/
 ifeq ($(CONFIG_SPECTRA2_CAMERA), y)
 obj-$(CONFIG_SPECTRA_CAMERA) += camera_v3/
+else ifeq ($(CONFIG_ONEPLUS_DIR_CAMERA),y)
+obj-$(CONFIG_SPECTRA_CAMERA) += camera_oneplus/
 else
 obj-$(CONFIG_SPECTRA_CAMERA) += camera/
 endif
