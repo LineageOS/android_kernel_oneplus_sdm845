@@ -45,7 +45,11 @@ config MSMB_CAMERA_DEBUG
     ---help---
       Enable printk() debug for msm camera 2.0
 
-
+menuconfig ONEPLUS_DIR_CAMERA
+    bool "OnePlus MSM camera directory support"
+    ---help---
+      Say Y here to enable selecting the vendor OnePlus camera driver
+      directories to compile into the kernel.
 
 if MSMB_CAMERA
 source "drivers/media/platform/msm/camera_v2/Kconfig"
