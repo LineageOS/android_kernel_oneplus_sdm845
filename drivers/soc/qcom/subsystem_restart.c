@@ -813,6 +813,22 @@ static struct subsys_device *find_subsys(const char *str)
 	return dev ? to_subsys(dev) : NULL;
 }
 
+static int restart_level;/*system original val*/
+int op_restart_modem(void)
+{
+	struct subsys_device *subsys = find_subsys("modem");
+
+	if (!subsys)
+		return -ENODEV;
+	restart_level = subsys->restart_level;
+	subsys->restart_level = RESET_SUBSYS_COUPLED;
+	if (subsystem_restart("modem") == -ENODEV)
+		pr_err("%s: SSR call failed\n", __func__);
+	subsys->restart_level = restart_level;
+	return 0;
+}
+EXPORT_SYMBOL(op_restart_modem);
+
 static int subsys_start(struct subsys_device *subsys)
 {
 	int ret;
