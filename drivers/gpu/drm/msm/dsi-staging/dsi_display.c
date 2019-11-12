@@ -6407,6 +6407,11 @@ int dsi_display_set_hbm_mode(struct drm_connector *connector, int level)
 	if ((dsi_display == NULL) || (dsi_display->panel == NULL))
 		return -EINVAL;
 
+	if (level == 7) {
+		// For some reason, OnePlus' user space treats 0 and 7 the same
+		level = 0;
+	}
+
 	panel = dsi_display->panel;
 
 	mutex_lock(&dsi_display->display_lock);
@@ -6424,9 +6429,14 @@ int dsi_display_set_hbm_mode(struct drm_connector *connector, int level)
 		goto error;
 	}
 
-	rc = dsi_panel_set_hbm_mode(panel, level);
+	rc = dsi_panel_apply_hbm_mode(panel);
 	if (rc)
 		pr_err("unable to set hbm mode\n");
+
+	if (level == 0) {
+		printk(KERN_ERR "When HBM OFF -->hbm_backight = %d panel->bl_config.bl_level =%d\n", panel->hbm_backlight, panel->bl_config.bl_level);
+		dsi_panel_update_backlight(panel,panel->hbm_backlight);
+	}
 
 	rc = dsi_display_clk_ctrl(dsi_display->dsi_clk_handle,
 			DSI_CORE_CLK, DSI_CLK_OFF);
@@ -6484,6 +6494,7 @@ int dsi_display_set_fp_hbm_mode(struct drm_connector *connector, int level)
 
 	mutex_lock(&dsi_display->display_lock);
 
+	panel->hbm_mode = level > 0 ? 5 : 0;
 	panel->op_force_screenfp = level;
 	oneplus_force_screenfp=panel->op_force_screenfp;
 
@@ -6498,9 +6509,14 @@ int dsi_display_set_fp_hbm_mode(struct drm_connector *connector, int level)
 		goto error;
 	}
 
-	rc = dsi_panel_op_set_hbm_mode(panel, level);
+	rc = dsi_panel_apply_hbm_mode(panel);
 	if (rc)
 		pr_err("unable to set hbm mode\n");
+
+	if (level == 0) {
+		printk(KERN_ERR "When HBM OFF -->hbm_backight = %d panel->bl_config.bl_level =%d\n", panel->hbm_backlight, panel->bl_config.bl_level);
+		dsi_panel_update_backlight(panel,panel->hbm_backlight);
+	}
 
 	rc = dsi_display_clk_ctrl(dsi_display->dsi_clk_handle,
 			DSI_CORE_CLK, DSI_CLK_OFF);
