@@ -3799,6 +3799,15 @@ int dsi_panel_enable(struct dsi_panel *panel)
 	panel->panel_initialized = true;
 	mutex_unlock(&panel->panel_lock);
 
+	dsi_panel_init_display_modes(panel);
+
+	return rc;
+}
+
+int dsi_panel_init_display_modes(struct dsi_panel *panel)
+{
+	int rc;
+
 	if (panel->hbm_mode)
 		dsi_panel_apply_hbm_mode(panel);
 	if (panel->display_mode != DISPLAY_MODE_DEFAULT)

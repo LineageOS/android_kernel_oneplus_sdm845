@@ -6941,6 +6941,7 @@ int dsi_display_enable(struct dsi_display *display)
 		}
 
 		display->panel->panel_initialized = true;
+		dsi_panel_init_display_modes(display->panel);
 		pr_debug("cont splash enabled, display enable not required\n");
 		return 0;
 	}
