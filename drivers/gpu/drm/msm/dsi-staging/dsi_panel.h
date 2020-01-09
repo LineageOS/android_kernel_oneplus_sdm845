@@ -308,6 +308,8 @@ int dsi_panel_enable(struct dsi_panel *panel);
 
 int dsi_panel_post_enable(struct dsi_panel *panel);
 
+int dsi_panel_init_display_modes(struct dsi_panel *panel);
+
 int dsi_panel_pre_disable(struct dsi_panel *panel);
 
 int dsi_panel_disable(struct dsi_panel *panel);
