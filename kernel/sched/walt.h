@@ -155,6 +155,11 @@ extern void mark_task_starting(struct task_struct *p);
 extern void set_window_start(struct rq *rq);
 void account_irqtime(int cpu, struct task_struct *curr, u64 delta,
                                   u64 wallclock);
+void walt_fixup_cumulative_runnable_avg(struct rq *rq, struct task_struct *p,
+					u64 new_task_load);
+
+
+
 extern bool do_pl_notif(struct rq *rq);
 
 #define SCHED_HIGH_IRQ_TIMEOUT 3
@@ -311,6 +316,9 @@ static inline void walt_inc_cumulative_runnable_avg(struct rq *rq,
 		struct task_struct *p)
 {
 }
+static inline void walt_fixup_cumulative_runnable_avg(struct rq *rq,
+						      struct task_struct *p,
+						      u64 new_task_load) { }
 
 static inline unsigned int nr_eligible_big_tasks(int cpu)
 {

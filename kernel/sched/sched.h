@@ -1564,6 +1564,9 @@ struct sched_class {
 	void (*task_change_group) (struct task_struct *p, int type);
 #endif
 #ifdef CONFIG_SCHED_WALT
+	void (*fixup_cumulative_runnable_avg)(struct rq *rq,
+					      struct task_struct *task,
+					      u64 new_task_load);
 	void (*fixup_walt_sched_stats)(struct rq *rq, struct task_struct *p,
 				      u32 new_task_load, u32 new_pred_demand);
 #endif
