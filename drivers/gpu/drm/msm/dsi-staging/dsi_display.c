@@ -4751,6 +4751,13 @@ static ssize_t sysfs_hbm_write(struct device *dev,
 	if (ret)
 		pr_err("unable to set hbm mode\n");
 
+	if (hbm_mode == 0) {
+		/* hbm off cmd in some Samsung s6e3fc2x01 panels sets brightness to an
+		 * arbitrary value; setting it to the right value needs to be done
+		 * separately */
+		dsi_panel_update_backlight(display->panel,display->panel->hbm_backlight);
+	}
+
 	ret = dsi_display_clk_ctrl(display->dsi_clk_handle,
 			DSI_CORE_CLK, DSI_CLK_OFF);
 	if (ret) {
