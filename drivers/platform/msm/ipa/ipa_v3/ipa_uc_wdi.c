@@ -1458,7 +1458,7 @@ int ipa3_disable_wdi_pipe(u32 clnt_hdl)
 			}
 		}
 		usleep_range(IPA_UC_POLL_SLEEP_USEC * IPA_UC_POLL_SLEEP_USEC,
-			IPA_UC_POLL_SLEEP_USEC * IPA_UC_POLL_SLEEP_USEC);
+			IPA_UC_POLL_SLEEP_USEC * IPA_UC_POLL_SLEEP_USEC * 1.2);
 
 	}
 
