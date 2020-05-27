@@ -626,6 +626,8 @@ static int dsi_panel_led_bl_register(struct dsi_panel *panel,
 }
 #endif
 
+bool HBM_flag;
+
 int dsi_panel_update_backlight(struct dsi_panel *panel,
 	u32 bl_lvl)
 {
@@ -640,6 +642,9 @@ int dsi_panel_update_backlight(struct dsi_panel *panel,
 	dsi = &panel->mipi_device;
 
 	if (panel->bl_config.bl_high2bit) {
+		if (HBM_flag == true)
+			return 0;
+
 		rc = mipi_dsi_dcs_set_display_brightness_samsung(dsi, bl_lvl);
 	} else {
 		rc = mipi_dsi_dcs_set_display_brightness(dsi, bl_lvl);
