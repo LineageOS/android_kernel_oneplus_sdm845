@@ -16935,7 +16935,8 @@ static void wlan_hdd_cfg80211_set_wiphy_oce_scan_flags(struct wiphy *wiphy)
 #endif
 
 #if defined(WLAN_FEATURE_SAE) && \
-	defined(CFG80211_EXTERNAL_AUTH_SUPPORT)
+		(defined(CFG80211_EXTERNAL_AUTH_SUPPORT) || \
+		LINUX_VERSION_CODE >= KERNEL_VERSION(4, 17, 0))
 /**
  * wlan_hdd_cfg80211_set_wiphy_sae_feature() - Indicates support of SAE feature
  * @wiphy: Pointer to wiphy
@@ -24691,7 +24692,8 @@ wlan_hdd_cfg80211_update_connect_params(struct wiphy *wiphy,
 #endif
 
 #if defined(WLAN_FEATURE_SAE) && \
-	defined(CFG80211_EXTERNAL_AUTH_SUPPORT)
+		(defined(CFG80211_EXTERNAL_AUTH_SUPPORT) || \
+		LINUX_VERSION_CODE >= KERNEL_VERSION(4, 17, 0))
 #if defined(CFG80211_EXTERNAL_AUTH_AP_SUPPORT)
 /**
  * wlan_hdd_extauth_cache_pmkid() - Extract and cache pmkid
@@ -25182,7 +25184,8 @@ static struct cfg80211_ops wlan_hdd_cfg80211_ops = {
 	.update_connect_params = wlan_hdd_cfg80211_update_connect_params,
 #endif
 #if defined(WLAN_FEATURE_SAE) && \
-		defined(CFG80211_EXTERNAL_AUTH_SUPPORT)
+		(defined(CFG80211_EXTERNAL_AUTH_SUPPORT) || \
+		LINUX_VERSION_CODE >= KERNEL_VERSION(4, 17, 0))
 	.external_auth = wlan_hdd_cfg80211_external_auth,
 #endif
 #if defined(WLAN_FEATURE_NAN) && \
