@@ -4826,7 +4826,10 @@ static int init_synaptics_proc(void)
 	CREATE_PROC_NODE(touchpanel, coordinate, 0444);
 
 #ifdef SUPPORT_GESTURE
-	CREATE_GESTURE_NODE(single_tap);
+	// single_tap is only available on fajita
+	if (ts->project_version == 0x03) {
+		CREATE_GESTURE_NODE(single_tap);
+	}
 	CREATE_GESTURE_NODE(double_tap);
 	CREATE_GESTURE_NODE(up_arrow);
 	CREATE_GESTURE_NODE(down_arrow);
