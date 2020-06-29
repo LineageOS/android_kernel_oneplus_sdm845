@@ -1,4 +1,4 @@
-/* Copyright (c) 2016-2019, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2016-2020, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -27,9 +27,11 @@
 
 enum cnss_bus_width_type {
 	CNSS_BUS_WIDTH_NONE,
+	CNSS_BUS_WIDTH_IDLE,
 	CNSS_BUS_WIDTH_LOW,
 	CNSS_BUS_WIDTH_MEDIUM,
-	CNSS_BUS_WIDTH_HIGH
+	CNSS_BUS_WIDTH_HIGH,
+	CNSS_BUS_WIDTH_VERY_HIGH,
 };
 
 enum cnss_platform_cap_flag {
@@ -158,6 +160,7 @@ struct cnss_wlan_enable_cfg {
 	struct cnss_shadow_reg_v2_cfg *shadow_reg_v2_cfg;
 	bool rri_over_ddr_cfg_valid;
 	struct cnss_rri_over_ddr_cfg rri_over_ddr_cfg;
+	bool send_msi_ce;
 };
 
 enum cnss_driver_mode {
@@ -181,6 +184,8 @@ enum cnss_recovery_reason {
 extern int cnss_wlan_register_driver(struct cnss_wlan_driver *driver);
 extern void cnss_wlan_unregister_driver(struct cnss_wlan_driver *driver);
 extern void cnss_device_crashed(struct device *dev);
+extern int cnss_pci_prevent_l1(struct device *dev);
+extern void cnss_pci_allow_l1(struct device *dev);
 extern int cnss_pci_link_down(struct device *dev);
 extern int cnss_pci_is_device_down(struct device *dev);
 extern void cnss_schedule_recovery(struct device *dev,

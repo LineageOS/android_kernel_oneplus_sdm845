@@ -1,4 +1,4 @@
-/* Copyright (c) 2017-2019, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2017-2020, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -1413,6 +1413,11 @@
 		rpmh {
 			qcom,dump-size = <0x2000000>;
 			qcom,dump-id = <0xec>;
+		};
+
+		fcm {
+			qcom,dump-size = <0x8400>;
+			qcom,dump-id = <0xee>;
 		};
 
 		rpm_sw {
@@ -2988,6 +2993,7 @@
 
 &gpu_cx_gdsc {
 	parent-supply = <&pm660l_s3_level>;
+	vdd_parent-supply = <&pm660l_s3_level>;
 	status = "ok";
 };
 
@@ -2998,6 +3004,7 @@
 	parent-supply = <&pm660l_s2_level>;
 	domain-addr = <&gpu_gx_domain_addr>;
 	sw-reset = <&gpu_gx_sw_reset>;
+	qcom,skip-disable-before-sw-enable;
 	qcom,reset-aon-logic;
 	status = "ok";
 };

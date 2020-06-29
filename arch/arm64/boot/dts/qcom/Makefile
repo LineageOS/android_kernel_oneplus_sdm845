@@ -189,7 +189,8 @@ ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
 		sxr1130-usbc-external-codec-pm660a-mtp-overlay.dtbo \
 		sxr1130-usbc-mtp-overlay.dtbo \
 		sxr1130-usbc-pm660a-mtp-overlay.dtbo \
-		sxr1130-qrd-overlay.dtbo
+		sxr1130-qrd-overlay.dtbo \
+		sxr1130-svr-overlay.dtbo
 
 sdm670-cdp-overlay.dtbo-base := sdm670.dtb
 sdm670-mtp-overlay.dtbo-base := sdm670.dtb
@@ -264,6 +265,7 @@ sxr1130-usbc-external-codec-pm660a-mtp-overlay.dtbo-base := sxr1130.dtb
 sxr1130-usbc-mtp-overlay.dtbo-base := sxr1130.dtb
 sxr1130-usbc-pm660a-mtp-overlay.dtbo-base := sxr1130.dtb
 sxr1130-qrd-overlay.dtbo-base := sxr1130.dtb
+sxr1130-svr-overlay.dtbo-base := sxr1130.dtb
 
 else
 dtb-$(CONFIG_ARCH_SDM670) += sdm670-rumi.dtb \
@@ -335,7 +337,8 @@ dtb-$(CONFIG_ARCH_SDM670) += sdm670-rumi.dtb \
 	sxr1130-usbc-external-codec-pm660a-mtp.dtb \
 	sxr1130-usbc-mtp.dtb \
 	sxr1130-usbc-pm660a-mtp.dtb \
-	sxr1130-qrd.dtb
+	sxr1130-qrd.dtb \
+	sxr1130-svr.dtb
 endif
 
 ifeq ($(CONFIG_BUILD_ARM64_DT_OVERLAY),y)
@@ -398,9 +401,11 @@ dtbo-$(CONFIG_ARCH_SDM429) += sdm429-mtp-overlay.dtbo \
 	sda429-spyro-qrd-dvt-overlay.dtbo \
 	sdm429-spyro-qrd-wdp-overlay.dtbo \
 	sdm429-bg-wtp-overlay.dtbo \
+	sdm429-bg-dvt2-wtp-overlay.dtbo \
 	sdm429-bg-wdp-overlay.dtbo \
 	sda429-bg-wdp-overlay.dtbo \
-	sda429-bg-wtp-overlay.dtbo
+	sda429-bg-wtp-overlay.dtbo \
+	sda429-bg-dvt2-wtp-overlay.dtbo
 
 msm8940-mtp-overlay.dtbo-base := msm8940-pmi8950.dtb \
 	msm8940-pmi8937.dtb \
@@ -520,6 +525,8 @@ sda429-spyro-qrd-dvt-overlay.dtbo-base := sda429-spyro-dvt.dtb
 sdm429-spyro-qrd-wdp-overlay.dtbo-base := sdm429-spyro-wdp.dtb
 sdm429-bg-wtp-overlay.dtbo-base := sdm429-bg-wtp.dtb
 sda429-bg-wtp-overlay.dtbo-base := sda429-bg-wtp.dtb
+sdm429-bg-dvt2-wtp-overlay.dtbo-base := sdm429-bg-dvt2-wtp.dtb
+sda429-bg-dvt2-wtp-overlay.dtbo-base := sda429-bg-dvt2-wtp.dtb
 sdm429-bg-wdp-overlay.dtbo-base := sdm429-bg-wdp.dtb
 sda429-bg-wdp-overlay.dtbo-base := sda429-bg-wdp.dtb
 else
@@ -603,8 +610,12 @@ dtb-$(CONFIG_ARCH_MSM8909) += msm8909-pm8916-mtp.dtb \
 	apq8009-lat-v1.0.dtb \
 	sdw3100-msm8909w-1gb-wtp.dtb \
 	sdw2500-apq8009w-wtp.dtb \
-	sdw2500-msm8909w-wtp.dtb
-
+	sdw2500-msm8909w-wtp.dtb \
+	msm8905-qrd-skub_qseev4.dtb \
+	msm8905-qrd-skub.dtb \
+	msm8905-qrd-sku3.dtb \
+	msm8909-mtp.dtb \
+	msm8909-1gb-mtp.dtb
 
 dtb-$(CONFIG_ARCH_SDM450) += sdm450-rcm.dtb \
 	sdm450-cdp.dtb \
