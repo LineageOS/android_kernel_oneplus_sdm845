@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2018 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2011-2020 The Linux Foundation. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software for
  * any purpose with or without fee is hereby granted, provided that the
@@ -206,6 +206,7 @@ typedef struct sAniProbeRspStruct {
  * @nss: Return the number of spatial streams supported
  * @stbc_capable: stbc capable
  * @max_amsdu_num: Maximum number of MSDUs in a tx aggregate frame
+ * @no_ptk_4_way: Do not need 4-way handshake
  *
  * This structure contains parameter required for
  * add sta request of upper layer.
@@ -313,6 +314,7 @@ typedef struct {
 	uint8_t twt_requestor;
 	uint8_t twt_responder;
 #endif
+	bool no_ptk_4_way;
 } tAddStaParams, *tpAddStaParams;
 
 /**
@@ -441,6 +443,7 @@ typedef struct sLimMlmSetKeysReq {
  * @he_capable: HE Capability
  * @cac_duration_ms: cac duration in milliseconds
  * @dfs_regdomain: dfs region
+ * @no_ptk_4_way: Do not need 4-way handshake
  */
 typedef struct {
 	tSirMacAddr bssId;
@@ -521,6 +524,7 @@ typedef struct {
 #endif
 	uint32_t cac_duration_ms;
 	uint32_t dfs_regdomain;
+	bool no_ptk_4_way;
 } tAddBssParams, *tpAddBssParams;
 
 /**
@@ -585,7 +589,9 @@ typedef enum eDelStaReasonCode {
 	HAL_DEL_STA_REASON_CODE_TIM_BASED = 0x2,
 	HAL_DEL_STA_REASON_CODE_RA_BASED = 0x3,
 	HAL_DEL_STA_REASON_CODE_UNKNOWN_A2 = 0x4,
-	HAL_DEL_STA_REASON_CODE_BTM_DISASSOC_IMMINENT = 0x5
+	HAL_DEL_STA_REASON_CODE_BTM_DISASSOC_IMMINENT = 0x5,
+	HAL_DEL_STA_REASON_CODE_SA_QUERY_TIMEOUT = 0x6,
+	HAL_DEL_STA_REASON_CODE_XRETRY = 0x7,
 } tDelStaReasonCode;
 
 typedef enum eSmpsModeValue {
@@ -1547,6 +1553,16 @@ struct roam_blacklist_timeout {
 struct roam_blacklist_event {
 	uint32_t num_entries;
 	struct roam_blacklist_timeout roam_blacklist[];
+};
+
+/*
+ * struct roam_pmkid_req_event - Pmkid event with entries destination structure
+ * @num_entries: total entries sent over the event
+ * @ap_bssid: bssid list
+ */
+struct roam_pmkid_req_event {
+	uint32_t num_entries;
+	struct qdf_mac_addr ap_bssid[];
 };
 
 #endif /* _HALMSGAPI_H_ */

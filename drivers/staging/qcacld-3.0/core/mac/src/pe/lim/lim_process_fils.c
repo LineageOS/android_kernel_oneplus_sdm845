@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2017-2018, 2020 The Linux Foundation. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software for
  * any purpose with or without fee is hereby granted, provided that the
@@ -42,7 +42,7 @@ static void lim_fils_data_dump(char *type, uint8_t *data, uint32_t len)
 
 	QDF_TRACE(QDF_MODULE_ID_PE, QDF_TRACE_LEVEL_DEBUG,
 		 ("%s : length %d"), type, len);
-	qdf_trace_hex_dump(QDF_MODULE_ID_PE, QDF_TRACE_LEVEL_INFO, data, len);
+	qdf_trace_hex_dump(QDF_MODULE_ID_PE, QDF_TRACE_LEVEL_DEBUG, data, len);
 }
 #else
 static void lim_fils_data_dump(char *type, uint8_t *data, uint32_t len)
@@ -1827,6 +1827,34 @@ static QDF_STATUS lim_parse_kde_elements(tpAniSirGlobal mac_ctx,
 	return QDF_STATUS_SUCCESS;
 }
 
+void lim_update_fils_hlp_data(struct qdf_mac_addr *hlp_frm_src_mac,
+			      struct qdf_mac_addr *hlp_frm_dest_mac,
+			      uint16_t frm_hlp_len, uint8_t *frm_hlp_data,
+			      tpPESession pe_session)
+{
+	struct pe_fils_session *pe_fils_info = pe_session->fils_info;
+
+	if (!pe_fils_info) {
+		pe_err("Not a fils connection");
+		return;
+	}
+
+	if (frm_hlp_data && frm_hlp_len) {
+		qdf_mem_free(pe_fils_info->hlp_data);
+		pe_fils_info->hlp_data = qdf_mem_malloc(frm_hlp_len);
+		if (!pe_fils_info->hlp_data)
+			return;
+
+		pe_debug("FILS: hlp_data_len:%d", frm_hlp_len);
+		cds_copy_hlp_info(hlp_frm_dest_mac, hlp_frm_src_mac,
+				  frm_hlp_len, frm_hlp_data,
+				  &pe_fils_info->dst_mac,
+				  &pe_fils_info->src_mac,
+				  &pe_fils_info->hlp_data_len,
+				  pe_fils_info->hlp_data);
+	}
+}
+
 bool lim_verify_fils_params_assoc_rsp(tpAniSirGlobal mac_ctx,
 				      tpPESession session_entry,
 				      tpSirAssocRsp assoc_rsp,
@@ -1884,6 +1912,12 @@ bool lim_verify_fils_params_assoc_rsp(tpAniSirGlobal mac_ctx,
 		pe_err("KDE parsing fails");
 		goto verify_fils_params_fails;
 	}
+
+	lim_update_fils_hlp_data(&assoc_rsp->dst_mac,
+				 &assoc_rsp->src_mac,
+				 assoc_rsp->hlp_data_len,
+				 assoc_rsp->hlp_data,
+				 session_entry);
 	return true;
 
 verify_fils_params_fails:
@@ -2250,9 +2284,10 @@ void lim_update_fils_rik(tpPESession pe_session,
 	if ((!lim_is_fils_connection(pe_session) ||
 	     !pe_fils_info) && (req_buffer->is_fils_connection)) {
 		if (roam_fils_params->rrk_length > FILS_MAX_RRK_LENGTH) {
-			pe_debug("FILS rrk len(%d) max (%d)",
-				 roam_fils_params->rrk_length,
-				 FILS_MAX_RRK_LENGTH);
+			if (lim_is_fils_connection(pe_session))
+				pe_debug("FILS rrk len(%d) max (%d)",
+					 roam_fils_params->rrk_length,
+					 FILS_MAX_RRK_LENGTH);
 			return;
 		}
 
@@ -2271,8 +2306,10 @@ void lim_update_fils_rik(tpPESession pe_session,
 	}
 	if ((pe_fils_info->fils_rik_len > FILS_MAX_RIK_LENGTH) ||
 	    !pe_fils_info->fils_rik) {
-		pe_err("Fils rik len(%d) max %d", pe_fils_info->fils_rik_len,
-				FILS_MAX_RIK_LENGTH);
+		if (pe_fils_info->fils_rik)
+			pe_debug("Fils rik len(%d) max %d",
+				 pe_fils_info->fils_rik_len,
+				 FILS_MAX_RIK_LENGTH);
 		return;
 	}
 

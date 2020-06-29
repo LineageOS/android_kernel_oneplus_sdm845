@@ -1337,6 +1337,40 @@ int pld_smmu_map(struct device *dev, phys_addr_t paddr,
 	return ret;
 }
 
+#ifdef CONFIG_SMMU_S1_UNMAP
+/**
+ * pld_smmu_unmap() - Unmap SMMU
+ * @dev: device
+ * @iova_addr: IOVA address to be unmapped
+ * @size: size to be unmapped
+ *
+ * Return: 0 for success
+ *         Non zero failure code for errors
+ */
+int pld_smmu_unmap(struct device *dev,
+		   uint32_t iova_addr, size_t size)
+{
+	int ret = 0;
+	enum pld_bus_type type = pld_get_bus_type(dev);
+
+	switch (type) {
+	case PLD_BUS_TYPE_SNOC:
+		ret = pld_snoc_smmu_unmap(dev, iova_addr, size);
+		break;
+	case PLD_BUS_TYPE_PCIE:
+		pr_err("Not supported on type %d\n", type);
+		ret = -ENODEV;
+		break;
+	default:
+		pr_err("Invalid device type %d\n", type);
+		ret = -EINVAL;
+		break;
+	}
+
+	return ret;
+}
+#endif
+
 /**
  * pld_get_user_msi_assignment() - Get MSI assignment information
  * @dev: device structure
@@ -1657,3 +1691,39 @@ int pld_idle_restart(struct device *dev,
 
 	return errno;
 }
+
+#ifdef FEATURE_WLAN_TIME_SYNC_FTM
+/**
+ * pld_get_audio_wlan_timestamp() - Get audio timestamp
+ * @dev: device pointer
+ * @type: trigger type
+ * @ts: audio timestamp
+ *
+ * This API can be used to get audio timestamp.
+ *
+ * Return: 0 if trigger to get audio timestamp is successful
+ *         Non zero failure code for errors
+ */
+int pld_get_audio_wlan_timestamp(struct device *dev,
+				 enum pld_wlan_time_sync_trigger_type type,
+				 uint64_t *ts)
+{
+	int ret = 0;
+	enum pld_bus_type bus_type;
+
+	bus_type = pld_get_bus_type(dev);
+	switch (bus_type) {
+	case PLD_BUS_TYPE_SNOC:
+		ret = pld_snoc_get_audio_wlan_timestamp(dev, type, ts);
+		break;
+	case PLD_BUS_TYPE_PCIE:
+	case PLD_BUS_TYPE_SDIO:
+	case PLD_BUS_TYPE_USB:
+		break;
+	default:
+		ret = -EINVAL;
+		break;
+	}
+	return ret;
+}
+#endif /* FEATURE_WLAN_TIME_SYNC_FTM */

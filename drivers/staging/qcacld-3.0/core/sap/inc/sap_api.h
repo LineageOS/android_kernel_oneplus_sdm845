@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2019 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2020 The Linux Foundation. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software for
  * any purpose with or without fee is hereby granted, provided that the
@@ -50,6 +50,8 @@ extern "C" {
 #define       MAX_ACL_MAC_ADDRESS          32
 #define       AUTO_CHANNEL_SELECT          0
 #define       MAX_ASSOC_IND_IE_LEN         255
+#define       MAX_ASSOC_REQ_IE_LEN         2000
+#define       ASSOC_REQ_IE_OFFSET          4
 
 /* defines for WPS config states */
 #define       SAP_WPS_DISABLED             0
@@ -263,8 +265,8 @@ typedef struct sap_StationAssocReassocCompleteEvent_s {
 	eStationType staType;
 	uint8_t staId;
 	uint8_t status;
-	uint8_t ies[MAX_ASSOC_IND_IE_LEN];
-	uint16_t iesLen;
+	uint8_t *ies;
+	uint32_t ies_len;
 	uint32_t statusCode;
 	eSapAuthType SapAuthType;
 	bool wmmEnabled;
@@ -567,6 +569,7 @@ enum  sap_acs_dfs_mode {
  * @CSA_REASON_UNSAFE_CHANNEL: Unsafe channel.
  * @CSA_REASON_LTE_COEX: LTE coex.
  * @CSA_REASON_CONCURRENT_NAN_EVENT: NAN concurrency.
+ * @CSA_REASON_BAND_RESTRICTED: band disabled or re-enabled
  *
  */
 enum sap_csa_reason_code {
@@ -578,7 +581,8 @@ enum sap_csa_reason_code {
 	CSA_REASON_CONCURRENT_STA_CHANGED_CHANNEL,
 	CSA_REASON_UNSAFE_CHANNEL,
 	CSA_REASON_LTE_COEX,
-	CSA_REASON_CONCURRENT_NAN_EVENT
+	CSA_REASON_CONCURRENT_NAN_EVENT,
+	CSA_REASON_BAND_RESTRICTED
 };
 
 typedef struct sap_config {
@@ -1543,6 +1547,34 @@ QDF_STATUS wlansap_filter_ch_based_acs(struct sap_context *sap_ctx,
  */
 uint8_t
 wlansap_get_safe_channel_from_pcl_and_acs_range(struct sap_context *sap_ctx);
+
+/**
+ * sap_dump_acs_channel() - dump acs channel list
+ * @acs_cfg: acs config
+ *
+ * This function dump acs channel list
+ *
+ * Return: void.
+ */
+void sap_dump_acs_channel(struct sap_acs_cfg *acs_cfg);
+
+/*
+ * wlansap_set_band_csa() -  sap channel switch for band change
+ * wlansap_get_chan_band_restrict() -  get new chan for band change
+>>>>>>> 4683048... qcacld-3.0: 5G SAP failed to channel switch for sta connecting
+ * @sap_ctx: sap context pointer
+ *
+ * Sap/p2p go channel switch from 5G to 2G by CSA when 5G band disabled to
+ * avoid conflict with modem N79.
+ * Sap/p2p go channel restore to 5G channel when 5G band enabled.
+ *
+ * Return - restart channel
+ */
+void wlansap_set_band_csa(struct sap_context *sap_ctx,
+			  struct sap_config *sap_config,
+			  enum band_info band);
+uint8_t wlansap_get_chan_band_restrict(struct sap_context *sap_ctx);
+
 #ifdef __cplusplus
 }
 #endif

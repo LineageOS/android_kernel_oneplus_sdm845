@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2018 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2018, 2020 The Linux Foundation. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software for
  * any purpose with or without fee is hereby granted, provided that the
@@ -141,8 +141,6 @@ QDF_STATUS ucfg_action_oui_send(struct wlan_objmgr_psoc *psoc)
 	QDF_STATUS status = QDF_STATUS_E_INVAL;
 	uint32_t id;
 
-	ACTION_OUI_ENTER();
-
 	if (!psoc) {
 		action_oui_err("psoc is NULL");
 		goto exit;
@@ -155,13 +153,15 @@ QDF_STATUS ucfg_action_oui_send(struct wlan_objmgr_psoc *psoc)
 	}
 
 	for (id = 0; id < ACTION_OUI_MAXIMUM_ID; id++) {
+		if (id >= ACTION_OUI_HOST_ONLY)
+			continue;
 		status = action_oui_send(psoc_priv, id);
 		if (!QDF_IS_STATUS_SUCCESS(status))
 			action_oui_err("Failed to send: %u", id);
 	}
 
 exit:
-	ACTION_OUI_EXIT();
+
 	return status;
 }
 
@@ -171,8 +171,6 @@ bool ucfg_action_oui_search(struct wlan_objmgr_psoc *psoc,
 {
 	struct action_oui_psoc_priv *psoc_priv;
 	bool found = false;
-
-	ACTION_OUI_ENTER();
 
 	if (!psoc || !attr) {
 		action_oui_err("Invalid psoc or search attrs");
@@ -191,10 +189,8 @@ bool ucfg_action_oui_search(struct wlan_objmgr_psoc *psoc,
 	}
 
 	found = action_oui_search(psoc_priv, attr, action_id);
-	if (found)
-		action_oui_debug("Search Successful");
 
 exit:
-	ACTION_OUI_EXIT();
+
 	return found;
 }

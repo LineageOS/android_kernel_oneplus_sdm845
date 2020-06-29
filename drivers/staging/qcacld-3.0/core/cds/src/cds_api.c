@@ -65,6 +65,10 @@
 #include <asm/dma-iommu.h>
 #include <linux/iommu.h>
 #endif
+#include <qdf_hang_event_notifier.h>
+#include <qdf_notifier.h>
+#include <qwlan_version.h>
+#include <qdf_trace.h>
 /* Preprocessor Definitions and Constants */
 
 /* Preprocessor Definitions and Constants */
@@ -85,6 +89,13 @@ static struct ol_if_ops  dp_ol_if_ops = {
 	.rx_mic_error = wma_rx_mic_error_ind
     /* TODO: Add any other control path calls required to OL_IF/WMA layer */
 };
+
+struct cds_hang_event_fixed_param {
+	uint32_t tlv_header;
+	uint32_t recovery_reason;
+	char driver_version[11];
+	char hang_event_version[3];
+} qdf_packed;
 
 static void cds_trigger_recovery_work(void *param);
 
@@ -177,7 +188,7 @@ QDF_STATUS cds_init(void)
 	qdf_mc_timer_manager_init();
 	qdf_event_list_init();
 	qdf_cpuhp_init();
-	qdf_register_self_recovery_callback(__cds_trigger_recovery);
+	qdf_register_self_recovery_callback(cds_trigger_recovery_psoc);
 	qdf_register_fw_down_callback(cds_is_fw_down);
 	qdf_register_ssr_protect_callbacks(cds_ssr_protect,
 					   cds_ssr_unprotect);
@@ -345,7 +356,7 @@ static void cds_cdp_cfg_attach(struct cds_config_info *cds_cfg)
 	gp_cds_context->cfg_ctx = cdp_cfg_attach(soc, gp_cds_context->qdf_ctx,
 					(void *)(&cdp_cfg));
 	if (!gp_cds_context->cfg_ctx) {
-		WMA_LOGP("%s: failed to init cfg handle", __func__);
+		WMA_LOGD("%s: failed to init cfg handle", __func__);
 		return;
 	}
 
@@ -445,6 +456,47 @@ cds_set_ac_specs_params(struct cds_config_info *cds_cfg)
 		cds_cfg->ac_specs[i] = cds_ctx->ac_specs[i];
 	}
 }
+
+static int cds_hang_event_notifier_call(struct notifier_block *block,
+					unsigned long state,
+					void *data)
+{
+	struct qdf_notifer_data *cds_hang_data = data;
+	uint32_t total_len;
+	struct cds_hang_event_fixed_param *cmd;
+	uint8_t *cds_hang_evt_buff;
+
+	if (!cds_hang_data)
+		return NOTIFY_STOP_MASK;
+
+	cds_hang_evt_buff = cds_hang_data->hang_data;
+
+	if (!cds_hang_evt_buff)
+		return NOTIFY_STOP_MASK;
+
+	if (cds_hang_data->offset >= QDF_WLAN_MAX_HOST_OFFSET)
+		return NOTIFY_STOP_MASK;
+
+	total_len = sizeof(*cmd);
+
+	cds_hang_evt_buff = cds_hang_data->hang_data + cds_hang_data->offset;
+	cmd = (struct cds_hang_event_fixed_param *)cds_hang_evt_buff;
+	QDF_HANG_EVT_SET_HDR(&cmd->tlv_header, HANG_EVT_TAG_CDS,
+			     QDF_HANG_GET_STRUCT_TLVLEN(*cmd));
+
+	cmd->recovery_reason = gp_cds_context->recovery_reason;
+
+	qdf_mem_copy(&cmd->driver_version, QWLAN_VERSIONSTR, 11);
+
+	qdf_mem_copy(&cmd->hang_event_version, QDF_HANG_EVENT_VERSION, 3);
+
+	cds_hang_data->offset += total_len;
+	return NOTIFY_OK;
+}
+
+static qdf_notif_block cds_hang_event_notifier = {
+	.notif_block.notifier_call = cds_hang_event_notifier_call,
+};
 
 /**
  * cds_open() - open the CDS Module
@@ -659,6 +711,8 @@ QDF_STATUS cds_open(struct wlan_objmgr_psoc *psoc)
 		cds_alert("Failed to open PSOC Components");
 		goto deregister_modules;
 	}
+
+	qdf_hang_event_register_notifier(&cds_hang_event_notifier);
 
 	return QDF_STATUS_SUCCESS;
 
@@ -1055,7 +1109,7 @@ QDF_STATUS cds_post_disable(void)
 	 * - Clean up CE tasklets.
 	 */
 
-	cds_info("send deinit sequence to firmware");
+	cds_debug("send deinit sequence to firmware");
 	if (!(cds_is_driver_recovering() || cds_is_driver_in_bad_state()))
 		cds_suspend_target(wma_handle);
 	hif_disable_isr(hif_ctx);
@@ -1091,6 +1145,7 @@ QDF_STATUS cds_close(struct wlan_objmgr_psoc *psoc)
 {
 	QDF_STATUS qdf_status;
 
+	qdf_hang_event_unregister_notifier(&cds_hang_event_notifier);
 	qdf_status = cds_sched_close();
 	QDF_ASSERT(QDF_IS_STATUS_SUCCESS(qdf_status));
 	if (QDF_IS_STATUS_ERROR(qdf_status))
@@ -1646,6 +1701,9 @@ QDF_STATUS cds_get_vdev_types(enum QDF_OPMODE mode, uint32_t *type,
 	case QDF_NDI_MODE:
 		*type = WMI_VDEV_TYPE_NDI;
 		break;
+	case QDF_NAN_DISC_MODE:
+		*type = WMI_VDEV_TYPE_NAN;
+		break;
 	default:
 		cds_err("Invalid device mode %d", mode);
 		status = QDF_STATUS_E_INVAL;
@@ -1693,6 +1751,24 @@ bool cds_is_packet_log_enabled(void)
 	}
 	return hdd_ctx->config->enablePacketLog;
 }
+
+/**
+ * cds_get_packet_log_buffer_size() - get packet log buffer size
+ *
+ * Return: packet log buffer size in MB
+ */
+uint8_t cds_get_packet_log_buffer_size(void)
+{
+	struct hdd_context *hdd_ctx;
+
+	hdd_ctx = gp_cds_context->hdd_context;
+	if ((NULL == hdd_ctx) || (NULL == hdd_ctx->config)) {
+		cds_alert("Hdd Context is Null");
+		return 0;
+	}
+	return hdd_ctx->config->pktlog_buf_size;
+}
+
 #endif
 
 static int cds_force_assert_target_via_pld(qdf_device_t qdf)
@@ -1876,6 +1952,13 @@ void __cds_trigger_recovery(enum qdf_hang_reason reason, const char *func,
 
 	cds_trigger_recovery_handler(func, line);
 }
+
+void cds_trigger_recovery_psoc(void *psoc, enum qdf_hang_reason reason,
+			       const char *func, const uint32_t line)
+{
+	__cds_trigger_recovery(reason, func, line);
+}
+
 
 /**
  * cds_get_recovery_reason() - get self recovery reason
@@ -2360,7 +2443,7 @@ QDF_STATUS cds_flush_logs(uint32_t is_fatal,
 		  is_fatal, indicator, reason_code);
 
 	if (dump_mac_trace)
-		qdf_trace_dump_all(p_cds_context->mac_context, 0, 0, 500, 0);
+		qdf_trace_dump_all(p_cds_context->mac_context, 0, 0, 100, 0);
 
 	if (WLAN_LOG_INDICATOR_HOST_ONLY == indicator) {
 		cds_wlan_flush_host_logs_for_fatal();

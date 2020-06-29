@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2019 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2013-2020 The Linux Foundation. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software for
  * any purpose with or without fee is hereby granted, provided that the
@@ -91,6 +91,11 @@
 #include "wlan_cp_stats_mc_ucfg_api.h"
 #include "init_cmd_api.h"
 #include "wma_coex.h"
+#include <ftm_time_sync_ucfg_api.h>
+
+#ifdef WLAN_FEATURE_PKT_CAPTURE
+#include "wlan_pkt_capture_ucfg_api.h"
+#endif
 
 #define WMA_LOG_COMPLETION_TIMER 3000 /* 3 seconds */
 #define WMI_TLV_HEADROOM 128
@@ -262,12 +267,13 @@ static void wma_reset_rx_decap_mode(target_resource_config *tgt_cfg)
  * Return: none
  */
 static void wma_set_default_tgt_config(tp_wma_handle wma_handle,
-				       target_resource_config *tgt_cfg)
+				       target_resource_config *tgt_cfg,
+				       struct cds_config_info *cds_cfg)
 {
 	uint8_t no_of_peers_supported;
 
 	qdf_mem_zero(tgt_cfg, sizeof(target_resource_config));
-	tgt_cfg->num_vdevs = CFG_TGT_NUM_VDEV;
+	tgt_cfg->num_vdevs = cds_cfg->num_vdevs;
 	tgt_cfg->num_peers = CFG_TGT_NUM_PEERS + CFG_TGT_NUM_VDEV + 2;
 	tgt_cfg->num_offload_peers = CFG_TGT_NUM_OFFLOAD_PEERS;
 	tgt_cfg->num_offload_reorder_buffs = CFG_TGT_NUM_OFFLOAD_REORDER_BUFFS;
@@ -996,10 +1002,8 @@ static void wma_process_cli_set_cmd(tp_wma_handle wma,
 	struct target_psoc_info *tgt_hdl;
 	struct sir_set_tx_rx_aggregation_size aggr;
 
-	WMA_LOGD("wmihandle %pK", wma->wmi_handle);
 	qdf_mem_zero(&aggr, sizeof(aggr));
-
-	if (NULL == pMac) {
+	if (!pMac) {
 		WMA_LOGE("%s: Failed to get pMac", __func__);
 		return;
 	}
@@ -1835,6 +1839,33 @@ int wma_process_fw_event_handler(void *ctx, void *htc_packet, uint8_t rx_ctx)
 
 #ifdef WLAN_FEATURE_NAN
 /**
+ * wma_nan_set_separate_iface_support() - set separate_iface_support flag in WMA handle
+ * @wma_handle: Pointer to wma handle
+ * @cds_cfg: Pointer to CDS Configuration
+ *
+ * Return: none
+ */
+static void wma_nan_set_separate_iface_support(tp_wma_handle wma_handle,
+					       struct cds_config_info *cds_cfg)
+{
+	wma_handle->nan_separate_iface_support =
+			cds_cfg->nan_separate_iface_support;
+}
+
+/**
+ * wma_get_separate_iface_support() - get separate_iface_support flag in
+ * WMA handle
+ * @wma_handle: Pointer to wma handle
+ * @cds_cfg: Pointer to CDS Configuration
+ *
+ * Return: flag value
+ */
+static bool wma_get_separate_iface_support(tp_wma_handle wma_handle)
+{
+	return wma_handle->nan_separate_iface_support;
+}
+
+/**
  * wma_set_nan_enable() - set nan enable flag in WMA handle
  * @wma_handle: Pointer to wma handle
  * @cds_cfg: Pointer to CDS Configuration
@@ -1847,10 +1878,19 @@ static void wma_set_nan_enable(tp_wma_handle wma_handle,
 	wma_handle->is_nan_enabled = cds_cfg->is_nan_enabled;
 }
 #else
+static void wma_nan_set_separate_iface_support(tp_wma_handle wma_handle,
+					       struct cds_config_info *cds_cfg)
+{
+}
+static bool wma_get_separate_iface_support(tp_wma_handle wma_handle)
+{
+	return false;
+}
 static void wma_set_nan_enable(tp_wma_handle wma_handle,
 				struct cds_config_info *cds_cfg)
 {
 }
+
 #endif
 
 /**
@@ -3150,6 +3190,23 @@ void wma_get_phy_mode_cb(uint8_t chan, uint32_t chan_width, uint32_t *phy_mode)
 	*phy_mode = wma_chan_phy_mode(chan, chan_width, dot11_mode);
 }
 
+#ifdef WLAN_FEATURE_PKT_CAPTURE
+static void
+wma_register_pkt_capture_callbacks(tp_wma_handle wma_handle)
+{
+	struct pkt_capture_callbacks cb_obj = {0};
+
+	cb_obj.get_rmf_status = wma_get_rmf_status;
+
+	ucfg_pkt_capture_register_wma_callbacks(wma_handle->psoc, &cb_obj);
+}
+#else
+static inline void
+wma_register_pkt_capture_callbacks(tp_wma_handle wma_handle)
+{
+}
+#endif
+
 /**
  * wma_open() - Allocate wma context and initialize it.
  * @cds_context:  cds context
@@ -3308,7 +3365,8 @@ QDF_STATUS wma_open(struct wlan_objmgr_psoc *psoc,
 
 	wma_handle->enable_three_way_coex_config_legacy =
 			cds_cfg->enable_three_way_coex_config_legacy;
-
+	wma_handle->bmiss_skip_full_scan =
+			cds_cfg->bmiss_skip_full_scan;
 	/* Register Converged Event handlers */
 	init_deinit_register_tgt_psoc_ev_handlers(psoc);
 
@@ -3327,7 +3385,7 @@ QDF_STATUS wma_open(struct wlan_objmgr_psoc *psoc,
 		goto err_wma_handle;
 	}
 
-	wma_set_default_tgt_config(wma_handle, wlan_res_cfg);
+	wma_set_default_tgt_config(wma_handle, wlan_res_cfg, cds_cfg);
 
 	wma_handle->tx_chain_mask_cck = cds_cfg->tx_chain_mask_cck;
 	wma_handle->self_gen_frm_pwr = cds_cfg->self_gen_frm_pwr;
@@ -3364,6 +3422,8 @@ QDF_STATUS wma_open(struct wlan_objmgr_psoc *psoc,
 	wma_handle->is_lpass_enabled = cds_cfg->is_lpass_enabled;
 #endif
 	wma_set_nan_enable(wma_handle, cds_cfg);
+	wma_nan_set_separate_iface_support(wma_handle, cds_cfg);
+
 	wma_handle->interfaces = qdf_mem_malloc(sizeof(struct wma_txrx_node) *
 						wma_handle->max_bssid);
 	if (!wma_handle->interfaces) {
@@ -3639,6 +3699,16 @@ QDF_STATUS wma_open(struct wlan_objmgr_psoc *psoc,
 					   wmi_roam_auth_offload_event_id,
 					   wma_roam_auth_offload_event_handler,
 					   WMA_RX_SERIALIZER_CTX);
+
+	wma_register_pmkid_req_event_handler(wma_handle);
+	wmi_unified_register_event_handler(wma_handle->wmi_handle,
+					   wmi_roam_stats_event_id,
+					   wma_roam_stats_event_handler,
+					   WMA_RX_SERIALIZER_CTX);
+	wmi_unified_register_event_handler(wma_handle->wmi_handle,
+					   wmi_roam_scan_chan_list_id,
+					   wma_roam_scan_chan_event_handler,
+					   WMA_RX_SERIALIZER_CTX);
 #endif /* WLAN_FEATURE_ROAM_OFFLOAD */
 	wmi_unified_register_event_handler(wma_handle->wmi_handle,
 				wmi_rssi_breach_event_id,
@@ -3721,6 +3791,7 @@ QDF_STATUS wma_open(struct wlan_objmgr_psoc *psoc,
 	pmo_register_get_beacon_interval_callback(wma_handle->psoc,
 						  wma_vdev_get_beacon_interval);
 	wma_cbacks.wma_get_connection_info = wma_get_connection_info;
+	wma_register_pkt_capture_callbacks(wma_handle);
 	qdf_status = policy_mgr_register_wma_cb(wma_handle->psoc, &wma_cbacks);
 	if (!QDF_IS_STATUS_SUCCESS(qdf_status)) {
 		WMA_LOGE("Failed to register wma cb with Policy Manager");
@@ -4491,7 +4562,7 @@ QDF_STATUS wma_start(void)
 			goto end;
 		}
 	} else {
-		WMA_LOGE("Target does not support cesium network");
+		WMA_LOGD("Target does not support cesium network");
 	}
 
 	qdf_status = wma_tx_attach(wma_handle);
@@ -5054,6 +5125,9 @@ static inline void wma_update_target_services(struct wmi_unified *wmi_handle,
 		cfg->bcn_reception_stats = true;
 	if (wmi_service_enabled(wmi_handle, wmi_service_vdev_latency_config))
 		g_fw_wlan_feat_caps |= (1 << VDEV_LATENCY_CONFIG);
+	if (wmi_service_enabled(wmi_handle,
+				wmi_roam_scan_chan_list_to_host_support))
+		cfg->is_roam_scan_ch_to_host = true;
 }
 
 /**
@@ -5684,8 +5758,6 @@ static int wma_update_hdd_cfg(tp_wma_handle wma_handle)
 	tgt_cfg.reg_domain = wma_handle->reg_cap.eeprom_rd;
 	tgt_cfg.eeprom_rd_ext = wma_handle->reg_cap.eeprom_rd_ext;
 
-	tgt_cfg.max_intf_count = wlan_res_cfg->num_vdevs;
-
 	qdf_mem_copy(tgt_cfg.hw_macaddr.bytes, wma_handle->hwaddr,
 		     ATH_MAC_LEN);
 
@@ -5741,6 +5813,23 @@ static int wma_update_hdd_cfg(tp_wma_handle wma_handle)
 	for (i = 0; i < tgt_hdl->info.total_mac_phy_cnt; i++)
 		wma_fill_chain_cfg(&tgt_cfg, tgt_hdl, i);
 
+	/*
+	 * Firmware can accommodate maximum 4 vdevs and the ini gNumVdevs
+	 * indicates the same.
+	 * If host driver is going to create vdev for NAN, it indicates
+	 * the total no.of vdevs supported to firmware which includes the
+	 * NAN vdev.
+	 * If firmware is going to create NAN discovery vdev, host should
+	 * indicate 3 vdevs and firmware shall add 1 vdev for NAN. So decrement
+	 * the num_vdevs by 1.
+	 */
+	if (wmi_service_enabled(wma_handle->wmi_handle, wmi_service_nan_vdev))
+		tgt_cfg.nan_seperate_vdev_support = true;
+	else
+		wlan_res_cfg->num_vdevs--;
+	tgt_cfg.max_intf_count = wlan_res_cfg->num_vdevs;
+
+	WMA_LOGD("%s: num_vdevs: %u", __func__, wlan_res_cfg->num_vdevs);
 	ret = wma_handle->tgt_cfg_update_cb(hdd_ctx, &tgt_cfg);
 	if (ret)
 		return -EINVAL;
@@ -6865,6 +6954,19 @@ int wma_rx_service_ready_ext_event(void *handle, uint8_t *event,
 		wlan_res_cfg->three_way_coex_config_legacy_en = false;
 	}
 
+	if (ucfg_is_ftm_time_sync_enable(wma_handle->psoc) &&
+	    wmi_service_enabled(wmi_handle, wmi_service_time_sync_ftm)) {
+		wlan_res_cfg->time_sync_ftm = true;
+		ucfg_ftm_time_sync_set_enable(wma_handle->psoc, true);
+	} else {
+		wlan_res_cfg->time_sync_ftm = false;
+		ucfg_ftm_time_sync_set_enable(wma_handle->psoc, false);
+	}
+
+	if (wmi_service_enabled(wma_handle->wmi_handle, wmi_service_nan_vdev) &&
+	    wma_get_separate_iface_support(wma_handle))
+		wlan_res_cfg->nan_separate_iface_support = true;
+
 	return 0;
 }
 
@@ -7719,6 +7821,11 @@ static void wma_set_arp_req_stats(WMA_HANDLE handle,
 		return;
 	}
 
+	if (!wma_is_vdev_up(req_buf->vdev_id)) {
+		WMA_LOGD("vdev id:%d is not started", req_buf->vdev_id);
+		return;
+	}
+
 	arp_stats = (struct set_arp_stats *)req_buf;
 	status = wmi_unified_set_arp_stats_req(wma_handle->wmi_handle,
 					       arp_stats);
@@ -8242,16 +8349,6 @@ static QDF_STATUS wma_mc_process_msg(struct scheduler_msg *msg)
 		qdf_mem_free(msg->bodyptr);
 		break;
 #endif /* REMOVE_PKT_LOG */
-	case WMA_ENTER_PS_REQ:
-		wma_enable_sta_ps_mode(wma_handle,
-				       (tpEnablePsParams) msg->bodyptr);
-		qdf_mem_free(msg->bodyptr);
-		break;
-	case WMA_EXIT_PS_REQ:
-		wma_disable_sta_ps_mode(wma_handle,
-					(tpDisablePsParams) msg->bodyptr);
-		qdf_mem_free(msg->bodyptr);
-		break;
 	case WMA_ENABLE_UAPSD_REQ:
 		wma_enable_uapsd_mode(wma_handle,
 				      (tpEnableUapsdParams) msg->bodyptr);
@@ -8838,6 +8935,9 @@ static QDF_STATUS wma_mc_process_msg(struct scheduler_msg *msg)
 		wma_set_roam_triggers(wma_handle, msg->bodyptr);
 		qdf_mem_free(msg->bodyptr);
 		break;
+	case WMA_ROAM_SCAN_CH_REQ:
+		wma_get_roam_scan_ch(wma_handle, msg->bodyval);
+		break;
 	default:
 		WMA_LOGD("Unhandled WMA message of type %d", msg->type);
 		if (msg->bodyptr)
@@ -8956,15 +9056,16 @@ QDF_STATUS wma_send_pdev_set_pcl_cmd(tp_wma_handle wma_handle,
 		    WLAN_REG_IS_5GHZ_CH(msg->chan_weights.saved_chan_list[i]))
 			msg->chan_weights.weighed_valid_list[i] =
 				WEIGHT_OF_DISALLOWED_CHANNELS;
-		WMA_LOGD("%s: chan:%d weight[%d]=%d", __func__,
-			 msg->chan_weights.saved_chan_list[i], i,
-			 msg->chan_weights.weighed_valid_list[i]);
 	}
 
 	if (!QDF_IS_STATUS_SUCCESS(status)) {
 		WMA_LOGE("%s: Error in creating weighed pcl", __func__);
 		return status;
 	}
+	wma_debug("Dump channel list send to wmi");
+	policy_mgr_dump_channel_list(msg->chan_weights.saved_num_chan,
+				     msg->chan_weights.saved_chan_list,
+				     msg->chan_weights.weighed_valid_list);
 
 	if (wmi_unified_pdev_set_pcl_cmd(wma_handle->wmi_handle,
 					 &msg->chan_weights))

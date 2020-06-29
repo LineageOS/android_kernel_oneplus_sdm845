@@ -406,8 +406,26 @@ bool cds_is_packet_log_enabled(void)
 {
 	return false;
 }
+
+/**
+ * cds_get_packet_log_buffer_size() - get packet log buffer size
+ *
+ * Return: packet log buffer size in MB
+ */
+static inline
+uint8_t cds_get_packet_log_buffer_size(void)
+{
+	return 0;
+}
 #else
 bool cds_is_packet_log_enabled(void);
+
+/**
+ * cds_get_packet_log_buffer_size() - get packet log buffer size
+ *
+ * Return: packet log buffer size in MB
+ */
+uint8_t cds_get_packet_log_buffer_size(void);
 #endif
 
 uint64_t cds_get_monotonic_boottime(void);
@@ -435,6 +453,10 @@ void cds_reset_recovery_reason(void);
  */
 #define cds_trigger_recovery(reason) \
 	__cds_trigger_recovery(reason, __func__, __LINE__)
+
+void cds_trigger_recovery_psoc(void *psoc, enum qdf_hang_reason reason,
+			       const char *func, const uint32_t line);
+
 void __cds_trigger_recovery(enum qdf_hang_reason reason, const char *func,
 			    const uint32_t line);
 

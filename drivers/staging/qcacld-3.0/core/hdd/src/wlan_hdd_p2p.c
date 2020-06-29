@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2019 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2020 The Linux Foundation. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software for
  * any purpose with or without fee is hereby granted, provided that the
@@ -48,6 +48,7 @@
 #include "wlan_p2p_ucfg_api.h"
 #include "wlan_cfg80211_p2p.h"
 #include "wlan_hdd_object_manager.h"
+#include "wlan_pkt_capture_ucfg_api.h"
 
 /* Ms to Time Unit Micro Sec */
 #define MS_TO_TU_MUS(x)   ((x) * 1024)
@@ -644,6 +645,9 @@ struct wireless_dev *__wlan_hdd_add_virtual_intf(struct wiphy *wiphy,
 	if (0 != ret)
 		return ERR_PTR(ret);
 
+	if (wlan_hdd_check_mon_concurrency())
+		return ERR_PTR(-EINVAL);
+
 	qdf_mtrace(QDF_MODULE_ID_HDD, QDF_MODULE_ID_HDD,
 		   TRACE_CODE_HDD_ADD_VIRTUAL_INTF, NO_SESSION, type);
 	/*
@@ -670,11 +674,24 @@ struct wireless_dev *__wlan_hdd_add_virtual_intf(struct wiphy *wiphy,
 			wlan_abort_scan(hdd_ctx->pdev, INVAL_PDEV_ID,
 					adapter->session_id, INVALID_SCAN_ID,
 					false);
-			hdd_debug("Abort Scan while adding virtual interface");
 		}
 
 		if (vdev)
 			hdd_objmgr_put_vdev(vdev);
+	}
+
+	adapter = NULL;
+	if ((ucfg_pkt_capture_get_mode(hdd_ctx->psoc)) &&
+	    (type == NL80211_IFTYPE_MONITOR)) {
+		ret = wlan_hdd_add_monitor_check(hdd_ctx, &adapter, name,
+						 true, name_assign_type);
+		if (ret)
+			return ERR_PTR(-EINVAL);
+
+		if (adapter) {
+			hdd_exit();
+			return adapter->dev->ieee80211_ptr;
+		}
 	}
 
 	if (session_type == QDF_SAP_MODE) {
@@ -857,6 +874,9 @@ int __wlan_hdd_del_virtual_intf(struct wiphy *wiphy, struct wireless_dev *wdev)
 	if (adapter->device_mode == QDF_SAP_MODE &&
 	    wlan_sap_is_pre_cac_active(hdd_ctx->mac_handle)) {
 		hdd_clean_up_pre_cac_interface(hdd_ctx);
+	} else if (wlan_hdd_is_session_type_monitor(
+					adapter->device_mode)) {
+		wlan_hdd_del_monitor(hdd_ctx, adapter, TRUE);
 	} else {
 		wlan_hdd_release_intf_addr(hdd_ctx,
 					   adapter->mac_addr.bytes);
@@ -987,10 +1007,10 @@ void __hdd_indicate_mgmt_frame(struct hdd_adapter *adapter,
 	/* Indicate an action frame. */
 	if (rxChan <= MAX_NO_OF_2_4_CHANNELS)
 		freq = ieee80211_channel_to_frequency(rxChan,
-						      NL80211_BAND_2GHZ);
+						      HDD_NL80211_BAND_2GHZ);
 	else
 		freq = ieee80211_channel_to_frequency(rxChan,
-						      NL80211_BAND_5GHZ);
+						      HDD_NL80211_BAND_5GHZ);
 
 	if (hdd_is_qos_action_frame(pb_frames, frm_len))
 		sme_update_dsc_pto_up_mapping(hdd_ctx->mac_handle,
@@ -1319,6 +1339,8 @@ int wlan_hdd_set_mcc_p2p_quota(struct hdd_adapter *adapter,
 	int32_t ret = 0;
 	uint32_t concurrent_state;
 	struct hdd_context *hdd_ctx;
+	uint32_t sta_cli_bit_mask = QDF_STA_MASK | QDF_P2P_CLIENT_MASK;
+	uint32_t sta_go_bit_mask = QDF_STA_MASK | QDF_P2P_GO_MASK;
 
 	if (!adapter) {
 		hdd_err("Invalid adapter");
@@ -1336,9 +1358,8 @@ int wlan_hdd_set_mcc_p2p_quota(struct hdd_adapter *adapter,
 	 * Check if concurrency mode is active.
 	 * Need to modify this code to support MCC modes other than STA/P2P
 	 */
-	if ((concurrent_state ==
-	     (QDF_STA_MASK | QDF_P2P_CLIENT_MASK)) ||
-	    (concurrent_state == (QDF_STA_MASK | QDF_P2P_GO_MASK))) {
+	if (((concurrent_state & sta_cli_bit_mask) == sta_cli_bit_mask) ||
+	    ((concurrent_state & sta_go_bit_mask) == sta_go_bit_mask)) {
 		hdd_info("STA & P2P are both enabled");
 
 		/*
@@ -1354,7 +1375,6 @@ int wlan_hdd_set_mcc_p2p_quota(struct hdd_adapter *adapter,
 
 		set_value = set_first_connection_operating_channel(
 			hdd_ctx, set_value, adapter->device_mode);
-
 
 		set_value = set_second_connection_operating_channel(
 			hdd_ctx, set_value, adapter->session_id);
@@ -1378,6 +1398,8 @@ void wlan_hdd_set_mcc_latency(struct hdd_adapter *adapter, int set_value)
 {
 	uint32_t concurrent_state;
 	struct hdd_context *hdd_ctx;
+	uint32_t sta_cli_bit_mask = QDF_STA_MASK | QDF_P2P_CLIENT_MASK;
+	uint32_t sta_go_bit_mask = QDF_STA_MASK | QDF_P2P_GO_MASK;
 
 	if (!adapter) {
 		hdd_err("Invalid adapter");
@@ -1396,9 +1418,8 @@ void wlan_hdd_set_mcc_latency(struct hdd_adapter *adapter, int set_value)
 	 * Check if concurrency mode is active.
 	 * Need to modify this code to support MCC modes other than STA/P2P
 	 */
-	if ((concurrent_state ==
-	     (QDF_STA_MASK | QDF_P2P_CLIENT_MASK)) ||
-	    (concurrent_state == (QDF_STA_MASK | QDF_P2P_GO_MASK))) {
+	if (((concurrent_state & sta_cli_bit_mask) == sta_cli_bit_mask) ||
+	    ((concurrent_state & sta_go_bit_mask) == sta_go_bit_mask)) {
 		hdd_info("STA & P2P are both enabled");
 		/*
 		 * The channel number and latency are formatted in

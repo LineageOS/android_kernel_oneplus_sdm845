@@ -147,7 +147,6 @@ typedef struct sPESession       /* Added to Support BT-AMP */
 	tLimSmeStates limPrevSmeState;  /* Previous SME State */
 	tLimSystemRole limSystemRole;
 	tSirBssType bssType;
-	uint8_t operMode;       /* AP - 0; STA - 1 ; */
 	tSirNwType nwType;
 	tpSirSmeStartBssReq pLimStartBssReq;    /* handle to smestart bss req */
 	tpSirSmeJoinReq pLimJoinReq;    /* handle to sme join req */
@@ -544,10 +543,6 @@ typedef struct sPESession       /* Added to Support BT-AMP */
 	bool he_with_wep_tkip;
 #ifdef WLAN_FEATURE_FILS_SK
 	struct pe_fils_session *fils_info;
-	struct qdf_mac_addr dst_mac;
-	struct qdf_mac_addr src_mac;
-	uint16_t hlp_data_len;
-	uint8_t *hlp_data;
 #endif
 	/* previous auth frame's sequence number */
 	uint16_t prev_auth_seq_num;
@@ -586,6 +581,8 @@ struct session_params {
  * @sessionId:     session ID is returned here, if session is created.
  * @numSta:        number of stations
  * @bssType:       bss type of new session to do conditional memory allocation.
+ * @vdev_id:       vdev_id
+ * @opmode:        operating mode
  *
  * This function returns the session context and the session ID if the session
  * corresponding to the passed BSSID is found in the PE session table.
@@ -595,7 +592,8 @@ struct session_params {
 tpPESession pe_create_session(tpAniSirGlobal pMac,
 			      uint8_t *bssid,
 			      uint8_t *sessionId,
-			      uint16_t numSta, tSirBssType bssType);
+			      uint16_t numSta, tSirBssType bssType,
+			      uint8_t vdev_id, enum QDF_OPMODE opmode);
 
 /**
  * pe_find_session_by_bssid() - looks up the PE session given the BSSID.

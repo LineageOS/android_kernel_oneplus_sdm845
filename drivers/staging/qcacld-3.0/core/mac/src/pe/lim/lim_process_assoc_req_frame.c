@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2019 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2020 The Linux Foundation. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software for
  * any purpose with or without fee is hereby granted, provided that the
@@ -856,8 +856,8 @@ static bool lim_check_wpa_rsn_ie(tpPESession session, tpAniSirGlobal mac_ctx,
 	 */
 	qdf_mem_zero((uint8_t *) &dot11f_ie_rsn, sizeof(dot11f_ie_rsn));
 	qdf_mem_zero((uint8_t *) &dot11f_ie_wpa, sizeof(dot11f_ie_wpa));
-	pe_err("RSN enabled auth, Re/Assoc req from STA: "
-		MAC_ADDRESS_STR, MAC_ADDR_ARRAY(hdr->sa));
+	pe_debug("RSN enabled auth, Re/Assoc req from STA: "
+		 MAC_ADDRESS_STR, MAC_ADDR_ARRAY(hdr->sa));
 
 	if (assoc_req->rsnPresent) {
 		if (!(assoc_req->rsn.length)) {
@@ -1453,8 +1453,6 @@ static bool lim_update_sta_ds(tpAniSirGlobal mac_ctx, tpSirMacMgmtHdr hdr,
 					== eHT_CHANNEL_WIDTH_20MHZ) ?
 					WNI_CFG_VHT_CHANNEL_WIDTH_20_40MHZ :
 					session->ch_width - 1);
-			sta_ds->htMaxRxAMpduFactor =
-				vht_caps->maxAMPDULenExp;
 		}
 		/* Lesser among the AP and STA bandwidth of operation. */
 		sta_ds->htSupportedChannelWidthSet =
@@ -1491,6 +1489,8 @@ static bool lim_update_sta_ds(tpAniSirGlobal mac_ctx, tpSirMacMgmtHdr hdr,
 	}
 
 	if (sta_ds->mlmStaContext.vhtCapability && vht_caps) {
+		sta_ds->htMaxRxAMpduFactor =
+				vht_caps->maxAMPDULenExp;
 		if (session->vht_config.su_beam_formee &&
 				vht_caps->suBeamFormerCap)
 			sta_ds->vhtBeamFormerCapable = 1;
@@ -1853,11 +1853,11 @@ void lim_process_assoc_req_frame(tpAniSirGlobal mac_ctx, uint8_t *rx_pkt_info,
 	hdr = WMA_GET_RX_MAC_HEADER(rx_pkt_info);
 	frame_len = WMA_GET_RX_PAYLOAD_LEN(rx_pkt_info);
 
-	pe_debug("Rcvd: %s Req Frame sessionid: %d systemrole: %d MlmState: %d from: "
-		   MAC_ADDRESS_STR,
-		(LIM_ASSOC == sub_type) ? "Assoc" : "ReAssoc",
-		session->peSessionId, GET_LIM_SYSTEM_ROLE(session),
-		session->limMlmState, MAC_ADDR_ARRAY(hdr->sa));
+	pe_nofl_debug("Assoc req RX: subtype %d vdev %d sys role %d lim state %d rssi %d from " QDF_MAC_ADDR_STR,
+		      sub_type, session->smeSessionId, GET_LIM_SYSTEM_ROLE(session),
+		      session->limMlmState,
+		      WMA_GET_RX_RSSI_NORMALIZED(rx_pkt_info),
+		      QDF_MAC_ADDR_ARRAY(hdr->sa));
 
 	if (LIM_IS_STA_ROLE(session)) {
 		pe_err("Rcvd unexpected ASSOC REQ, sessionid: %d sys sub_type: %d for role: %d from: "
@@ -2134,6 +2134,18 @@ void lim_process_assoc_req_frame(tpAniSirGlobal mac_ctx, uint8_t *rx_pkt_info,
 			eSIR_MAC_UNSPEC_FAILURE_STATUS,
 			session);
 		goto error;
+	}
+
+	if (LIM_IS_AP_ROLE(session)) {
+		if ((assoc_req->wpaPresent || assoc_req->rsnPresent) &&
+		    !session->privacy) {
+			lim_reject_association(mac_ctx, hdr->sa, sub_type,
+					       true, auth_type, peer_idx,
+					       true,
+					       eSIR_MAC_UNSPEC_FAILURE_STATUS,
+					       session);
+			goto error;
+		}
 	}
 
 sendIndToSme:
@@ -2595,8 +2607,14 @@ void lim_send_mlm_assoc_ind(tpAniSirGlobal mac_ctx,
 			ext_chan_switch;
 
 		/* updates VHT information in assoc indication */
-		 qdf_mem_copy(&assoc_ind->vht_caps, &assoc_req->VHTCaps,
-			      sizeof(tDot11fIEVHTCaps));
+		if (assoc_req->VHTCaps.present)
+			 qdf_mem_copy(&assoc_ind->vht_caps, &assoc_req->VHTCaps,
+				      sizeof(tDot11fIEVHTCaps));
+		else if (assoc_req->vendor_vht_ie.VHTCaps.present)
+			qdf_mem_copy(&assoc_ind->vht_caps,
+				     &assoc_req->vendor_vht_ie.VHTCaps,
+				     sizeof(tDot11fIEVHTCaps));
+
 		lim_fill_assoc_ind_vht_info(mac_ctx, session_entry, assoc_req,
 					    assoc_ind, sta_ds);
 		assoc_ind->he_caps_present = assoc_req->he_cap.present;
