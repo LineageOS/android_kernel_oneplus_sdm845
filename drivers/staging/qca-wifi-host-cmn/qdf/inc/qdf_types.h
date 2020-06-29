@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014-2018 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2014-2018, 2020 The Linux Foundation. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software for
  * any purpose with or without fee is hereby granted, provided that the
@@ -355,6 +355,8 @@ typedef bool (*qdf_irqlocked_func_t)(void *);
  * @QDF_MODULE_ID_CP_STATS: Control Plane Statistics ID
  * @QDF_MODULE_ID_ACTION_OUI: ACTION OUI module ID
  * @QDF_MODULE_ID_TARGET: Target module ID
+ * @QDF_MODULE_ID_FTM_TIME_SYNC: FTM Time sync module ID
+ * @QDF_MODULE_ID_PKT_CAPTURE: PACKET CAPTURE module ID
  * @QDF_MODULE_ID_ANY: anything
  * @QDF_MODULE_ID_MAX: Max place holder module ID
  */
@@ -460,6 +462,8 @@ typedef enum {
 	QDF_MODULE_ID_CP_STATS,
 	QDF_MODULE_ID_ACTION_OUI,
 	QDF_MODULE_ID_TARGET,
+	QDF_MODULE_ID_FTM_TIME_SYNC,
+	QDF_MODULE_ID_PKT_CAPTURE,
 	QDF_MODULE_ID_ANY,
 	QDF_MODULE_ID_MAX,
 } QDF_MODULE_ID;
@@ -521,6 +525,7 @@ typedef enum {
  * @QDF_BTAMP_MODE: BTAMP mode
  * @QDF_AHDEMO_MODE: AHDEMO mode
  * @QDF_TDLS_MODE: TDLS MODE
+ * @QDF_NAN_DISC_MODE: NAN Discovery device mode
  * @QDF_MAX_NO_OF_MODE: Max place holder
  *
  * These are generic IDs that identify the various roles
@@ -542,8 +547,10 @@ enum QDF_OPMODE {
 	QDF_WDS_MODE,
 	QDF_BTAMP_MODE,
 	QDF_AHDEMO_MODE,
-	QDF_MAX_NO_OF_MODE,
 	QDF_TDLS_MODE,
+	QDF_NAN_DISC_MODE,
+
+	QDF_MAX_NO_OF_MODE,
 };
 
 /**
@@ -659,15 +666,16 @@ void qdf_vtrace_msg(QDF_MODULE_ID module, QDF_TRACE_LEVEL level,
 
 #ifdef WLAN_OPEN_P2P_INTERFACE
 /* This should match with WLAN_MAX_INTERFACES */
-#define QDF_MAX_CONCURRENCY_PERSONA  (4)
+#define QDF_MAX_CONCURRENCY_PERSONA  (WLAN_MAX_VDEVS)
 #else
-#define QDF_MAX_CONCURRENCY_PERSONA  (3)
+#define QDF_MAX_CONCURRENCY_PERSONA  (WLAN_MAX_VDEVS -1)
 #endif
 
 #define QDF_STA_MASK (1 << QDF_STA_MODE)
 #define QDF_SAP_MASK (1 << QDF_SAP_MODE)
 #define QDF_P2P_CLIENT_MASK (1 << QDF_P2P_CLIENT_MODE)
 #define QDF_P2P_GO_MASK (1 << QDF_P2P_GO_MODE)
+#define QDF_MONITOR_MASK (1 << QDF_MONITOR_MODE)
 
 #ifdef FEATURE_WLAN_MCC_TO_SCC_SWITCH
 
@@ -1111,29 +1119,53 @@ enum qdf_suspend_type {
 
 /**
  * enum qdf_hang_reason - host hang/ssr reason
- * @CDS_REASON_UNSPECIFIED: Unspecified reason
- * @CDS_RX_HASH_NO_ENTRY_FOUND: No Map for the MAC entry for the received frame
- * @CDS_PEER_DELETION_TIMEDOUT: peer deletion timeout happened
- * @CDS_PEER_UNMAP_TIMEDOUT: peer unmap timeout
- * @CDS_SCAN_REQ_EXPIRED: Scan request timed out
- * @CDS_SCAN_ATTEMPT_FAILURES: Consecutive Scan attempt failures
- * @CDS_GET_MSG_BUFF_FAILURE: Unable to get the message buffer
- * @CDS_ACTIVE_LIST_TIMEOUT: Current command processing is timedout
- * @CDS_SUSPEND_TIMEOUT: Timeout for an ACK from FW for suspend request
- * @CDS_RESUME_TIMEOUT: Timeout for an ACK from FW for resume request
+ * @QDF_REASON_UNSPECIFIED: Unspecified reason
+ * @QDF_RX_HASH_NO_ENTRY_FOUND: No Map for the MAC entry for the received frame
+ * @QDF_PEER_DELETION_TIMEDOUT: peer deletion timeout happened
+ * @QDF_PEER_UNMAP_TIMEDOUT: peer unmap timeout
+ * @QDF_SCAN_REQ_EXPIRED: Scan request timed out
+ * @QDF_SCAN_ATTEMPT_FAILURES: Consecutive Scan attempt failures
+ * @QDF_GET_MSG_BUFF_FAILURE: Unable to get the message buffer
+ * @QDF_ACTIVE_LIST_TIMEOUT: Current command processing is timedout
+ * @QDF_SUSPEND_TIMEOUT: Timeout for an ACK from FW for suspend request
+ * @QDF_RESUME_TIMEOUT: Timeout for an ACK from FW for resume request
+ * @QDF_WMI_EXCEED_MAX_PENDING_CMDS: wmi exceed max pending cmd
+ * @QDF_AP_STA_CONNECT_REQ_TIMEOUT: SAP peer assoc timeout from FW
+ * @QDF_STA_AP_CONNECT_REQ_TIMEOUT: STA peer assoc timeout from FW
+ * @QDF_MAC_HW_MODE_CHANGE_TIMEOUT: HW mode change timeout from FW
+ * @QDF_MAC_HW_MODE_CONFIG_TIMEOUT: HW dual mac cfg timeout from FW
+ * @QDF_VDEV_START_RESPONSE_TIMED_OUT: Start response timeout from FW
+ * @QDF_VDEV_RESTART_RESPONSE_TIMED_OUT: Restart response timeout from FW
+ * @QDF_VDEV_STOP_RESPONSE_TIMED_OUT: Stop response timeout from FW
+ * @QDF_VDEV_DELETE_RESPONSE_TIMED_OUT: Delete response timeout from FW
+ * @QDF_VDEV_PEER_DELETE_ALL_RESPONSE_TIMED_OUT: Peer delete all resp timeout
  */
 enum qdf_hang_reason {
-	QDF_REASON_UNSPECIFIED = 0,
-	QDF_RX_HASH_NO_ENTRY_FOUND = 1,
-	QDF_PEER_DELETION_TIMEDOUT = 2,
-	QDF_PEER_UNMAP_TIMEDOUT = 3,
-	QDF_SCAN_REQ_EXPIRED = 4,
-	QDF_SCAN_ATTEMPT_FAILURES = 5,
-	QDF_GET_MSG_BUFF_FAILURE = 6,
-	QDF_ACTIVE_LIST_TIMEOUT = 7,
-	QDF_SUSPEND_TIMEOUT = 8,
-	QDF_RESUME_TIMEOUT = 9,
+	QDF_REASON_UNSPECIFIED,
+	QDF_RX_HASH_NO_ENTRY_FOUND,
+	QDF_PEER_DELETION_TIMEDOUT,
+	QDF_PEER_UNMAP_TIMEDOUT,
+	QDF_SCAN_REQ_EXPIRED,
+	QDF_SCAN_ATTEMPT_FAILURES,
+	QDF_GET_MSG_BUFF_FAILURE,
+	QDF_ACTIVE_LIST_TIMEOUT,
+	QDF_SUSPEND_TIMEOUT,
+	QDF_RESUME_TIMEOUT,
+	QDF_WMI_EXCEED_MAX_PENDING_CMDS,
+	QDF_AP_STA_CONNECT_REQ_TIMEOUT,
+	QDF_STA_AP_CONNECT_REQ_TIMEOUT,
+	QDF_MAC_HW_MODE_CHANGE_TIMEOUT,
+	QDF_MAC_HW_MODE_CONFIG_TIMEOUT,
+	QDF_VDEV_START_RESPONSE_TIMED_OUT,
+	QDF_VDEV_RESTART_RESPONSE_TIMED_OUT,
+	QDF_VDEV_STOP_RESPONSE_TIMED_OUT,
+	QDF_VDEV_DELETE_RESPONSE_TIMED_OUT,
+	QDF_VDEV_PEER_DELETE_ALL_RESPONSE_TIMED_OUT,
 };
+
+/* Extra reasons to be maintained in this branch only */
+#define QDF_REASON_CHANNEL_SWITCH_TIMEOUT 64
+#define QDF_REASON_SERIALIZER_TIMEOUT 65
 
 /**
  * enum qdf_stats_verbosity_level - Verbosity levels for stats
@@ -1189,6 +1221,22 @@ enum qdf_hrtimer_restart_status {
 enum qdf_context_mode {
 	QDF_CONTEXT_HARDWARE = 0,
 	QDF_CONTEXT_TASKLET = 1,
+};
+
+/**
+ * enum qdf_dp_tx_rx_status - TX/RX packet status
+ * @QDF_TX_RX_STATUS_INVALID: default invalid status
+ * @QDF_TX_RX_STATUS_OK: successfully sent + acked
+ * @QDF_TX_RX_STATUS_FW_DISCARD: packet not sent
+ * @QDF_TX_RX_STATUS_NO_ACK: packet sent but no ack
+ * @QDF_TX_RX_STATUS_DROP: packet dropped in host
+ */
+enum qdf_dp_tx_rx_status {
+	QDF_TX_RX_STATUS_INVALID,
+	QDF_TX_RX_STATUS_OK,
+	QDF_TX_RX_STATUS_FW_DISCARD,
+	QDF_TX_RX_STATUS_NO_ACK,
+	QDF_TX_RX_STATUS_DROP,
 };
 
 #endif /* __QDF_TYPES_H */

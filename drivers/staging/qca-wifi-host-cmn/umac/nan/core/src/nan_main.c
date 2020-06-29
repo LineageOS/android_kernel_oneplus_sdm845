@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2016-2020 The Linux Foundation. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software for
  * any purpose with or without fee is hereby granted, provided that the
@@ -31,6 +31,7 @@
 #include "wlan_objmgr_psoc_obj.h"
 #include "wlan_objmgr_pdev_obj.h"
 #include "wlan_objmgr_vdev_obj.h"
+#include "wlan_osif_request_manager.h"
 
 struct nan_vdev_priv_obj *nan_get_vdev_priv_obj(
 				struct wlan_objmgr_vdev *vdev)
@@ -385,6 +386,7 @@ static QDF_STATUS nan_handle_ndp_end_rsp(
 {
 	struct wlan_objmgr_psoc *psoc;
 	struct nan_psoc_priv_obj *psoc_nan_obj;
+	struct osif_request *request;
 
 	*vdev = rsp->vdev;
 	psoc = wlan_vdev_get_psoc(rsp->vdev);
@@ -399,6 +401,14 @@ static QDF_STATUS nan_handle_ndp_end_rsp(
 		return QDF_STATUS_E_NULL_VALUE;
 	}
 
+	/* Unblock the wait here if NDP_END request is a failure */
+	if (rsp->status != 0) {
+		request = osif_request_get(psoc_nan_obj->request_context);
+		if (request) {
+			osif_request_complete(request);
+			osif_request_put(request);
+		}
+	}
 	psoc_nan_obj->cb_obj.os_if_event_handler(psoc, rsp->vdev,
 						NDP_END_RSP, rsp);
 
@@ -410,6 +420,7 @@ static QDF_STATUS nan_handle_end_ind(
 {
 	struct wlan_objmgr_psoc *psoc;
 	struct nan_psoc_priv_obj *psoc_nan_obj;
+	struct osif_request *request;
 
 	psoc = wlan_vdev_get_psoc(ind->vdev);
 	if (!psoc) {
@@ -426,6 +437,13 @@ static QDF_STATUS nan_handle_end_ind(
 	psoc_nan_obj->cb_obj.ndp_delete_peers(ind->ndp_map, ind->num_ndp_ids);
 	psoc_nan_obj->cb_obj.os_if_event_handler(psoc, ind->vdev,
 						 NDP_END_IND, ind);
+
+	/* Unblock the NDP_END wait */
+	request = osif_request_get(psoc_nan_obj->request_context);
+	if (request) {
+		osif_request_complete(request);
+		osif_request_put(request);
+	}
 
 	return QDF_STATUS_SUCCESS;
 }

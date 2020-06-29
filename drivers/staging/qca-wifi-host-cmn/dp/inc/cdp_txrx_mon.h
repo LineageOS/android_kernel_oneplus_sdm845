@@ -149,4 +149,29 @@ static inline int cdp_reset_monitor_mode
 
 	return soc->ops->mon_ops->txrx_reset_monitor_mode(pdev);
 }
+
+#ifdef WLAN_FEATURE_PKT_CAPTURE
+static inline void
+cdp_pktcapture_record_channel(
+			ol_txrx_soc_handle soc,
+			uint8_t pdev_id,
+			int chan_num)
+{
+	if (!soc || !soc->ops) {
+		QDF_TRACE(QDF_MODULE_ID_DP, QDF_TRACE_LEVEL_DEBUG,
+			  "%s invalid instance", __func__);
+		QDF_BUG(0);
+		return;
+	}
+
+	if (!soc->ops->pktcapture_ops ||
+	    !soc->ops->pktcapture_ops->txrx_pktcapture_record_channel)
+		return;
+
+	soc->ops->pktcapture_ops->txrx_pktcapture_record_channel(soc,
+								 pdev_id,
+								 chan_num);
+}
+#endif /* WLAN_FEATURE_PKT_CAPTURE */
+
 #endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2018 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2018, 2020 The Linux Foundation. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software for
  * any purpose with or without fee is hereby granted, provided that the
@@ -329,6 +329,18 @@ QDF_STATUS policy_mgr_psoc_open(struct wlan_objmgr_psoc *psoc)
 		return QDF_STATUS_E_FAILURE;
 	}
 
+	pm_ctx->sta_ap_intf_check_work_info = qdf_mem_malloc(
+		sizeof(struct sta_ap_intf_check_work_ctx));
+	if (!pm_ctx->sta_ap_intf_check_work_info) {
+		qdf_mutex_destroy(&pm_ctx->qdf_conc_list_lock);
+		policy_mgr_err("Failed to alloc sta_ap_intf_check_work_info");
+		return QDF_STATUS_E_FAILURE;
+	}
+	pm_ctx->sta_ap_intf_check_work_info->psoc = psoc;
+	qdf_create_work(0, &pm_ctx->sta_ap_intf_check_work,
+			policy_mgr_check_sta_ap_concurrent_ch_intf,
+			pm_ctx->sta_ap_intf_check_work_info);
+
 	return QDF_STATUS_SUCCESS;
 }
 
@@ -352,7 +364,7 @@ QDF_STATUS policy_mgr_psoc_close(struct wlan_objmgr_psoc *psoc)
 	if (pm_ctx->hw_mode.hw_mode_list) {
 		qdf_mem_free(pm_ctx->hw_mode.hw_mode_list);
 		pm_ctx->hw_mode.hw_mode_list = NULL;
-		policy_mgr_info("HW list is freed");
+		policy_mgr_debug("HW list is freed");
 	}
 
 	if (pm_ctx->sta_ap_intf_check_work_info) {

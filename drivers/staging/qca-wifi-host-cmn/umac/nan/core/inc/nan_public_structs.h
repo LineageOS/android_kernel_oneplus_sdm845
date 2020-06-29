@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017-2018 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2017-2018, 2020 The Linux Foundation. All rights reserved.
  *
  * Permission to use, copy, modify, and/or distribute this software for
  * any purpose with or without fee is hereby granted, provided that the
@@ -40,6 +40,7 @@ struct wlan_objmgr_vdev;
 #define NAN_PASSPHRASE_MIN_LEN 8
 #define NAN_PASSPHRASE_MAX_LEN 63
 #define NAN_CH_INFO_MAX_CHANNELS 4
+#define WLAN_WAIT_TIME_NDP_END 2000
 
 /**
  * enum nan_datapath_msg_type - NDP msg type
@@ -544,6 +545,17 @@ struct nan_datapath_confirm_event {
 };
 
 /**
+ * struct nan_datapath_peer_ind - ndp peer indication
+ * @msg: msg received by FW
+ * @data_len: data length
+ *
+ */
+struct nan_dump_msg {
+	uint8_t *msg;
+	uint32_t data_len;
+};
+
+/**
  * struct nan_datapath_indication_event - create ndp indication on the responder
  * @vdev: pointer to vdev object
  * @service_instance_id: Service identifier
@@ -635,6 +647,8 @@ struct nan_callbacks {
 				  bool);
 	void (*ndp_delete_peers)(struct peer_nan_datapath_map*, uint8_t);
 	void (*delete_peers_by_addr)(uint8_t, struct qdf_mac_addr);
+	void (*wlan_hdd_indicate_active_ndp_cnt)(struct wlan_objmgr_psoc *psoc,
+						 uint8_t vdev_id, uint8_t cnt);
 };
 
 #endif
