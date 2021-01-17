@@ -353,7 +353,8 @@ uint8_t lim_check_rx_rsn_ie_match(tpAniSirGlobal mac_ctx,
 				  bool *pmf_connection)
 {
 	tDot11fIERSN *rsn_ie;
-	uint8_t i, j, match, only_non_ht_cipher = 1;
+	bool match = false;
+	uint8_t i, j, only_non_ht_cipher = 1;
 #ifdef WLAN_FEATURE_11W
 	bool we_are_pmf_capable;
 	bool we_require_pmf;
@@ -369,6 +370,25 @@ uint8_t lim_check_rx_rsn_ie_match(tpAniSirGlobal mac_ctx,
 		return QDF_STATUS_E_FAILURE;
 	}
 
+	/* We should have only one AKM in assoc/reassoc request */
+	if (rx_rsn_ie->akm_suite_cnt != 1) {
+		pe_debug("Invalid RX akm_suite_cnt %d",
+			 rx_rsn_ie->akm_suite_cnt);
+		return eSIR_MAC_INVALID_AKMP_STATUS;
+	}
+	/* Check if we support the received AKM */
+	for (i = 0; i < rsn_ie->akm_suite_cnt; i++)
+		if (!qdf_mem_cmp(&rx_rsn_ie->akm_suite[0],
+				 &rsn_ie->akm_suite[i],
+				 sizeof(rsn_ie->akm_suite[i]))) {
+			match = true;
+			break;
+		}
+	if (!match) {
+		pe_debug("Invalid RX akm_suite");
+		return eSIR_MAC_INVALID_AKMP_STATUS;
+	}
+
 	/* Check groupwise cipher suite */
 	for (i = 0; i < sizeof(rx_rsn_ie->gp_cipher_suite); i++)
 		if (rsn_ie->gp_cipher_suite[i] !=
@@ -381,13 +401,13 @@ uint8_t lim_check_rx_rsn_ie_match(tpAniSirGlobal mac_ctx,
 	 * For each Pairwise cipher suite check whether we support
 	 * received pairwise
 	 */
-	match = 0;
+	match = false;
 	for (i = 0; i < rx_rsn_ie->pwise_cipher_suite_count; i++) {
 		for (j = 0; j < rsn_ie->pwise_cipher_suite_count; j++) {
 			if (!qdf_mem_cmp(&rx_rsn_ie->pwise_cipher_suites[i],
 			    &rsn_ie->pwise_cipher_suites[j],
 			    sizeof(rsn_ie->pwise_cipher_suites[j]))) {
-				match = 1;
+				match = true;
 				break;
 			}
 		}
@@ -469,10 +489,30 @@ lim_check_rx_wpa_ie_match(tpAniSirGlobal mac, tDot11fIEWPA rx_wpaie,
 			  tpPESession session_entry, uint8_t sta_is_ht)
 {
 	tDot11fIEWPA *wpa_ie;
-	uint8_t i, j, match, only_non_ht_cipher = 1;
+	bool match = false;
+	uint8_t i, j, only_non_ht_cipher = 1;
 
 	/* WPA IE should be received from PE */
 	wpa_ie = &session_entry->gStartBssWPAIe;
+
+	/* We should have only one AKM in assoc/reassoc request */
+	if (rx_wpaie.auth_suite_count != 1) {
+		pe_debug("Invalid RX auth_suite_count %d",
+			 rx_wpaie.auth_suite_count);
+		return eSIR_MAC_INVALID_AKMP_STATUS;
+	}
+	/* Check if we support the received AKM */
+	for (i = 0; i < wpa_ie->auth_suite_count; i++)
+		if (!qdf_mem_cmp(&rx_wpaie.auth_suites[0],
+				 &wpa_ie->auth_suites[i],
+				 sizeof(wpa_ie->auth_suites[i]))) {
+			match = true;
+			break;
+		}
+	if (!match) {
+		pe_debug("Invalid RX auth_suites");
+		return eSIR_MAC_INVALID_AKMP_STATUS;
+	}
 
 	/* Check groupwise cipher suite */
 	for (i = 0; i < 4; i++) {
@@ -486,12 +526,12 @@ lim_check_rx_wpa_ie_match(tpAniSirGlobal mac, tDot11fIEWPA rx_wpaie,
 	 * For each Pairwise cipher suite check whether we support
 	 * received pairwise
 	 */
-	match = 0;
+	match = false;
 	for (i = 0; i < rx_wpaie.unicast_cipher_count; i++) {
 		for (j = 0; j < wpa_ie->unicast_cipher_count; j++) {
 			if (!qdf_mem_cmp(rx_wpaie.unicast_ciphers[i],
 					    wpa_ie->unicast_ciphers[j], 4)) {
-				match = 1;
+				match = true;
 				break;
 			}
 		}

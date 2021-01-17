@@ -320,6 +320,17 @@ void lim_add_pre_auth_node(tpAniSirGlobal pMac, struct tLimPreAuthNode *pAuthNod
 void lim_release_pre_auth_node(tpAniSirGlobal pMac, tpLimPreAuthNode pAuthNode)
 {
 	pAuthNode->fFree = 1;
+	if (pAuthNode->authType == eSIR_AUTH_TYPE_SAE &&
+	    pAuthNode->assoc_req.present) {
+		tpSirAssocReq assoc =
+			 (tpSirAssocReq)pAuthNode->assoc_req.assoc_req;
+
+		if (assoc->assocReqFrameLength)
+			qdf_mem_free(assoc->assocReqFrame);
+		qdf_mem_free(assoc);
+		pAuthNode->assoc_req.assoc_req = NULL;
+		pAuthNode->assoc_req.present = false;
+	}
 	MTRACE(mac_trace
 		       (pMac, TRACE_CODE_TIMER_DEACTIVATE, NO_SESSION,
 		       eLIM_PRE_AUTH_CLEANUP_TIMER));
@@ -518,6 +529,14 @@ lim_encrypt_auth_frame(tpAniSirGlobal pMac, uint8_t keyId, uint8_t *pKey,
 	frame_len = ((tpSirMacAuthFrameBody)pPlainText)->length +
 			SIR_MAC_AUTH_FRAME_INFO_LEN + SIR_MAC_CHALLENGE_ID_LEN;
 	keyLength += 3;
+
+	/*
+	 * Make sure that IV is non-zero, because few IOT APs fails to decrypt
+	 * auth sequence 3 encrypted frames if initialization vector value is 0
+	 */
+	qdf_get_random_bytes(seed, SIR_MAC_WEP_IV_LENGTH);
+	while (!(*(uint32_t *)seed))
+		qdf_get_random_bytes(seed, SIR_MAC_WEP_IV_LENGTH);
 
 	/* Bytes 3-7 of seed is key */
 	qdf_mem_copy((uint8_t *) &seed[3], pKey, keyLength - 3);

@@ -79,6 +79,7 @@ ifeq ($(CONFIG_ARCH_QCS40X), y)
 	CONFIG_MULTI_IF_LOG := y
 	CONFIG_DFS_PRI_MULTIPLIER := y
 	CONFIG_DFS_OVERRIDE_RF_THRESHOLD := y
+	CONFIG_RX_THREAD_PRIORITY := y
 endif
 
 #Flag to enable Legacy Fast Roaming2(LFR2)
@@ -304,6 +305,7 @@ CONFIG_DP_LFR := y
 CONFIG_HTT_PADDR64 := y
 CONFIG_RX_OL := y
 CONFIG_TX_TID_OVERRIDE := y
+CONFIG_WLAN_CLD_PM_QOS := y
 endif
 
 # As per target team, build is done as follows:
@@ -551,6 +553,9 @@ CONFIG_ENABLE_MTRACE_LOG := y
 #Flag to enable nud tracking feature
 CONFIG_WLAN_NUD_TRACKING := y
 
+#Flag to enable/Disable Function call trace
+CONFIG_FUNC_CALL_MAP := n
+
 #Flag to enable wbuff feature
 CONFIG_WLAN_WBUFF := y
 
@@ -654,7 +659,6 @@ endif
 
 ifneq ($(TARGET_BUILD_VARIANT),user)
 CONFIG_DESC_DUP_DETECT_DEBUG := y
-CONFIG_DEBUG_RX_RING_BUFFER := y
 endif
 
 CONFIG_DP_TRACE := y
@@ -681,5 +685,11 @@ endif
 ifeq ($(CONFIG_ARCH_SDM660), y)
 CONFIG_WLAN_FEATURE_PKT_CAPTURE := y
 endif
+
+#Enable RX RING buffers debug
+CONFIG_DEBUG_RX_RING_BUFFER := y
+
+#Enable Hash debug
+CONFIG_RX_HASH_DEBUG := y
 
 CONFIG_WLAN_HANG_EVENT := y
