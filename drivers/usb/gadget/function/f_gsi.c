@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Linux Foundation. All rights reserved.
+ * Copyright (c) 2015-2020, Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -2444,7 +2444,6 @@ static int gsi_set_alt(struct usb_function *f, unsigned int intf,
 {
 	struct f_gsi	 *gsi = func_to_gsi(f);
 	struct f_gsi	 *gsi_rmnet_v2x = __gsi[USB_PROT_RMNET_V2X_IPA];
-	struct f_gsi	 *gsi_ecm = __gsi[USB_PROT_ECM_IPA];
 	struct usb_composite_dev *cdev = f->config->cdev;
 	struct net_device	*net;
 	int ret;
@@ -2525,21 +2524,14 @@ static int gsi_set_alt(struct usb_function *f, unsigned int intf,
 			 * Configure EPs for GSI. Note that:
 			 * 1. In general, configure HW accelerated EPs for all
 			 *    instances.
-			 * 2. If both RmNet LTE and RmNet V2X instances are
-			 *    enabled in a composition, configure HW accelerated
-			 *    EPs for V2X and normal EPs for LTE.
-			 * 3. If RmNet V2X, ECM and ADPL instances are enabled
-			 *    in a composition, configure HW accelerated EPs in
-			 *    both directions for V2X and IN direction for ECM.
-			 *    Configure normal EPs for ECM OUT and ADPL.
+			 * 2. If RmNet LTE(or ECM), RmNet V2X and ADPL instances
+			 *    are enabled in a composition, configure HW
+			 *    accelerated EPs in both directions for V2X and IN
+			 *    direction for RmNet LTE(or ECM). Configure normal
+			 *    EPs for RmNet LTE(or ECM) OUT and ADPL.
 			 */
 			switch (gsi->prot_id) {
 			case USB_PROT_RMNET_IPA:
-				if (!gsi_rmnet_v2x->function.fs_descriptors) {
-					in_intr_num = 2;
-					out_intr_num = 1;
-				}
-				break;
 			case USB_PROT_ECM_IPA:
 				/* If v2x is used then only IN/DL uses GSI EP */
 				if (gsi_rmnet_v2x->function.fs_descriptors) {
@@ -2551,9 +2543,8 @@ static int gsi_set_alt(struct usb_function *f, unsigned int intf,
 				}
 				break;
 			case USB_PROT_DIAG_IPA:
-				/* DPL to use normal EP if used with ECM+cv2x */
-				if (!(gsi_ecm->function.fs_descriptors &&
-					gsi_rmnet_v2x->function.fs_descriptors))
+				/* DPL to use normal EP if used with cv2x */
+				if (!gsi_rmnet_v2x->function.fs_descriptors)
 					in_intr_num = 3;
 				break;
 			default:
@@ -3134,7 +3125,7 @@ static int gsi_bind(struct usb_configuration *c, struct usb_function *f)
 		info.out_epname = "gsi-epout";
 		info.in_req_buf_len = GSI_IN_BUFF_SIZE;
 		gsi->d_port.in_aggr_size = GSI_IN_RNDIS_AGGR_SIZE;
-		info.in_req_num_buf = GSI_NUM_IN_RNDIS_BUFFERS;
+		info.in_req_num_buf = GSI_NUM_IN_RNDIS_RMNET_ECM_BUFFERS;
 		gsi->d_port.out_aggr_size = GSI_OUT_AGGR_SIZE;
 		info.out_req_buf_len = GSI_OUT_AGGR_SIZE;
 		info.out_req_num_buf = GSI_NUM_OUT_BUFFERS;
@@ -3325,7 +3316,7 @@ static int gsi_bind(struct usb_configuration *c, struct usb_function *f)
 		info.out_epname = "gsi-epout";
 		gsi->d_port.in_aggr_size = GSI_IN_RMNET_AGGR_SIZE;
 		info.in_req_buf_len = GSI_IN_BUFF_SIZE;
-		info.in_req_num_buf = GSI_NUM_IN_BUFFERS;
+		info.in_req_num_buf = GSI_NUM_IN_RNDIS_RMNET_ECM_BUFFERS;
 		gsi->d_port.out_aggr_size = GSI_OUT_AGGR_SIZE;
 		info.out_req_buf_len = GSI_OUT_RMNET_BUF_LEN;
 		info.out_req_num_buf = GSI_NUM_OUT_BUFFERS;
@@ -3358,7 +3349,7 @@ static int gsi_bind(struct usb_configuration *c, struct usb_function *f)
 		info.out_epname = "gsi-epout";
 		gsi->d_port.in_aggr_size = GSI_ECM_AGGR_SIZE;
 		info.in_req_buf_len = GSI_IN_BUFF_SIZE;
-		info.in_req_num_buf = GSI_NUM_IN_BUFFERS;
+		info.in_req_num_buf = GSI_NUM_IN_RNDIS_RMNET_ECM_BUFFERS;
 		gsi->d_port.out_aggr_size = GSI_ECM_AGGR_SIZE;
 		info.out_req_buf_len = GSI_OUT_ECM_BUF_LEN;
 		info.out_req_num_buf = GSI_NUM_OUT_BUFFERS;
