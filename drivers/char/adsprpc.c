@@ -1502,7 +1502,7 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 	uintptr_t args;
 	size_t rlen = 0, copylen = 0, metalen = 0, lrpralen = 0;
 	int i, oix;
-	int err = 0;
+	int err = 0, j = 0;
 	int mflags = 0;
 	uint64_t *fdlist;
 	uint32_t *crclist;
@@ -1548,6 +1548,8 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 		if (!err && ctx->maps[i])
 			ctx->maps[i]->ctx_refs++;
 		if (err) {
+			for (j = bufs; j < i; j++)
+				fastrpc_mmap_free(ctx->maps[j], 0);
 			mutex_unlock(&ctx->fl->fl_map_mutex);
 			goto bail;
 		}
