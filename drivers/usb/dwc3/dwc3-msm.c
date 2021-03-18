@@ -330,6 +330,7 @@ struct dwc3_msm {
 	struct mutex suspend_resume_mutex;
 
 	enum usb_device_speed override_usb_speed;
+	bool usb_data_enabled;
 
 	u64			dummy_gsi_db;
 	dma_addr_t		dummy_gsi_db_dma;
@@ -3255,6 +3256,9 @@ static int dwc3_msm_id_notifier(struct notifier_block *nb,
 	struct dwc3 *dwc = platform_get_drvdata(mdwc->dwc3);
 	enum dwc3_id_state id;
 
+	if (!mdwc->usb_data_enabled)
+		return NOTIFY_DONE;
+
 	id = event ? DWC3_ID_GROUND : DWC3_ID_FLOAT;
 
 	dev_dbg(mdwc->dev, "host:%ld (id:%d) event received\n", event, id);
@@ -3301,6 +3305,9 @@ static int dwc3_msm_vbus_notifier(struct notifier_block *nb,
 {
 	struct dwc3_msm *mdwc = container_of(nb, struct dwc3_msm, vbus_nb);
 	struct dwc3 *dwc = platform_get_drvdata(mdwc->dwc3);
+
+	if (!mdwc->usb_data_enabled)
+		return NOTIFY_DONE;
 
 	dev_dbg(mdwc->dev, "vbus:%ld event received\n", event);
 
@@ -3643,8 +3650,34 @@ static ssize_t xhci_link_compliance_store(struct device *dev,
 
 	return ret;
 }
-
 static DEVICE_ATTR_RW(xhci_link_compliance);
+
+static ssize_t usb_data_enabled_show(struct device *dev,
+		struct device_attribute *attr, char *buf)
+{
+	struct dwc3_msm *mdwc = dev_get_drvdata(dev);
+
+	return sysfs_emit(buf, "%s\n",
+			  mdwc->usb_data_enabled ? "enabled" : "disabled");
+}
+
+static ssize_t usb_data_enabled_store(struct device *dev,
+		struct device_attribute *attr, const char *buf, size_t count)
+{
+	struct dwc3_msm *mdwc = dev_get_drvdata(dev);
+
+	if (kstrtobool(buf, &mdwc->usb_data_enabled))
+		return -EINVAL;
+
+	if (!mdwc->usb_data_enabled) {
+		mdwc->vbus_active = false;
+		mdwc->id_state = DWC3_ID_FLOAT;
+		dwc3_ext_event_notify(mdwc);
+	}
+
+	return count;
+}
+static DEVICE_ATTR_RW(usb_data_enabled);
 
 static int dwc3_msm_probe(struct platform_device *pdev)
 {
@@ -4003,10 +4036,13 @@ static int dwc3_msm_probe(struct platform_device *pdev)
 			dev_info(mdwc->dev, "charger detection in progress\n");
 	}
 
+	/* set the initial value */
+	mdwc->usb_data_enabled = true;
 	device_create_file(&pdev->dev, &dev_attr_mode);
 	device_create_file(&pdev->dev, &dev_attr_speed);
 	device_create_file(&pdev->dev, &dev_attr_usb_compliance_mode);
 	device_create_file(&pdev->dev, &dev_attr_xhci_link_compliance);
+	device_create_file(&pdev->dev, &dev_attr_usb_data_enabled);
 
 	host_mode = usb_get_dr_mode(&mdwc->dwc3->dev) == USB_DR_MODE_HOST;
 	if (!dwc->is_drd && host_mode) {
@@ -4051,6 +4087,8 @@ static int dwc3_msm_remove(struct platform_device *pdev)
 
 	device_remove_file(&pdev->dev, &dev_attr_mode);
 	device_remove_file(&pdev->dev, &dev_attr_xhci_link_compliance);
+	device_remove_file(&pdev->dev, &dev_attr_usb_data_enabled);
+
 	if (mdwc->usb_psy)
 		power_supply_put(mdwc->usb_psy);
 
