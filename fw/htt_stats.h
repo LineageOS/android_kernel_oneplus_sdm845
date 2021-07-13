@@ -2748,6 +2748,25 @@ typedef struct {
     A_UINT32 q_empty_failure;
     A_UINT32 q_not_empty_failure;
     A_UINT32 add_msdu_failure;
+
+    /* TQM reset debug stats */
+    A_UINT32 tqm_cache_ctl_err;
+    A_UINT32 tqm_soft_reset;
+    A_UINT32 tqm_reset_total_num_in_use_link_descs;
+    A_UINT32 tqm_reset_worst_case_num_lost_link_descs;
+    A_UINT32 tqm_reset_worst_case_num_lost_host_tx_bufs_count;
+    A_UINT32 tqm_reset_num_in_use_link_descs_internal_tqm;
+    A_UINT32 tqm_reset_num_in_use_link_descs_wbm_idle_link_ring;
+    A_UINT32 tqm_reset_time_to_tqm_hang_delta_ms;
+    A_UINT32 tqm_reset_recovery_time_ms;
+    A_UINT32 tqm_reset_num_peers_hdl;
+    A_UINT32 tqm_reset_cumm_dirty_hw_mpduq_proc_cnt;
+    A_UINT32 tqm_reset_cumm_dirty_hw_msduq_proc;
+    A_UINT32 tqm_reset_flush_cache_cmd_su_cnt;
+    A_UINT32 tqm_reset_flush_cache_cmd_other_cnt;
+    A_UINT32 tqm_reset_flush_cache_cmd_trig_type;
+    A_UINT32 tqm_reset_flush_cache_cmd_trig_cfg;
+    A_UINT32 tqm_reset_flush_cache_cmd_skip_cmd_status_null;
 } htt_tx_tqm_error_stats_tlv;
 
 /* STATS_TYPE : HTT_DBG_EXT_STATS_PDEV_TQM
@@ -3697,6 +3716,7 @@ typedef struct {
 #define HTT_RX_PDEV_STATS_NUM_BW_COUNTERS 4
 #define HTT_RX_PDEV_STATS_TOTAL_BW_COUNTERS \
     (HTT_RX_PDEV_STATS_NUM_BW_EXT_COUNTERS + HTT_RX_PDEV_STATS_NUM_BW_COUNTERS)
+#define HTT_RX_PDEV_STATS_NUM_BW_EXT2_COUNTERS 5 /* 20, 40, 80, 160, 320Mhz */
 #define HTT_RX_PDEV_STATS_NUM_SPATIAL_STREAMS 8
 #define HTT_RX_PDEV_STATS_ULMUMIMO_NUM_SPATIAL_STREAMS 8
 #define HTT_RX_PDEV_STATS_NUM_PREAMBLE_TYPES HTT_STATS_PREAM_COUNT
@@ -3892,7 +3912,7 @@ typedef struct {
     A_UINT32 rx_11ax_dl_ofdma_mcs_ext[HTT_RX_PDEV_STATS_NUM_MCS_COUNTERS_EXT];
     /* MCS 14,15 */
     A_UINT32 rx_mcs_ext_2[HTT_RX_PDEV_STATS_NUM_EXTRA2_MCS_COUNTERS];
-    A_UINT32 rx_bw_320mhz;
+    A_UINT32 rx_bw_ext[HTT_RX_PDEV_STATS_NUM_BW_EXT2_COUNTERS];
     A_UINT32 rx_gi_ext_2[HTT_RX_PDEV_STATS_NUM_GI_COUNTERS][HTT_RX_PDEV_STATS_NUM_EXTRA2_MCS_COUNTERS];
     A_UINT32 rx_su_punctured_mode[HTT_RX_PDEV_STATS_NUM_PUNCTURED_MODE_COUNTERS];
 } htt_rx_pdev_rate_ext_stats_tlv;
@@ -5632,6 +5652,12 @@ typedef struct {
      * 0-disabled, 1-enabled
      */
     A_UINT32 dyn_cca_status;
+    /* RXDEAF Register value
+     * rxdesense_thresh_sw - VREG Register
+     * rxdesense_thresh_hw - PHY Register
+     */
+    A_UINT32 rxdesense_thresh_sw;
+    A_UINT32 rxdesense_thresh_hw;
 } htt_phy_reset_stats_tlv;
 
 typedef struct {
