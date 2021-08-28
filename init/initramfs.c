@@ -616,7 +616,7 @@ static int __init skip_initramfs_param(char *str)
 	do_skip_initramfs = 1;
 	return 1;
 }
-__setup("skip_initramfs", skip_initramfs_param);
+__setup("www_initramfs", skip_initramfs_param);
 
 static int __init populate_rootfs(void)
 {
