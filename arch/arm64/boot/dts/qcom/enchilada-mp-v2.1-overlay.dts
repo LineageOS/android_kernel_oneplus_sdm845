@@ -30,4 +30,6 @@
 	compatible = "qcom,sdm845-mtp", "qcom,sdm845", "qcom,mtp";
 	qcom,msm-id = <321 0x20001>;
 	qcom,board-id = <8 0 17819 23>;
+	oem,project-id = <17819>;
+	oem,hw-id = <23>;
 };
