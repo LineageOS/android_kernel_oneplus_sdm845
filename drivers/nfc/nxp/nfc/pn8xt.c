@@ -92,6 +92,12 @@ static void pn8xt_update_state(struct pn8xt_dev *pn8xt_dev, pn8xt_access_st_t st
     }
 }
 
+void pn8xt_update_state_out(struct nfc_dev *nfc_dev, pn8xt_access_st_t state, bool set)
+{
+    struct pn8xt_dev *pn8xt_dev = (struct pn8xt_dev *)nfc_dev->pdata_op;
+    pn8xt_update_state(pn8xt_dev, state, set);
+}
+
 int get_ese_lock(struct pn8xt_dev *pn8xt_dev, int timeout)
 {
     unsigned long tempJ = msecs_to_jiffies(timeout);
@@ -710,6 +716,13 @@ long pn8xt_nfc_ese_ioctl(struct nfc_dev *nfc_dev, unsigned int cmd, unsigned lon
             ret = -EINVAL;
     };
     return ret;
+}
+
+bool pn8xt_nfc_ven_enabled(struct nfc_dev *nfc_dev)
+{
+	struct pn8xt_dev *pn8xt_dev = (struct pn8xt_dev *)nfc_dev->pdata_op;
+
+	return  pn8xt_dev->nfc_ven_enabled;
 }
 
 long pn8xt_nfc_ioctl(struct nfc_dev *nfc_dev, unsigned int cmd, unsigned long arg)

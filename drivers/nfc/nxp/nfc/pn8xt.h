@@ -130,6 +130,8 @@ typedef enum pn8xt_jcop_dwnld_state {
 
 long pn8xt_nfc_ese_ioctl(struct nfc_dev *nfc_dev,  unsigned int cmd, unsigned long arg);
 long pn8xt_nfc_ioctl(struct nfc_dev *nfc_dev, unsigned int cmd, unsigned long arg);
+bool pn8xt_nfc_ven_enabled(struct nfc_dev *nfc_dev);
 int pn8xt_nfc_probe(struct nfc_dev *nfc_dev);
 int pn8xt_nfc_remove(struct nfc_dev *nfc_dev);
+void pn8xt_update_state_out(struct nfc_dev *nfc_dev, pn8xt_access_st_t state, bool set);
 #endif //_NXP_NFC_PN8XT_H_
