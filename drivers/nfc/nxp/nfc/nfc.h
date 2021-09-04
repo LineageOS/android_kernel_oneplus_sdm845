@@ -61,4 +61,32 @@ void nfc_disable_irq(struct nfc_dev *nfc_dev);
 void nfc_enable_irq(struct nfc_dev *nfc_dev);
 void nfc_ese_acquire(struct nfc_dev *nfc_dev);
 void nfc_ese_release(struct nfc_dev *nfc_dev);
+
+struct hw_type_info {
+    /*
+     * Response of get_version_cmd will be stored in data
+     * byte structure :
+     * byte 0-1     : Header
+     * byte 2       : Status
+     * byte 3       : Hardware Version
+     * byte 4       : ROM code
+     * byte 5       : 0x00 constant
+     * byte 6-7     : Protected data version
+     * byte 8-9     : Trim data version
+     * byte 10-11   : FW version
+     * byte 12-13   : CRC
+     * */
+    char data[20];
+    int len;
+};
+
+enum nfcc_chip_variant {
+    NFCC_NQ_210         = 0x48, /**< NFCC NQ210 */
+    NFCC_NQ_220         = 0x58, /**< NFCC NQ220 */
+    NFCC_NQ_310         = 0x40, /**< NFCC NQ310 */
+    NFCC_NQ_310_V2          = 0x41, /**< NFCC NQ310 */
+    NFCC_NQ_330         = 0x51, /**< NFCC NQ330 */
+    NFCC_PN66T          = 0x18, /**< NFCC PN66T */
+    NFCC_NOT_SUPPORTED          = 0xFF  /**< NFCC is not supported */
+};
 #endif //_NXP_NFC_H_
