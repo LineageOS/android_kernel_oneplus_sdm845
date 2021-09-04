@@ -121,7 +121,10 @@ void oem_check_force_dump_key(unsigned int code, int value)
 		break;
 
 	case STEP_DEBUG1:
-		if (code == KEY_VOLUMEDOWN && !value) {
+		if (code == KEY_POWER && value) {
+			message_state = 1;
+			state = NONE;
+		} else if (code == KEY_VOLUMEDOWN && !value) {
 			message_state = 2;
 			queue_work(smg_workwq, &smg_work);
 			state = NONE;

@@ -6,3 +6,5 @@ obj-$(CONFIG_HOUSTON) += houston/
 obj-$(CONFIG_MEMPLUS) += memplus/
 obj-$(CONFIG_OPCHAIN) += uxcore/ uxcore/core/
 obj-$(CONFIG_SMART_BOOST) += smartboost/ smartboost/core/
+obj-$(CONFIG_TPD) += tpd/
+obj-$(CONFIG_CPUFREQ_BOUNCING) += cpufreq_bouncing/
