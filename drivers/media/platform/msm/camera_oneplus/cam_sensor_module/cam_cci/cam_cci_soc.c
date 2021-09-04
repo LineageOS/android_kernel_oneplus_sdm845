@@ -89,9 +89,9 @@ int cam_cci_init(struct v4l2_subdev *sd,
 
 	rc = cam_cpas_start(cci_dev->cpas_handle,
 		&ahb_vote, &axi_vote);
-	if (rc != 0) {
+	if (rc != 0)
 		CAM_ERR(CAM_CCI, "CPAS start failed");
-	}
+
 	cam_cci_get_clk_rates(cci_dev, c_ctrl);
 
 	/* Re-initialize the completion */

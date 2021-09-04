@@ -24,9 +24,9 @@ struct cam_sensor_i2c_reg_setting_array {
 };
 
 struct cam_sensor_settings {
-    struct cam_sensor_i2c_reg_setting_array imx519_setting;
-    struct cam_sensor_i2c_reg_setting_array imx376k_setting;
-    struct cam_sensor_i2c_reg_setting_array imx371_setting;
+	struct cam_sensor_i2c_reg_setting_array imx519_setting;
+	struct cam_sensor_i2c_reg_setting_array imx376k_setting;
+	struct cam_sensor_i2c_reg_setting_array imx371_setting;
 };
 
 struct cam_sensor_settings sensor_settings = {
@@ -57,33 +57,33 @@ static long cam_sensor_subdev_ioctl(struct v4l2_subdev *sd,
 			break;
 		}
 
-        if (s_ctrl->sensordata->slave_info.sensor_id == 0x519) {
-            sensor_setting.reg_setting = sensor_settings.imx519_setting.reg_setting;
-            sensor_setting.addr_type = CAMERA_SENSOR_I2C_TYPE_WORD;
-            sensor_setting.data_type = CAMERA_SENSOR_I2C_TYPE_BYTE;
-            sensor_setting.size = sensor_settings.imx519_setting.size;
-            sensor_setting.delay = sensor_settings.imx519_setting.delay;
-        } else if(s_ctrl->sensordata->slave_info.sensor_id == 0x376) {
-            sensor_setting.reg_setting = sensor_settings.imx376k_setting.reg_setting;
-            sensor_setting.addr_type = CAMERA_SENSOR_I2C_TYPE_WORD;
-            sensor_setting.data_type = CAMERA_SENSOR_I2C_TYPE_BYTE;
-            sensor_setting.size = sensor_settings.imx376k_setting.size;
-            sensor_setting.delay = sensor_settings.imx376k_setting.delay;
-        } else if(s_ctrl->sensordata->slave_info.sensor_id == 0x371) {
-            sensor_setting.reg_setting = sensor_settings.imx371_setting.reg_setting;
-            sensor_setting.addr_type = CAMERA_SENSOR_I2C_TYPE_WORD;
-            sensor_setting.data_type = CAMERA_SENSOR_I2C_TYPE_BYTE;
-            sensor_setting.size = sensor_settings.imx371_setting.size;
-            sensor_setting.delay = sensor_settings.imx371_setting.delay;
-        }
-        rc = camera_io_dev_write(&(s_ctrl->io_master_info), &sensor_setting);
+				if (s_ctrl->sensordata->slave_info.sensor_id == 0x519) {
+						sensor_setting.reg_setting = sensor_settings.imx519_setting.reg_setting;
+						sensor_setting.addr_type = CAMERA_SENSOR_I2C_TYPE_WORD;
+						sensor_setting.data_type = CAMERA_SENSOR_I2C_TYPE_BYTE;
+						sensor_setting.size = sensor_settings.imx519_setting.size;
+						sensor_setting.delay = sensor_settings.imx519_setting.delay;
+				} else if (s_ctrl->sensordata->slave_info.sensor_id == 0x376) {
+						sensor_setting.reg_setting = sensor_settings.imx376k_setting.reg_setting;
+						sensor_setting.addr_type = CAMERA_SENSOR_I2C_TYPE_WORD;
+						sensor_setting.data_type = CAMERA_SENSOR_I2C_TYPE_BYTE;
+						sensor_setting.size = sensor_settings.imx376k_setting.size;
+						sensor_setting.delay = sensor_settings.imx376k_setting.delay;
+				} else if (s_ctrl->sensordata->slave_info.sensor_id == 0x371) {
+						sensor_setting.reg_setting = sensor_settings.imx371_setting.reg_setting;
+						sensor_setting.addr_type = CAMERA_SENSOR_I2C_TYPE_WORD;
+						sensor_setting.data_type = CAMERA_SENSOR_I2C_TYPE_BYTE;
+						sensor_setting.size = sensor_settings.imx371_setting.size;
+						sensor_setting.delay = sensor_settings.imx371_setting.delay;
+				}
+				rc = camera_io_dev_write(&(s_ctrl->io_master_info), &sensor_setting);
 
-        if (rc < 0) {
-            CAM_ERR(CAM_SENSOR, "FTM Failed to write sensor setting");
-        } else {
-            CAM_ERR(CAM_SENSOR, "FTM successfully to write sensor setting");
-        }
-        break;
+				if (rc < 0) {
+						CAM_ERR(CAM_SENSOR, "FTM Failed to write sensor setting");
+				} else {
+					CAM_ERR(CAM_SENSOR, "FTM successfully to write sensor setting");
+				}
+				break;
 	default:
 		CAM_ERR(CAM_SENSOR, "Invalid ioctl cmd: %d", cmd);
 		rc = -EINVAL;

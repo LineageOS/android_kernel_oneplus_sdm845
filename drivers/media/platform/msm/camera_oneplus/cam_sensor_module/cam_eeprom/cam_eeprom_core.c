@@ -18,7 +18,10 @@
 #include "cam_eeprom_soc.h"
 #include "cam_debug_util.h"
 
+#ifdef CONFIG_PROJECT_INFO
 #include <linux/project_info.h>
+#endif
+
 struct ois_vendor_match_tbl {
 	uint16_t ois_id;
 	char ois_name[32];
@@ -51,8 +54,10 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 	int ret = 0;
 	uint32_t reg_data;
 	uint32_t ois_driver_id;
-	uint16_t eeprom_slave_addr = 0xA0>>1;   // 0xA0>>1 is the slave address of main camera Eeprom
-	uint16_t ois_driver_id_reg_addr = 0x0110;   // 0x0110 and 0x0111 are the registers of OIS driver ID
+	// 0xA0>>1 is the slave address of main camera Eeprom
+	uint16_t eeprom_slave_addr = 0xA0>>1;
+	// 0x0110 and 0x0111 are the registers of OIS driver ID
+	uint16_t ois_driver_id_reg_addr = 0x0110;
 
 	if (!e_ctrl) {
 		CAM_ERR(CAM_EEPROM, "e_ctrl is NULL");
@@ -155,25 +160,35 @@ static int cam_eeprom_read_memory(struct cam_eeprom_ctrl_t *e_ctrl,
 	}
 
 	if (e_ctrl->io_master_info.cci_client->sid == eeprom_slave_addr) {
-		ret = camera_io_dev_read(&(e_ctrl->io_master_info), ois_driver_id_reg_addr, &reg_data,
-			CAMERA_SENSOR_I2C_TYPE_WORD, CAMERA_SENSOR_I2C_TYPE_BYTE);
+		ret = camera_io_dev_read(&(e_ctrl->io_master_info),
+			ois_driver_id_reg_addr, &reg_data,
+			CAMERA_SENSOR_I2C_TYPE_WORD,
+			CAMERA_SENSOR_I2C_TYPE_BYTE);
 		if (ret) {
-			CAM_ERR(CAM_EEPROM, "failed: to read 0x%x rc %d", ois_driver_id_reg_addr, ret);
+			CAM_ERR(CAM_EEPROM, "failed: to read 0x%x rc %d",
+				ois_driver_id_reg_addr, ret);
 		} else {
 			ois_driver_id = reg_data & 0xFF;
-			ret = camera_io_dev_read(&(e_ctrl->io_master_info), ois_driver_id_reg_addr+1, &reg_data,
-				CAMERA_SENSOR_I2C_TYPE_WORD, CAMERA_SENSOR_I2C_TYPE_BYTE);
+			ret = camera_io_dev_read(&(e_ctrl->io_master_info),
+				ois_driver_id_reg_addr+1, &reg_data,
+				CAMERA_SENSOR_I2C_TYPE_WORD,
+				CAMERA_SENSOR_I2C_TYPE_BYTE);
 			if (ret) {
-				CAM_ERR(CAM_EEPROM, "failed: to read 0x%x rc %d", ois_driver_id_reg_addr+1, ret);
+				CAM_ERR(CAM_EEPROM, "failed: to read 0x%x rc %d",
+					ois_driver_id_reg_addr+1, ret);
 			} else {
-				ois_driver_id = ((reg_data & 0xFF) << 8) | ois_driver_id;
+				ois_driver_id = 
+					((reg_data & 0xFF) << 8) | ois_driver_id;
+#ifdef CONFIG_PROJECT_INFO
 				if (ois_driver_id == match_tbl[0].ois_id) {
-					push_component_info(OIS, match_tbl[0].ois_name,
+					push_component_info(OIS,
+						match_tbl[0].ois_name,
 						match_tbl[0].vendor_name);
 				} else if (ois_driver_id == match_tbl[1].ois_id) {
 					push_component_info(OIS, match_tbl[1].ois_name,
 						match_tbl[1].vendor_name);
 				}
+#endif
 				CAM_ERR(CAM_EEPROM, "OIS module 0x%x", ois_driver_id);
 			}
 		}
@@ -806,12 +821,12 @@ static int32_t cam_eeprom_pkt_parse(struct cam_eeprom_ctrl_t *e_ctrl, void *arg)
 			}
 		} else {
 			e_ctrl->cal_data.mapdata =
-                                vzalloc(e_ctrl->cal_data.num_data);
-                        if (!e_ctrl->cal_data.mapdata) {
-                                rc = -ENOMEM;
-                                CAM_ERR(CAM_EEPROM, "failed");
-                                goto error;
-                        }
+												vzalloc(e_ctrl->cal_data.num_data);
+																if (!e_ctrl->cal_data.mapdata) {
+																rc = -ENOMEM;
+																CAM_ERR(CAM_EEPROM, "failed");
+																goto error;
+												}
 		}
 
 		rc = cam_eeprom_power_up(e_ctrl,

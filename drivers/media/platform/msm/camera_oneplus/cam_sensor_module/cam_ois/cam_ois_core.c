@@ -444,7 +444,7 @@ static int cam_ois_pkt_parse(struct cam_ois_ctrl_t *o_ctrl, void *arg)
 	struct cam_sensor_i2c_reg_setting hhk_add_setting;//add by hhk
 	struct cam_sensor_i2c_reg_array hhk_add_reg[3];//add by hhk
 	int32_t                         j = 0;
-	uint32_t						red_reg_data=0;
+	uint32_t						red_reg_data = 0;
 	ioctl_ctrl = (struct cam_control *)arg;
 
 	if (copy_from_user(&dev_config, (void __user *) ioctl_ctrl->handle,
@@ -634,22 +634,20 @@ static int cam_ois_pkt_parse(struct cam_ois_ctrl_t *o_ctrl, void *arg)
 			return rc;
 		}
 
-		if(o_ctrl->isPollNeeded == true)
-		{
-			red_reg_data=0;
-			for(j = 0; j < 50; j++)
-			{
+		if (o_ctrl->isPollNeeded == true) {
+			red_reg_data = 0;
+			for (j = 0; j < 50; j++) {
 				rc = camera_io_dev_read(&(o_ctrl->io_master_info), 0x6024, &red_reg_data,
 					CAMERA_SENSOR_I2C_TYPE_WORD, CAMERA_SENSOR_I2C_TYPE_BYTE);
 				if (rc < 0) {
 					CAM_ERR(CAM_OIS, "Failed to read 0x6024");
 				} else
 					CAM_DBG(CAM_OIS, "calib_data end read 0x6024 = 0x%x", red_reg_data);
-				if(red_reg_data == 1)
+				if (red_reg_data == 1)
 					break;
 				else
 					msleep(10);
-			}//control data 0
+			} //control data 0
 			hhk_add_reg[0].data_mask = 0x00;
 			hhk_add_reg[0].delay = 0x00;
 			hhk_add_reg[0].reg_addr = 0x6020;
@@ -658,26 +656,25 @@ static int cam_ois_pkt_parse(struct cam_ois_ctrl_t *o_ctrl, void *arg)
 			hhk_add_setting.addr_type = CAMERA_SENSOR_I2C_TYPE_WORD;
 			hhk_add_setting.data_type = CAMERA_SENSOR_I2C_TYPE_BYTE;
 			hhk_add_setting.size = 1;
-			hhk_add_setting.delay =10;
+			hhk_add_setting.delay = 10;
 			rc = camera_io_dev_write(&(o_ctrl->io_master_info), &hhk_add_setting);
 			if (rc < 0) {
 				CAM_ERR(CAM_OIS, "Failed to write control_data_0");
 				goto pwr_dwn;
 			}
-			red_reg_data=0;
-			for(j = 0; j < 50; j++)
-			{
+			red_reg_data = 0;
+			for (j = 0; j < 50; j++) {
 				rc = camera_io_dev_read(&(o_ctrl->io_master_info), 0x6024, &red_reg_data,
 					CAMERA_SENSOR_I2C_TYPE_WORD, CAMERA_SENSOR_I2C_TYPE_BYTE);
 				if (rc < 0) {
 					CAM_ERR(CAM_OIS, "Failed to read 0x6024");
 				} else
 					CAM_DBG(CAM_OIS, "control_data_0 end read 0x6024 = 0x%x", red_reg_data);
-				if(red_reg_data == 1)
+				if (red_reg_data == 1)
 					break;
 				else
 					msleep(10);
-			}//control data 1
+			} //control data 1
 			hhk_add_reg[0].data_mask = 0x00;
 			hhk_add_reg[0].delay = 0x00;
 			hhk_add_reg[0].reg_addr = 0x614F;
@@ -700,16 +697,15 @@ static int cam_ois_pkt_parse(struct cam_ois_ctrl_t *o_ctrl, void *arg)
 				CAM_ERR(CAM_OIS, "Failed to write control_data_1");
 				goto pwr_dwn;
 			}
-			red_reg_data=0;
-			for(j = 0; j < 50; j++)
-			{
+			red_reg_data = 0;
+			for (j = 0; j < 50; j++) {
 				rc = camera_io_dev_read(&(o_ctrl->io_master_info), 0x6024, &red_reg_data,
 					CAMERA_SENSOR_I2C_TYPE_WORD, CAMERA_SENSOR_I2C_TYPE_BYTE);
 				if (rc < 0) {
 					CAM_ERR(CAM_OIS, "Failed to read 0x6024");
 				} else
 					CAM_DBG(CAM_OIS, "control_data_1 end read 0x6024 = 0x%x", red_reg_data);
-				if(red_reg_data == 1)
+				if (red_reg_data == 1)
 					break;
 				else
 					msleep(10);
