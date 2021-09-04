@@ -39,7 +39,7 @@
 unsigned int __read_mostly boost;
 unsigned int __read_mostly boost_tl;
 unsigned int __read_mostly boost_sample_time = 1;
-unsigned int __read_mostly chain_on = 1;
+unsigned int __read_mostly chain_on = 0;
 unsigned int __read_mostly latest_ms = 100;
 unsigned int __read_mostly latest_threshold = 100000000;
 
