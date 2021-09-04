@@ -367,7 +367,7 @@ static int synaptics_rmi4_i2c_write_word(struct i2c_client* client,
 		unsigned char addr,unsigned short data);
 static int synaptics_mode_change(int mode);
 int tp_single_tap_en(struct synaptics_ts_data *ts, bool enable);
-int opticalfp_irq_handler(struct fp_underscreen_info* tp_info);
+int opticalfp_irq_handler(struct fp_underscreen_info *tp_info);
 int gf_opticalfp_irq_handler(int event);
 
 #ifdef TPD_USE_EINT
