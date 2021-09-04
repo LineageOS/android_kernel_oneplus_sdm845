@@ -14,6 +14,10 @@
 #include <linux/cpufreq.h>
 #include <linux/freezer.h>
 #include <linux/power_supply.h>
+#include "houston.h"
+#include "../drivers/gpu/msm/kgsl.h"
+#include "../drivers/gpu/msm/kgsl_pwrctrl.h"
+#include <oneplus/houston/houston_helper.h>
 
 #define HT_POLLING_MIN_INTERVAL (100)
 #define HT_REPORT_PERIOD_MAX (18000)
@@ -39,6 +43,19 @@ enum {
 	HT_SEN_0,
 	HT_SEN_1,
 	HT_SEN_2,
+	HT_FPS_PROCESS,
+	HT_FPS_LAYER,
+	HT_FPS_PID,
+	HT_FPS_ALIGN,
+	HT_FPS_1,
+	HT_FPS_2,
+	HT_FPS_3,
+	HT_FPS_4,
+	HT_FPS_5,
+	HT_FPS_6,
+	HT_FPS_7,
+	HT_FPS_8,
+	HT_FPS_MISS_LAYER,
 	HT_MONITOR_SIZE
 };
 
@@ -61,8 +78,56 @@ const char *ht_monitor_case[HT_MONITOR_SIZE] = {
 	"cpu3-gold-usr",
 	"xo-therm-adc",
 	"msm-therm-adc",
-	"quiet-therm-adc"
+	"quiet-therm-adc",
+	"process name",
+	"layer name",
+	"pid",
+	"fps_align",
+	"actualFps",
+	"predictFps",
+	"Vsync",
+	"gameFps",
+	"NULL",
+	"NULL",
+	"NULL",
+	"NULL",
+	"missedLayer"
 };
+
+/*
+ * houston monitor
+ * @data: sample data
+ * @layer: sample data for frame info
+ * @process: sample data for frame process info
+ */
+struct sample_data {
+	u64 data[MAX_REPORT_PERIOD][HT_MONITOR_SIZE];
+	char layer[MAX_REPORT_PERIOD][FPS_LAYER_LEN];
+	char process[MAX_REPORT_PERIOD][FPS_PROCESS_NAME_LEN];
+};
+
+struct ht_monitor {
+	struct power_supply *psy;
+	struct thermal_zone_device *tzd[HT_MONITOR_SIZE];
+	struct task_struct *thread;
+	struct sample_data *buf;
+} monitor = {
+	.psy = NULL,
+	.thread = NULL,
+	.buf = NULL,
+};
+
+static struct game_fps_data_struct
+{
+	u64 fps;
+	u64 enqueue_time;
+} game_fps_data;
+
+static atomic_t cached_fps[2];
+
+static atomic64_t fps_align_ns;
+
+static struct kgsl_pwrctrl *gpwr;
 
 static unsigned int ht_all_mask;
 
@@ -108,6 +173,10 @@ static struct kernel_param_ops ht_sample_period_ops = {
 	.get = ht_sample_period_show,
 };
 module_param_cb(sample_period, &ht_sample_period_ops, NULL, 0644);
+
+/* fps */
+static int game_fps_pid = -1;
+module_param_named(game_fps_pid, game_fps_pid, int, 0664);
 
 /* NOTE better not use this directly */
 int sidx;
@@ -174,9 +243,6 @@ void ht_register_thermal_zone_device(struct thermal_zone_device *tzd)
 	/* tzd is guaranteed has value */
 	pr_info("tzd: %s id: %d\n", tzd->type, tzd->id);
 
-	if (!tzd->type)
-		return;
-
 	idx = ht_mapping_tags(tzd->type);
 
 	if (idx == HT_MONITOR_SIZE)
@@ -199,6 +265,121 @@ void ht_register_power_supply(struct power_supply *psy)
 		pr_info("ht power supply registed %s\n", psy->desc->name);
 	}
 }
+
+void ht_register_kgsl_pwrctrl(void *pwr)
+{
+	gpwr = (struct kgsl_pwrctrl *) pwr;
+	pr_info("Registered lgsl pwrctrl\n");
+}
+
+static int ht_fps_data_sync_store(const char *buf, const struct kernel_param *kp)
+{
+	u64 fps_data[FPS_COLS] = {0};
+	static long long fps_align;
+	static int cur_idx;
+	int ret;
+
+	if (strlen(buf) >= FPS_DATA_BUF_SIZE)
+		return 0;
+
+	ret = sscanf(buf, "%llu,%llu,%llu,%llu,%llu,%lld\n",
+			&fps_data[0], &fps_data[1], &fps_data[2], &fps_data[3],
+			&fps_data[4], &fps_align);
+	if (ret != 6) {
+		pr_err("fps data params invalid. got %d inputs instead of %d,%s has been ignored\n",
+				(FPS_COLS+1), ret, buf);
+		return 0;
+	}
+
+	game_fps_data.enqueue_time = fps_align;
+	game_fps_data.fps = fps_data[3];
+
+	pr_info("fps data params: %llu %llu %llu %llu %llu %lld\n",
+			fps_data[0], fps_data[1], fps_data[2],
+			fps_data[3], fps_data[4], fps_align);
+
+	atomic_set(&cached_fps[0], (fps_data[7]));
+	atomic_set(&cached_fps[1], ((fps_data[1] + 5)/10));
+	atomic64_set(&fps_align_ns, fps_align);
+
+	if (!monitor.buf)
+		return 0;
+
+	if (cur_idx != sidx) {
+		cur_idx = sidx;
+		monitor.buf->layer[cur_idx][0] = '\0';
+		monitor.buf->process[cur_idx][0] = '\0';
+		monitor.buf->data[cur_idx][HT_FPS_1] = 0;
+		monitor.buf->data[cur_idx][HT_FPS_2] = 0;
+		monitor.buf->data[cur_idx][HT_FPS_3] = 0;
+		monitor.buf->data[cur_idx][HT_FPS_4] = 0;
+		monitor.buf->data[cur_idx][HT_FPS_5] = 0;
+		monitor.buf->data[cur_idx][HT_FPS_6] = 0;
+		monitor.buf->data[cur_idx][HT_FPS_7] = 0;
+		monitor.buf->data[cur_idx][HT_FPS_8] = 0;
+		monitor.buf->data[cur_idx][HT_FPS_MISS_LAYER] = 0;
+	} else if (monitor.buf->layer[cur_idx]) {
+		monitor.buf->data[cur_idx][HT_FPS_MISS_LAYER] += 1;
+		return 0;
+	}
+
+	monitor.buf->data[cur_idx][HT_FPS_1] = fps_data[0];
+	monitor.buf->data[cur_idx][HT_FPS_2] = fps_data[1];
+	monitor.buf->data[cur_idx][HT_FPS_3] = fps_data[2];
+	monitor.buf->data[cur_idx][HT_FPS_4] = fps_data[3];
+	monitor.buf->data[cur_idx][HT_FPS_PID] = fps_data[4];
+	monitor.buf->data[cur_idx][HT_FPS_ALIGN] = fps_align;
+
+	return 0;
+}
+
+static struct kernel_param_ops ht_fps_data_sync_ops = {
+	.set = ht_fps_data_sync_store,
+};
+module_param_cb(fps_data_sync, &ht_fps_data_sync_ops, NULL, 0220);
+
+static int get_gpu_percentage(void)
+{
+	struct kgsl_clk_stats *stats = NULL;
+
+	if (gpwr) {
+		stats = &gpwr->clk_stats;
+		return stats->total_old != 0 ? (stats->busy_old * 100 / stats->total_old) : 0;
+	}
+	return 0;
+}
+
+static int game_info_show(char *buf, const struct kernel_param *kp)
+{
+	int gpu, cpu, fps;
+	static u64 last_enqueue_time;
+
+	if (game_fps_pid == -1) {
+		gpu = -1;
+		cpu = -1;
+		fps = -1;
+	} else {
+		cpu = ohm_get_cur_cpuload(true);
+		gpu = get_gpu_percentage();
+		fps = game_fps_data.fps / 10;
+
+		if (fps < 0 || fps > 150) {
+			pr_err("fps: %d is out of range", fps);
+			fps = 0;
+		}
+		if (game_fps_data.enqueue_time == last_enqueue_time) {
+			pr_err("Did not update the fps data");
+			fps = 0;
+		}
+		last_enqueue_time = game_fps_data.enqueue_time;
+	}
+	return snprintf(buf, PAGE_SIZE, "%d %d %d\n", gpu, cpu, fps);
+}
+
+static struct kernel_param_ops game_info_ops = {
+	.get = game_info_show,
+};
+module_param_cb(game_info, &game_info_ops, NULL, 0664);
 
 #define SILVER_CLUS_IDX 0
 #define GOLDEN_CLUS_IDX 4
@@ -429,6 +610,11 @@ static const struct file_operations ht_report_proc_fops = {
 static int ht_init(void)
 {
 	int i;
+
+	/* Init cached fps info */
+	atomic_set(&cached_fps[0], 60);
+	atomic_set(&cached_fps[1], 60);
+	atomic64_set(&fps_align_ns, 0);
 
 	for (i = 0; i < HT_MONITOR_SIZE; ++i)
 		report_div[i] = (i >= HT_CPU_0)? 100: 1;

@@ -213,11 +213,11 @@ static void ctech_opc_binder_parse(void *rq, void *cur,
 		int send)
 {
 	/* dont move forward to cache diverse histories as many as possible */
-	if (chain_on && !TASK_EXIT_STATE_R(TASK_GROUP_LEADER_R(cur)) &&
+	if (!TASK_EXIT_STATE_R(TASK_GROUP_LEADER_R(cur)) &&
 			dsize > MAGIC_SIZE &&
 			data[0] == R_MAGIC_ID_0 &&
 			data[1] == R_MAGIC_ID_1) {
-		if (send) {
+		if (chain_on && send) {
 			ctech_ux_mark(rq, cur, UT_ETASK);
 			ctech_ux_clock_base_mark(rq, cur);
 		}

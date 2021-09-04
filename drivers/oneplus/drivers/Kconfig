@@ -23,4 +23,10 @@ config PARAM_READ_WRITE
 		if you want to read/write the param partition in kernel,
 		then you must say Y here.
 
+config DEBUG_PARAM_DUMP
+	bool "Param debug support"
+	default n
+	help
+		if you want to dump contents of param partition for debug purpose
+
 source "drivers/oneplus/drivers/input/fingerprint/Kconfig"
