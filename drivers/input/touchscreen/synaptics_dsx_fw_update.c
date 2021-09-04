@@ -2386,16 +2386,12 @@ static enum flash_area fwu_go_nogo(void)
 	TPD_ERR("%s: Image firmware ID = %d\n",
 			__func__, image_fw_id);
 
-	if (image_fw_id > device_fw_id) {
+	if (image_fw_id != device_fw_id) {
 		flash_area = UI_FIRMWARE;
-		goto exit;
-	} else if (image_fw_id < device_fw_id) {
-		TPD_ERR("%s: Image firmware ID older than device firmware ID\n",
+		TPD_ERR("%s Device firmware ID &  Image firmware ID aren't same, updating firmware\n",
 				__func__);
-		flash_area = NONE;
 		goto exit;
 	}
-
 	/* Get device config ID */
 	retval = fwu_get_device_config_id();
 	if (retval < 0) {
@@ -3853,7 +3849,7 @@ static int fwu_recovery_reset(void)
 
 static int fwu_start_recovery(void)
 {
-	int retval;
+	int retval = 0;
 	const struct firmware *fw_entry = NULL;
 	struct synaptics_rmi4_data *rmi4_data = fwu->rmi4_data;
 
