@@ -32,6 +32,7 @@
 #include <linux/ioctl.h>
 #include <linux/miscdevice.h>
 #include <linux/i2c.h>
+#include <linux/oneplus/boot_mode.h>
 
 #include "../nfc/nfc.h"
 
@@ -190,6 +191,12 @@ static int ese_probe(struct spi_device *spi)
     unsigned int max_speed_hz;
     struct ese_dev *ese_dev;
     struct device_node *np = dev_of_node(&spi->dev);
+
+    /*if (get_second_board_absent() == 1) {
+        pr_err("%s second board absent, don't probe p73",__func__);
+        return -EINVAL;
+    }*/
+
     pr_debug("%s: called\n", __func__);
     if (!np) {
         pr_err("%s: device tree data missing\n", __func__);
