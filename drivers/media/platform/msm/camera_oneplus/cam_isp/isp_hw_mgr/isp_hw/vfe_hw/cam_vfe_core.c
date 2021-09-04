@@ -537,7 +537,7 @@ int cam_vfe_start(void *hw_priv, void *start_args, uint32_t arg_size)
 	struct cam_hw_info                *vfe_hw  = hw_priv;
 	struct cam_isp_resource_node      *isp_res;
 	int rc = 0;
-    struct cam_irq_bh_api              irq_bh_api;
+	struct cam_irq_bh_api              irq_bh_api;
 
 	if (!hw_priv || !start_args ||
 		(arg_size != sizeof(struct cam_isp_resource_node))) {
@@ -548,9 +548,9 @@ int cam_vfe_start(void *hw_priv, void *start_args, uint32_t arg_size)
 	core_info = (struct cam_vfe_hw_core_info *)vfe_hw->core_info;
 	isp_res = (struct cam_isp_resource_node  *)start_args;
 	core_info->tasklet_info = isp_res->tasklet_info;
-    irq_bh_api.bottom_half_enqueue_func = cam_tasklet_enqueue_cmd;
-    irq_bh_api.get_bh_payload_func = cam_tasklet_get_cmd;
-    irq_bh_api.put_bh_payload_func = cam_tasklet_put_cmd;
+	irq_bh_api.bottom_half_enqueue_func = cam_tasklet_enqueue_cmd;
+	irq_bh_api.get_bh_payload_func = cam_tasklet_get_cmd;
+	irq_bh_api.put_bh_payload_func = cam_tasklet_put_cmd;
 
 	mutex_lock(&vfe_hw->hw_mutex);
 	if (isp_res->res_type == CAM_ISP_RESOURCE_VFE_IN) {

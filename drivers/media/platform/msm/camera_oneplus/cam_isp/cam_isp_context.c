@@ -784,7 +784,7 @@ static int __cam_isp_ctx_handle_error(struct cam_isp_context *ctx_isp,
 	struct cam_ctx_request          *req = NULL;
 	struct cam_ctx_request          *req_temp;
 	struct cam_isp_ctx_req          *req_isp = NULL;
-	struct cam_req_mgr_error_notify  notify;
+	struct cam_req_mgr_error_notify  notify = {};
 	uint64_t                         error_request_id;
 
 	struct cam_context *ctx = ctx_isp->base;
