@@ -151,7 +151,7 @@ int32_t cam_sensor_handle_poll(
 		CAM_ERR(CAM_SENSOR, "Failed in allocating mem for list");
 		return -ENOMEM;
 	}
-	(*offset) = 0;//add by HHK fox fix delayus invalid 
+	*offset = 0;//add by HHK fox fix delayus invalid
 	i2c_list->op_code = CAM_SENSOR_I2C_POLL;
 	i2c_list->i2c_settings.data_type =
 		cond_wait->data_type;
@@ -199,7 +199,7 @@ int32_t cam_sensor_handle_random_write(
 		cam_cmd_i2c_random_wr->header.addr_type;
 	i2c_list->i2c_settings.data_type =
 		cam_cmd_i2c_random_wr->header.data_type;
-	(*offset) = 0;//add by HHK fox fix delayus invalid 
+	*offset = 0;//add by HHK fox fix delayus invalid
 	for (cnt = 0; cnt < (cam_cmd_i2c_random_wr->header.count);
 		cnt++) {
 		i2c_list->i2c_settings.reg_setting[cnt].reg_addr =
@@ -254,7 +254,7 @@ static int32_t cam_sensor_handle_continuous_write(
 		cam_cmd_i2c_continuous_wr->header.data_type;
 	i2c_list->i2c_settings.size =
 		cam_cmd_i2c_continuous_wr->header.count;
-	(*offset) = 0;//add by HHK fox fix delayus invalid 
+	*offset = 0;//add by HHK fox fix delayus invalid
 	for (cnt = 0; cnt < (cam_cmd_i2c_continuous_wr->header.count);
 		cnt++) {
 		i2c_list->i2c_settings.reg_setting[cnt].reg_addr =

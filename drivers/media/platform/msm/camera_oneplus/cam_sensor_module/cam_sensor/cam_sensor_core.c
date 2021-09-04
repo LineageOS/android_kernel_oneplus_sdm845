@@ -17,7 +17,9 @@
 #include "cam_soc_util.h"
 #include "cam_trace.h"
 
+#ifdef CONFIG_PROJECT_INFO
 #include <linux/project_info.h>
+#endif
 
 struct camera_vendor_match_tbl {
 	uint16_t sensor_id;
@@ -777,7 +779,9 @@ int32_t cam_sensor_driver_cmd(struct cam_sensor_ctrl_t *s_ctrl,
 	struct cam_sensor_power_ctrl_t *power_info =
 		&s_ctrl->sensordata->power_info;
 	uint32_t count = 0, i;
+#ifdef CONFIG_PROJECT_INFO
 	enum COMPONENT_TYPE CameraID;
+#endif
 
 	if (!s_ctrl || !arg) {
 		CAM_ERR(CAM_SENSOR, "s_ctrl is NULL");
@@ -901,6 +905,7 @@ int32_t cam_sensor_driver_cmd(struct cam_sensor_ctrl_t *s_ctrl,
 		s_ctrl->is_probe_succeed = 1;
 		s_ctrl->sensor_state = CAM_SENSOR_INIT;
 
+#ifdef CONFIG_PROJECT_INFO
 		if (s_ctrl->id == 0)
 			CameraID = R_CAMERA;
 		else if (s_ctrl->id == 1)
@@ -922,7 +927,7 @@ int32_t cam_sensor_driver_cmd(struct cam_sensor_ctrl_t *s_ctrl,
 		else
 			push_component_info(CameraID, match_tbl[i].sensor_name,
 				match_tbl[i].vendor_name);
-
+#endif
 	}
 		break;
 	case CAM_ACQUIRE_DEV: {

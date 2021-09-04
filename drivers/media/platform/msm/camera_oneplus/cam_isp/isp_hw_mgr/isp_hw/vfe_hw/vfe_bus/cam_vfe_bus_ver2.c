@@ -1064,7 +1064,7 @@ static int cam_vfe_bus_start_wm(struct cam_isp_resource_node *wm_res)
 	struct cam_vfe_bus_ver2_common_data        *common_data =
 		rsrc_data->common_data;
 	uint32_t                   bus_irq_reg_mask[CAM_VFE_BUS_IRQ_MAX] = {0};
-    struct cam_irq_bh_api                       irq_bh_api;
+	struct cam_irq_bh_api                       irq_bh_api;
 
 	cam_io_w(0xf, common_data->mem_base + rsrc_data->hw_regs->burst_limit);
 
@@ -1085,9 +1085,10 @@ static int cam_vfe_bus_start_wm(struct cam_isp_resource_node *wm_res)
 		CAM_DBG(CAM_ISP, "Subscribe WM%d IRQ", rsrc_data->index);
 		bus_irq_reg_mask[CAM_VFE_BUS_IRQ_REG1] =
 			(1 << rsrc_data->index);
-        irq_bh_api.bottom_half_enqueue_func = cam_tasklet_enqueue_cmd;
-        irq_bh_api.get_bh_payload_func = cam_tasklet_get_cmd;
-        irq_bh_api.put_bh_payload_func = cam_tasklet_put_cmd;
+			irq_bh_api.bottom_half_enqueue_func = 
+				cam_tasklet_enqueue_cmd;
+			irq_bh_api.get_bh_payload_func = cam_tasklet_get_cmd;
+			irq_bh_api.put_bh_payload_func = cam_tasklet_put_cmd;
 		wm_res->irq_handle = cam_irq_controller_subscribe_irq(
 			common_data->bus_irq_controller, CAM_IRQ_PRIORITY_1,
 			bus_irq_reg_mask, wm_res,
@@ -1490,7 +1491,7 @@ static int cam_vfe_bus_start_comp_grp(struct cam_isp_resource_node *comp_grp)
 	struct cam_vfe_bus_ver2_common_data        *common_data =
 		rsrc_data->common_data;
 	uint32_t bus_irq_reg_mask[CAM_VFE_BUS_IRQ_MAX] = {0};
-    struct cam_irq_bh_api                       irq_bh_api;
+	struct cam_irq_bh_api                       irq_bh_api;
 
 	CAM_DBG(CAM_ISP, "comp group id:%d streaming state:%d",
 		rsrc_data->comp_grp_type, comp_grp->res_state);
@@ -1570,9 +1571,9 @@ static int cam_vfe_bus_start_comp_grp(struct cam_isp_resource_node *comp_grp)
 		(rsrc_data->is_master)) ||
 		(rsrc_data->comp_grp_type >= CAM_VFE_BUS_VER2_COMP_GRP_0 &&
 		rsrc_data->comp_grp_type <= CAM_VFE_BUS_VER2_COMP_GRP_5)) {
-        irq_bh_api.bottom_half_enqueue_func = cam_tasklet_enqueue_cmd;
-        irq_bh_api.get_bh_payload_func = cam_tasklet_get_cmd;
-        irq_bh_api.put_bh_payload_func = cam_tasklet_put_cmd;
+		irq_bh_api.bottom_half_enqueue_func = cam_tasklet_enqueue_cmd;
+		irq_bh_api.get_bh_payload_func = cam_tasklet_get_cmd;
+		irq_bh_api.put_bh_payload_func = cam_tasklet_put_cmd;
 		comp_grp->irq_handle = cam_irq_controller_subscribe_irq(
 			common_data->bus_irq_controller, CAM_IRQ_PRIORITY_1,
 			bus_irq_reg_mask, comp_grp,
@@ -2264,13 +2265,13 @@ static int cam_vfe_bus_ver2_handle_irq(uint32_t    evt_id,
 	struct cam_irq_th_payload                 *th_payload)
 {
 	struct cam_vfe_bus_ver2_priv          *bus_priv;
-    int rc = 0;
+	int rc = 0;
 
 	bus_priv     = th_payload->handler_priv;
 	CAM_DBG(CAM_ISP, "Enter");
 	rc = cam_irq_controller_handle_irq(evt_id,
 		bus_priv->common_data.bus_irq_controller);
-    return (IRQ_HANDLED == rc) ? 0 : -EINVAL;
+	return (IRQ_HANDLED == rc) ? 0 : -EINVAL;
 }
 
 static int cam_vfe_bus_error_irq_top_half(uint32_t evt_id,
