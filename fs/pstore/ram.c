@@ -84,29 +84,6 @@ MODULE_PARM_DESC(ramoops_ecc,
 		"ECC buffer size in bytes (1 is a special value, means 16 "
 		"bytes ECC)");
 
-struct ramoops_context {
-	struct persistent_ram_zone **przs;
-	struct persistent_ram_zone *cprz;
-	struct persistent_ram_zone *fprz;
-	struct persistent_ram_zone *mprz;
-	phys_addr_t phys_addr;
-	unsigned long size;
-	unsigned int memtype;
-	size_t record_size;
-	size_t console_size;
-	size_t ftrace_size;
-	size_t pmsg_size;
-	int dump_oops;
-	struct persistent_ram_ecc_info ecc_info;
-	unsigned int max_dump_cnt;
-	unsigned int dump_write_cnt;
-	/* _read_cnt need clear on ramoops_pstore_open */
-	unsigned int dump_read_cnt;
-	unsigned int console_read_cnt;
-	unsigned int ftrace_read_cnt;
-	unsigned int pmsg_read_cnt;
-	struct pstore_info pstore;
-};
 
 static struct platform_device *dummy;
 static struct ramoops_platform_data *dummy_data;
