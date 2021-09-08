@@ -205,34 +205,26 @@
 
 				];
 				qcom,mdss-dsi-panel-hbm-on-command-5 = [
-					/*ELVSS OFF*/
-				    39 01 00 00 00 00 03 F0 5A 5A
-				    15 01 00 00 00 00 02 B0 07
-					15 01 00 00 00 00 02 B7 01
-				    15 01 00 00 00 00 02 B0 08
-				    15 01 00 00 00 00 02 B7 12
-				    39 01 00 00 00 00 03 F0 A5 A5
-				    /*DLY OFF*/
+						/*ELVSS OFF*/
 					39 01 00 00 00 00 03 F0 5A 5A
-			   	    39 01 00 00 00 00 04 B7 00 01 5B
-				    39 01 00 00 00 00 03 F0 A5 A5
-				    15 01 00 00 0A 00 02 53 E0
-					39 01 00 00 00 00 03 51 03 FF
-					/*DLY ON*/
+					15 01 00 00 00 00 02 B0 08
+					15 01 00 00 00 00 02 B7 12
+					39 01 00 00 00 00 03 F0 A5 A5
+						/*DLY OFF*/
+					39 01 00 00 00 00 03 F0 5A 5A
+					39 01 00 00 00 00 04 B7 00 01 5B
+					39 01 00 00 22 00 03 F0 A5 A5
+						/*HBM ON */
+					15 01 00 00 00 00 02 53 E0
+					39 01 00 00 0E 00 03 51 03 FF
+						/*DLY ON*/
 					39 01 00 00 00 00 03 F0 5A 5A
 					39 01 00 00 00 00 04 B7 00 01 53
 					39 01 00 00 00 00 03 F0 A5 A5
 				];
 				qcom,mdss-dsi-panel-hbm-off-command = [
-				    /*DLY OFF*/
-					39 01 00 00 00 00 03 F0 5A 5A
-					39 01 00 00 00 00 04 B7 00 01 5B
-					39 01 00 00 00 00 03 F0 A5 A5
-					39 01 00 00 00 00 02 53 20
-					/*DLY ON*/
-					39 01 00 00 00 00 03 F0 5A 5A
-					39 01 00 00 00 00 04 B7 00 01 53
-					39 01 00 00 00 00 03 F0 A5 A5
+						/*HBM off */
+					15 01 00 00 00 00 02 53 20
 				];
 				qcom,mdss-dsi-panel-hbm-max-brightness-command-on = [
 					39 01 00 00 00 00 03 F0 5A 5A
@@ -280,40 +272,133 @@
 				qcom,mdss-dsi-hbm-off-command-state = "dsi_hs_mode";
 
 				qcom,mdss-dsi-panel-aod-on-command-1 = [
+					/* 10nit */
+					15 01 00 00 00 00 02 53 23
 				];
 				qcom,mdss-dsi-panel-aod-on-command-2 = [
 				];
 				qcom,mdss-dsi-panel-aod-on-command-3 = [
+					/* 50nit */
+					15 01 00 00 00 00 02 53 22
+				];
+				qcom,mdss-dsi-panel-aod-on-command-4 = [
+				];
+				qcom,mdss-dsi-panel-aod-on-command-5 = [
+					/* 50nit */
+					39 01 00 00 00 00 03 9F A5 A5
+					05 01 00 00 0A 00 01 28
+					05 01 00 00 78 00 01 10
+					05 01 00 00 05 00 01 11
+					39 01 00 00 00 00 03 9F 5A 5A
+					39 01 00 00 00 00 03 F0 5A 5A
+					15 01 00 00 00 00 02 B0 01
+					15 01 00 00 64 00 02 CD 02
+					15 01 00 00 00 00 02 53 22
+					15 01 00 00 00 00 02 B0 A5
+					15 01 00 00 00 00 02 C7 00
+					39 01 00 00 00 00 03 F0 A5 A5
+					39 01 00 00 00 00 03 9F A5 A5
+					05 01 00 00 00 00 01 12
+					05 01 00 00 00 00 01 29
+					39 01 00 00 00 00 03 9F 5A 5A
 				];
 				qcom,mdss-dsi-panel-aod-off-command = [
+					39 01 00 00 00 00 03 9F A5 A5
+					05 01 00 00 0A 00 01 28
+					39 01 00 00 00 00 03 9F 5A 5A
+					39 01 00 00 00 00 03 F0 5A 5A
+					15 01 00 00 00 00 02 B0 01
+					15 01 00 00 64 00 02 CD 01
+					15 01 00 00 00 00 02 53 28
+					39 01 00 00 00 00 03 F0 A5 A5
+					39 01 00 00 00 00 03 9F A5 A5
+					05 01 00 00 00 00 01 13
+					05 01 00 00 00 00 01 29
+					39 01 00 00 00 00 03 9F 5A 5A
 				];
 				qcom,mdss-dsi-panel-aod-off-samsung-command = [
+					39 01 00 00 00 00 03 9F A5 A5
+					05 01 00 00 0A 00 01 28
+					39 01 00 00 00 00 03 9F 5A 5A
+					39 01 00 00 00 00 03 F0 5A 5A
+					15 01 00 00 00 00 02 B0 01
+					15 01 00 00 64 00 02 CD 01
+					15 01 00 00 00 00 02 53 28
+					39 01 00 00 00 00 03 F0 A5 A5
+					39 01 00 00 00 00 03 9F A5 A5
+					05 01 00 00 00 00 01 13
+					05 01 00 00 00 00 01 29
+					39 01 00 00 00 00 03 9F 5A 5A
 				];
 				qcom,mdss-dsi-panel-aod-off-new-command = [
+					39 01 00 00 00 00 03 9F A5 A5
+					05 01 00 00 0A 00 01 28
+					39 01 00 00 00 00 03 9F 5A 5A
+					39 01 00 00 00 00 03 F0 5A 5A
+					15 01 00 00 00 00 02 B0 01
+					15 01 00 00 64 00 02 CD 01
+					15 01 00 00 00 00 02 53 28
+					39 01 00 00 00 00 03 F0 A5 A5
+					39 01 00 00 00 00 03 9F A5 A5
+					05 01 00 00 00 00 01 13
+					05 01 00 00 00 00 01 29
+					39 01 00 00 00 00 03 9F 5A 5A
 				];
-				qcom,mdss-dsi-panel-aod-off-new-command-state = "dsi_lp_mode";		
+				qcom,mdss-dsi-panel-aod-off-new-command-state = "dsi_lp_mode";
 				qcom,mdss-dsi-panel-aod-off-samsung-command-state = "dsi_lp_mode";
 				qcom,mdss-dsi-panel-aod-off-hbm-on-command = [
-					
 					/*ELVSS OFF*/
 					39 01 00 00 00 00 03 F0 5A 5A
 					15 01 00 00 00 00 02 B0 07
 					15 01 00 00 00 00 02 B7 01
 					15 01 00 00 00 00 02 B0 08
 					15 01 00 00 00 00 02 B7 12
-					39 01 00 00 00 00 03 F0 A5 A5
+					39 01 00 00 10 00 03 F0 A5 A5
 					    /*DLY OFF*/
 					39 01 00 00 00 00 03 F0 5A 5A
 					39 01 00 00 00 00 04 B7 00 01 5B
 					39 01 00 00 00 00 03 F0 A5 A5
-					15 01 00 00 0A 00 02 53 E0
-					39 01 00 00 00 00 03 51 03 FF
+					15 01 00 00 00 00 02 53 E0
+					39 01 00 00 0E 00 03 51 03 FF
 						/*DLY ON*/
 					39 01 00 00 00 00 03 F0 5A 5A
 					39 01 00 00 00 00 04 B7 00 01 53
 					39 01 00 00 00 00 03 F0 A5 A5
 				];
 				qcom,mdss-dsi-panel-aod-off-hbm-on-command-state = "dsi_lp_mode";
+				qcom,mdss-dsi-panel-real-aod-off-hbm-on-command = [
+					/*aod off*/
+					39 01 00 00 00 00 03 9F A5 A5
+					05 01 00 00 0A 00 01 28
+					39 01 00 00 00 00 03 9F 5A 5A
+					39 01 00 00 00 00 03 F0 5A 5A
+					15 01 00 00 00 00 02 B0 01
+					15 01 00 00 64 00 02 CD 01
+					15 01 00 00 00 00 02 53 28
+					39 01 00 00 00 00 03 F0 A5 A5
+					39 01 00 00 00 00 03 9F A5 A5
+					05 01 00 00 00 00 01 13
+					05 01 00 00 00 00 01 29
+					39 01 00 00 00 00 03 9F 5A 5A
+					/*hbm on*/
+						/*ELVSS OFF*/
+					39 00 00 00 00 00 03 F0 5A 5A
+					15 00 00 00 00 00 02 B0 08
+					15 00 00 00 00 00 02 B7 12
+					39 00 00 00 00 00 03 F0 A5 A5
+						/*DLY OFF*/
+					39 00 00 00 00 00 03 F0 5A 5A
+					39 00 00 00 00 00 04 B7 00 01 5B
+					39 00 00 00 00 00 03 F0 A5 A5
+						/*HBM ON */
+					15 00 00 00 00 00 02 53 E0
+					39 01 00 00 00 00 03 51 03 FF
+						/*DLY OFF*/
+					39 00 00 00 00 00 03 F0 5A 5A
+					39 00 00 00 00 00 04 B7 00 01 53
+					39 01 00 00 00 00 03 F0 A5 A5
+				];
+				qcom,mdss-dsi-panel-real-aod-off-hbm-on-command-state = "dsi_hs_mode";
 				qcom,mdss-dsi-panel-hbm-off-aod-on-command = [
 					39 01 00 00 00 00 03 F0 5A 5A
 					39 01 00 00 00 00 04 B7 00 01 5B
@@ -325,6 +410,11 @@
 					39 01 00 00 00 00 03 F0 A5 A5
 				];
 				qcom,mdss-dsi-panel-hbm-off-aod-on-command-state = "dsi_lp_mode";
+				qcom,mdss-dsi-panel-aod-on-command-1-state = "dsi_lp_mode";
+				qcom,mdss-dsi-panel-aod-on-command-2-state = "dsi_lp_mode";
+				qcom,mdss-dsi-panel-aod-on-command-3-state = "dsi_lp_mode";
+				qcom,mdss-dsi-panel-aod-on-command-4-state = "dsi_lp_mode";
+				qcom,mdss-dsi-panel-aod-on-command-5-state = "dsi_lp_mode";
 				qcom,mdss-dsi-aod-on-command-state = "dsi_lp_mode";
 				qcom,mdss-dsi-aod-off-command-state = "dsi_lp_mode";
 				qcom,mdss-dsi-aod-mode-command-state = "dsi_lp_mode";
