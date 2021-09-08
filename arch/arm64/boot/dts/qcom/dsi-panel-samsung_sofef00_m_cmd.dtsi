@@ -184,14 +184,46 @@
 				qcom,mdss-dsi-panel-hbm-max-brightness-command-on-state = "dsi_lp_mode";
 				qcom,mdss-dsi-panel-hbm-max-brightness-command-off-state = "dsi_lp_mode";
 				qcom,mdss-dsi-panel-aod-on-command-1 = [
+					39 01 00 00 00 00 03 F0 5A 5A
+					15 01 00 00 00 00 02 53 23
+					05 01 00 00 00 00 02 39
+					39 01 00 00 00 00 03 F0 A5 A5
 				];
 				qcom,mdss-dsi-panel-aod-on-command-2 = [
 				];
 				qcom,mdss-dsi-panel-aod-on-command-3 = [
+					39 01 00 00 00 00 03 F0 5A 5A
+					15 01 00 00 00 00 02 53 22
+					05 01 00 00 00 00 02 39
+					39 01 00 00 00 00 03 F0 A5 A5
 				];
 				qcom,mdss-dsi-panel-aod-on-command-4 = [
 				];
+				qcom,mdss-dsi-panel-aod-on-command-5 = [
+					15 01 00 00 00 00 01 28
+					39 01 00 00 12 00 03 F0 5A 5A
+					15 01 00 00 00 00 02 B0 49
+					15 01 00 00 00 00 02 CB FF
+					15 01 00 00 00 00 02 B0 4F
+					15 01 00 00 00 00 02 CB C8
+					15 01 00 00 00 00 02 F7 03
+					39 01 00 00 00 00 03 F0 A5 A5
+					05 01 00 00 12 00 01 10
+					05 01 00 00 82 00 01 11
+					39 01 00 00 06 00 03 F0 5A 5A
+					15 01 00 00 00 00 02 B0 01
+					15 01 00 00 00 00 02 BB 03
+					15 01 00 00 00 00 08 EF F0 31 00 33 31 14 35
+					15 01 00 00 78 00 02 53 22
+					05 01 00 00 01 00 02 39
+					39 01 00 00 00 00 03 F0 A5 A5
+					15 01 00 00 12 00 01 29
+				];
 				qcom,mdss-dsi-panel-aod-off-command = [
+					39 01 00 00 00 00 03 F0 5A 5A
+					15 01 00 00 00 00 02 53 28
+					05 01 00 00 00 00 02 38
+					39 01 00 00 00 00 03 F0 A5 A5
 				];
 				qcom,mdss-dsi-panel-aod-mode-command-1 = [
 				39 01 00 00 00 00 03 F0 5A 5A
@@ -220,7 +252,27 @@
 				qcom,mdss-dsi-aod-on-command-state = "dsi_lp_mode";
 				qcom,mdss-dsi-aod-off-command-state = "dsi_lp_mode";
 				qcom,mdss-dsi-aod-mode-command-state = "dsi_lp_mode";
-
+				qcom,mdss-dsi-panel-real-aod-off-hbm-on-command = [
+					15 01 00 00 00 00 01 28
+					39 01 00 00 12 00 03 F0 5A 5A
+					15 01 00 00 00 00 02 B0 49
+					15 01 00 00 00 00 02 CB FF
+					15 01 00 00 00 00 02 B0 4F
+					15 01 00 00 00 00 02 CB C8
+					15 01 00 00 00 00 02 F7 03
+					39 01 00 00 00 00 03 F0 A5 A5
+					05 01 00 00 12 00 01 10
+					05 01 00 00 82 00 01 11
+					39 01 00 00 06 00 03 F0 5A 5A
+					15 01 00 00 00 00 02 B0 01
+					15 01 00 00 00 00 02 BB 03
+					15 01 00 00 00 00 08 EF F0 31 00 33 31 14 35
+					15 01 00 00 78 00 02 53 28
+					05 01 00 00 01 00 02 38
+					39 01 00 00 00 00 03 F0 A5 A5
+					15 01 00 00 12 00 01 29
+				];
+				qcom,mdss-dsi-panel-real-aod-off-hbm-on-command-state = "dsi_hs_mode";
 				qcom,mdss-dsi-panel-serial-num-command = [
 					06 01 00 00 00 00 01 A1
 				];
@@ -313,8 +365,15 @@
 				39 01 00 00 00 00 02 E2 00
 				39 01 00 00 00 00 02 b0 4D
 				39 01 00 00 00 00 02 E2 00
-				39 01 00 00 00 00 03 f0 A5 A5			
+				39 01 00 00 00 00 03 f0 A5 A5
 			];
+
+			qcom,mdss-dsi-panel-aod-on-command-1-state = "dsi_lp_mode";
+			qcom,mdss-dsi-panel-aod-on-command-2-state = "dsi_lp_mode";
+			qcom,mdss-dsi-panel-aod-on-command-3-state = "dsi_lp_mode";
+			qcom,mdss-dsi-panel-aod-on-command-4-state = "dsi_lp_mode";
+			qcom,mdss-dsi-panel-aod-on-command-5-state = "dsi_lp_mode";
+
 			qcom,mdss-dsi-customer-p3-enable-command-state	= "dsi_lp_mode";
 			qcom,mdss-dsi-customer-srgb-enable-command-state  = "dsi_lp_mode";
 			qcom,mdss-dsi-laoding-effect-enable-command-state  = "dsi_lp_mode";
