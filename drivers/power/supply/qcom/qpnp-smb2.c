@@ -253,7 +253,6 @@ static int smb2_parse_dt(struct smb2 *chip)
 	struct device_node *node = chg->dev->of_node;
 /* david.liu@bsp, 20171023 Battery & Charging porting */
 	int byte_len, rc = 0;
-	/*yangfb@bsp, 20180302,enable stm6620 sheepmode */
 	enum of_gpio_flags flags;
 
 	if (!node) {
@@ -380,6 +379,7 @@ static int smb2_parse_dt(struct smb2 *chip)
 		chg->FFC_NORMAL_CUTOFF,
 		chg->FFC_WARM_CUTOFF,
 		chg->FFC_VBAT_FULL);
+
 	chg->plug_irq = of_get_named_gpio_flags(node,
 						"op,usb-check", 0, &flags);
 	chg->vbus_ctrl = of_get_named_gpio_flags(node,
@@ -1262,8 +1262,8 @@ static enum power_supply_property smb2_batt_props[] = {
 	POWER_SUPPLY_PROP_CHARGE_FULL,
 	POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN,
 	POWER_SUPPLY_PROP_TIME_TO_FULL_NOW,
-	POWER_SUPPLY_PROP_CYCLE_COUNT,
 	POWER_SUPPLY_PROP_FCC_STEPPER_ENABLE,
+	POWER_SUPPLY_PROP_OP_DISABLE_CHARGE,
 };
 
 static int smb2_batt_get_prop(struct power_supply *psy,
@@ -1293,6 +1293,9 @@ static int smb2_batt_get_prop(struct power_supply *psy,
 		break;
 	case POWER_SUPPLY_PROP_CAPACITY:
 		rc = smblib_get_prop_batt_capacity(chg, val);
+		break;
+	case POWER_SUPPLY_PROP_OP_DISABLE_CHARGE:
+		val->intval = chg->chg_disabled;
 		break;
 /* david.liu@bsp, 20171023 Battery & Charging porting */
 	case POWER_SUPPLY_PROP_CHARGE_NOW:
@@ -1405,7 +1408,6 @@ static int smb2_batt_get_prop(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_CHARGE_COUNTER:
 	case POWER_SUPPLY_PROP_CHARGE_FULL:
 	case POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN:
-	case POWER_SUPPLY_PROP_CYCLE_COUNT:
 	case POWER_SUPPLY_PROP_VOLTAGE_NOW:
 	case POWER_SUPPLY_PROP_TEMP:
 	case POWER_SUPPLY_PROP_TIME_TO_FULL_NOW:
@@ -1459,7 +1461,17 @@ static int smb2_batt_set_prop(struct power_supply *psy,
 		pr_info("set iusb %d uA\n", val->intval);
 		if (__debug_mask == PR_OP_DEBUG
 			|| val->intval == 900000)
-			op_usb_icl_set(chg, val->intval);
+		op_usb_icl_set(chg, val->intval);
+		break;
+	case POWER_SUPPLY_PROP_OP_DISABLE_CHARGE:
+		vote(chg->chg_disable_votable, FORCE_RECHARGE_VOTER,
+					(bool)val->intval, 0);
+		if (val->intval) {
+			switch_mode_to_normal();
+			op_set_fast_chg_allow(chg, false);
+		}
+		chg->chg_disabled = (bool)val->intval;
+		pr_info("user set disable chg %d\n", val->intval);
 		break;
 	case POWER_SUPPLY_PROP_CHARGE_NOW:
 		rc = smblib_set_prop_chg_voltage(chg, val);
@@ -1481,11 +1493,11 @@ static int smb2_batt_set_prop(struct power_supply *psy,
 				op_set_fast_chg_allow(chg, false);
 			}
 		}
-	rc = vote(chg->usb_icl_votable, USER_VOTER,
-	!val->intval, 0);
-	rc = vote(chg->dc_suspend_votable, USER_VOTER,
-	!val->intval, 0);
-	chg->chg_enabled = (bool)val->intval;
+		rc = vote(chg->usb_icl_votable, USER_VOTER,
+				!val->intval, 0);
+		rc = vote(chg->dc_suspend_votable, USER_VOTER,
+				!val->intval, 0);
+		chg->chg_enabled = (bool)val->intval;
 		break;
 	case POWER_SUPPLY_PROP_IS_AGING_TEST:
 		chg->is_aging_test = (bool)val->intval;
@@ -1595,6 +1607,7 @@ static int smb2_batt_prop_is_writeable(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_STEP_CHARGING_ENABLED:
 	case POWER_SUPPLY_PROP_SW_JEITA_ENABLED:
 	case POWER_SUPPLY_PROP_DIE_HEALTH:
+	case POWER_SUPPLY_PROP_OP_DISABLE_CHARGE:
 		return 1;
 	default:
 		break;
@@ -2318,15 +2331,6 @@ static int smb2_post_init(struct smb2 *chip)
 	 * not requested
 	 */
 	rerun_election(chg->usb_icl_votable);
-	/* yangfb@bsp, 20180124 ,for EID-1772 */
-	/* configure power role for UDP-role */
-	rc = smblib_masked_write(chg, TYPE_C_INTRPT_ENB_SOFTWARE_CTRL_REG,
-				 TYPEC_POWER_ROLE_CMD_MASK, UFP_EN_CMD_BIT);
-	if (rc < 0) {
-		dev_err(chg->dev,
-			"Couldn't configure power role for UDP rc=%d\n", rc);
-		return rc;
-	}
 
 	/* Force charger in Sink Only mode */
 	if (chg->ufp_only_mode) {
@@ -2822,6 +2826,7 @@ static const struct file_operations proc_ship_mode_operations = {
 	.llseek		= noop_llseek,
 };
 #endif
+
 static irqreturn_t op_usb_plugin_irq_handler(int irq, void *dev_id)
 {
 	schedule_work(&g_chip->otg_switch_work);
@@ -2865,7 +2870,7 @@ static void request_plug_irq(struct smb_charger *chip)
 		chip->pre_cable_pluged = 0;
 }
 
-void requset_vbus_ctrl_gpio(struct smb_charger *chg)
+void request_vbus_ctrl_gpio(struct smb_charger *chg)
 {
 	int ret;
 
@@ -3068,8 +3073,9 @@ static int smb2_probe(struct platform_device *pdev)
 
 	device_init_wakeup(chg->dev, true);
 	chg->probe_done = true;
+	request_vbus_ctrl_gpio(chg);
 	request_plug_irq(chg);
-	requset_vbus_ctrl_gpio(chg);
+
 	pr_info("QPNP SMB2 probed successfully usb:present=%d type=%d batt:present = %d health = %d charge = %d\n",
 		usb_present, chg->real_charger_type,
 		batt_present, batt_health, batt_charge_type);
@@ -3105,7 +3111,7 @@ static int smb2_remove(struct platform_device *pdev)
 
 /* david.liu@bsp, 20170330 Fix system crash */
 	if (chg->usb_psy)
-		power_supply_unregister(chg->batt_psy);
+		power_supply_unregister(chg->usb_psy);
 	if (chg->batt_psy)
 		power_supply_unregister(chg->batt_psy);
 	if (chg->vconn_vreg && chg->vconn_vreg->rdev)
@@ -3126,8 +3132,8 @@ static void smb2_shutdown(struct platform_device *pdev)
 	pr_info("smbchg_shutdown\n");
 	if (chg->ship_mode) {
 		pr_info("smbchg_shutdown enter ship_mode\n");
-		smblib_masked_write(chg, SHIP_MODE_REG,
-			SHIP_MODE_EN_BIT, SHIP_MODE_EN_BIT);
+		smblib_masked_write(chg, SHIP_MODE_REG, SHIP_MODE_EN_BIT,
+			SHIP_MODE_EN_BIT);
 		msleep(1000);
 		pr_err("after 1s\n");
 		while (1)
