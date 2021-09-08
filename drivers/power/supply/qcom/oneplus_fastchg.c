@@ -23,7 +23,6 @@
 
 #define BYTE_OFFSET			2
 #define BYTES_TO_WRITE		16
-
 #define READ_COUNT			192
 #define	FW_CHECK_FAIL		0
 #define	FW_CHECK_SUCCESS	1
@@ -54,8 +53,8 @@ struct fastchg_device_info {
 	bool is_mcl_verion;
 	int mcu_reset_ahead;
 	int erase_count;
-	int addr_low;
-	int addr_high;
+        int addr_low;
+        int addr_high;
 	int adapter_update_report;
 	int adapter_update_real;
 	int battery_type;
@@ -78,8 +77,8 @@ struct fastchg_device_info {
 	struct delayed_work		update_firmware;
 	struct delayed_work update_fireware_version_work;
 	struct delayed_work adapter_update_work;
-	char fw_id[12];
-	char manu_name[12];
+	char fw_id[255];
+	char manu_name[255];
 };
 
 struct fastchg_device_info *fastchg_di;
@@ -172,6 +171,36 @@ static void init_enhance_dash_exist_node(void)
 
 //for mcu_data irq delay issue 2017.10.14@Infi
 extern void msm_cpuidle_set_sleep_disable(bool disable);
+
+static int is_usb_pluged(void)
+{
+	static struct power_supply *psy;
+	union power_supply_propval ret = {0,};
+	int usb_present, rc;
+
+	if (!psy) {
+		psy = power_supply_get_by_name("usb");
+		if (!psy) {
+			pr_err("fastchg failed to get ps usb\n");
+			return -EINVAL;
+		}
+	}
+
+	rc = power_supply_get_property(psy, POWER_SUPPLY_PROP_PRESENT, &ret);
+	if (rc) {
+		pr_err("fastchg failed to get  POWER_SUPPLY_PROP_PRESENT\n");
+		return -EINVAL;
+	}
+
+	if (ret.intval < 0) {
+		pr_err("fastchg get POWER_SUPPLY_PROP_PRESENT EINVAL \n");
+		return -EINVAL;
+	}
+
+	pr_info("%s usb_present [%d]\n", __func__, usb_present);
+	usb_present = ret.intval;
+	return usb_present;
+}
 
 void opchg_set_data_active(struct fastchg_device_info *chip)
 {
@@ -316,7 +345,6 @@ static bool n76e_fw_check(struct fastchg_device_info *chip)
 	}
 		return FW_CHECK_SUCCESS;
 }
-
 
 static bool dashchg_fw_check(void)
 {
@@ -506,9 +534,9 @@ update_fw:
 	/* fw check begin:read data from mcu and compare*/
 	/*it with dashchg_firmware_data[] */
 	if (di->n76e_present)
-		rc = n76e_fw_check(di);
-	else
 		rc = dashchg_fw_check();
+	else
+		rc = n76e_fw_check(di);
 	if (rc == FW_CHECK_FAIL) {
 		download_again++;
 		if (download_again > 3)
@@ -1136,7 +1164,16 @@ static long  dash_dev_ioctl(struct file *filp, unsigned int cmd,
 			dash_write(di, ALLOW_DATA);
 			break;
 		case DASH_NOTIFY_UPDATE_ADAPTER_INFO:
+			if (is_usb_pluged() > 0) {
 				di->dash_enhance = arg;
+				if (!di->batt_psy)
+					di->batt_psy =
+						power_supply_get_by_name("battery");
+				if (di->batt_psy)
+					power_supply_changed(di->batt_psy);
+			} else {
+				pr_err("usb is not online.");
+			}
 			break;
 
 		case DASH_NOTIFY_BAD_CONNECTED:
@@ -1505,6 +1542,7 @@ static int dash_probe(struct i2c_client *client, const struct i2c_device_id *id)
 		ret = -ENOMEM;
 		goto err_check_functionality_failed;
 	}
+
 	di->client = mcu_client = client;
 	di->firmware_already_updated = false;
 	di->irq_enabled = true;

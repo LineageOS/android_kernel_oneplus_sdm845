@@ -1262,8 +1262,11 @@ static int fg_delta_bsoc_irq_en_cb(struct votable *votable, void *data,
 
 	if (enable) {
 		enable_irq(chip->irqs[BSOC_DELTA_IRQ].irq);
+		if (chip->irqs[BSOC_DELTA_IRQ].wakeable)
+			enable_irq_wake(chip->irqs[BSOC_DELTA_IRQ].irq);
 	} else {
-		disable_irq_wake(chip->irqs[BSOC_DELTA_IRQ].irq);
+		if (chip->irqs[BSOC_DELTA_IRQ].wakeable)
+			disable_irq_wake(chip->irqs[BSOC_DELTA_IRQ].irq);
 		disable_irq_nosync(chip->irqs[BSOC_DELTA_IRQ].irq);
 	}
 
@@ -4072,6 +4075,16 @@ static int fg_psy_get_property(struct power_supply *psy,
 		} else
 			pval->intval = -400;
 		break;
+       /*yangfb@bsp,add for battery health*/
+	case POWER_SUPPLY_PROP_BATTERY_HEALTH:
+		if (chip->use_external_fg && external_fg
+				&& external_fg->get_batt_health)
+			pval->intval = external_fg->get_batt_health();
+		else if (get_extern_fg_regist_done() == false)
+			pval->intval = -1;
+		else
+			pval->intval = -1;
+		break;
 	case POWER_SUPPLY_PROP_COLD_TEMP:
 		rc = fg_get_jeita_threshold(chip, JEITA_COLD, &pval->intval);
 		if (rc < 0) {
@@ -4131,7 +4144,20 @@ static int fg_psy_get_property(struct power_supply *psy,
 		pval->intval = chip->cl.init_cc_uah;
 		break;
 	case POWER_SUPPLY_PROP_CHARGE_FULL:
-		pval->intval = chip->cl.learned_cc_uah;
+		if (!get_extern_fg_regist_done() && get_extern_bq_present())
+			pval->intval = -EINVAL;
+		else if (chip->use_external_fg && external_fg && external_fg->get_batt_full_chg_capacity)
+			pval->intval = external_fg->get_batt_full_chg_capacity();
+		else
+			pval->intval = chip->cl.learned_cc_uah;
+		break;
+	case POWER_SUPPLY_PROP_REMAINING_CAPACITY:
+		if (!get_extern_fg_regist_done() && get_extern_bq_present())
+			pval->intval = DEFALUT_BATT_TEMP;
+		else if (chip->use_external_fg && external_fg && external_fg->get_batt_remaining_capacity)
+			pval->intval = external_fg->get_batt_remaining_capacity();
+		else
+			pval->intval = -EINVAL;
 		break;
 	case POWER_SUPPLY_PROP_CHARGE_COUNTER:
 		rc = fg_get_charge_counter(chip, &pval->intval);
@@ -4410,10 +4436,12 @@ static enum power_supply_property fg_psy_props[] = {
 	POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE,
 	POWER_SUPPLY_PROP_CC_STEP,
 	POWER_SUPPLY_PROP_CC_STEP_SEL,
+	POWER_SUPPLY_PROP_REAL_CAPACITY,
+	POWER_SUPPLY_PROP_BATTERY_HEALTH,
 /* david.liu@bsp, 20171023 Battery & Charging porting */
 	POWER_SUPPLY_PROP_SET_ALLOW_READ_EXTERN_FG_IIC,
 	POWER_SUPPLY_PROP_BQ_SOC,
-	POWER_SUPPLY_PROP_REAL_CAPACITY,
+	POWER_SUPPLY_PROP_REMAINING_CAPACITY,
 };
 
 static const struct power_supply_desc fg_psy_desc = {
@@ -6042,7 +6070,7 @@ static int fg_gen3_probe(struct platform_device *pdev)
 	device_init_wakeup(chip->dev, true);
 	schedule_delayed_work(&chip->profile_load_work, 0);
 
-	pr_debug("FG GEN3 driver probed successfully\n");
+	pr_info("FG GEN3 driver probed successfully\n");
 	return 0;
 exit:
 	fg_cleanup(chip);
