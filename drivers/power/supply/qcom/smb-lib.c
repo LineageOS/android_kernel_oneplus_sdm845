@@ -61,12 +61,6 @@
 
 struct smb_charger *g_chg;
 struct qpnp_pon *pm_pon;
-/*2018/06/14 @bsp add for support notify audio adapter switch*/
-static BLOCKING_NOTIFIER_HEAD(typec_cc_chain);
-static int cc_notifier_call_chain(unsigned long val);
-/* infi@bsp, 2018/08/08 add for support audio_adaptor trigger when reboot */
-bool audio_adapter_flag;
-EXPORT_SYMBOL(audio_adapter_flag);
 
 static struct external_battery_gauge *fast_charger;
 static int op_charging_en(struct smb_charger *chg, bool en);
@@ -107,6 +101,14 @@ static void op_clean_enhache_status(void);
 			pr_debug("%s: %s: " fmt, chg->name,	\
 				__func__, ##__VA_ARGS__);	\
 	} while (0)
+
+/*2018/06/14 @bsp add for support notify audio adapter switch*/
+static BLOCKING_NOTIFIER_HEAD(typec_cc_chain);
+static int cc_notifier_call_chain(unsigned long val);
+
+/* infi@bsp, 2018/08/08 add for support audio_adaptor trigger when reboot */
+bool audio_adapter_flag;
+EXPORT_SYMBOL(audio_adapter_flag);
 
 static bool is_secure(struct smb_charger *chg, int addr)
 {
@@ -1089,7 +1091,9 @@ int smblib_set_icl_current(struct smb_charger *chg, int icl_ua)
 {
 	int rc = 0;
 	bool override;
+/* david.liu@bsp, 20171023 Battery & Charging porting */
 	pr_info("icl_ua=%d\n", icl_ua);
+
 	/* suspend and return if 25mA or less is requested */
 	if (icl_ua <= USBIN_25MA)
 		return smblib_set_usb_suspend(chg, true);
@@ -2301,6 +2305,55 @@ int smblib_set_prop_input_suspend(struct smb_charger *chg,
 #define POWER_ROLE_BIT (DFP_EN_CMD_BIT | UFP_EN_CMD_BIT)
 int op_set_prop_otg_switch(struct smb_charger *chg,
 				  bool enable)
+{
+	int rc = 0;
+	u8 power_role;
+	u8 ctrl = 0;
+	bool pre_otg_switch;
+	int i = 0;
+
+	pre_otg_switch = chg->otg_switch;
+	chg->otg_switch = enable;
+
+	if (chg->otg_switch == pre_otg_switch)
+		return rc;
+
+	pr_info("set otg_switch=%d\n", chg->otg_switch);
+	if (chg->otg_switch)
+		power_role = 0;
+	else
+		power_role = UFP_EN_CMD_BIT;
+
+	for (i = 0; i < 10; i++) {
+		rc = smblib_masked_write(chg,
+					TYPE_C_INTRPT_ENB_SOFTWARE_CTRL_REG,
+					TYPEC_POWER_ROLE_CMD_MASK, power_role);
+		if (rc < 0) {
+			smblib_err(chg, "Couldn't write 0x%02x to 0x1368 rc=%d\n",
+				power_role, rc);
+			return rc;
+		}
+		usleep_range(30000, 31000);
+		ctrl = 0;
+		rc = smblib_read(chg,
+			TYPE_C_INTRPT_ENB_SOFTWARE_CTRL_REG, &ctrl);
+		if (rc < 0) {
+			smblib_err(chg, "Couldn't read err=%d\n", rc);
+			return rc;
+		}
+		if ((power_role == 0) && ((ctrl & POWER_ROLE_BIT) == 0))
+			break;
+		if ((power_role == UFP_EN_CMD_BIT) && (ctrl & UFP_EN_CMD_BIT))
+			break;
+	}
+	pr_info("retry time = %d,ctrl = %d\n", i, ctrl);
+	if (i == 10)
+		pr_err("retry time over\n");
+
+	return rc;
+}
+
+int op_set_otg_switch(struct smb_charger *chg, bool enable)
 {
 	int rc = 0;
 	u8 power_role;
@@ -3884,11 +3937,15 @@ static inline void op_dump_reg(struct smb_charger *chip,
 	u8 reg = 0;
 	u16 addr;
 	char reg_val[19];
+	int rc;
 
 	memset(dump_val, 0, sizeof(dump_val));
 	for (addr = addr_start; addr <= addr_end; addr++) {
 		memset(reg_val, 0, sizeof(reg_val));
-		smblib_read(chip, addr, &reg);
+		rc = smblib_read(chip, addr, &reg);
+		if (rc < 0)
+			smblib_err(chip, "op_dump_reg  read error addr=%d rc=%d\n",
+					addr, rc);
 		scnprintf(reg_val,
 			sizeof(reg_val), "%x=%0x;", addr, reg);
 		strlcat(dump_val, reg_val, sizeof(dump_val));
@@ -4470,6 +4527,7 @@ static void smblib_handle_apsd_done(struct smb_charger *chg, bool rising)
 		return;
 
 	apsd_result = smblib_update_usb_type(chg);
+
 	if (!chg->typec_legacy_valid)
 		smblib_force_legacy_icl(chg, apsd_result->pst);
 
@@ -4497,6 +4555,7 @@ static void smblib_handle_apsd_done(struct smb_charger *chg, bool rising)
 	default:
 		break;
 	}
+
 /* david.liu@bsp, 20171023 Battery & Charging porting */
 	if ((apsd_result->bit) == SDP_CHARGER_BIT)
 		current_limit_ua = SDP_CURRENT_UA;
@@ -4797,6 +4856,7 @@ static void typec_sink_insertion(struct smb_charger *chg)
 	}
 
 	typec_mode = smblib_get_prop_typec_mode(chg);
+
 /*2018/06/14 @bsp add for support notify audio adapter switch*/
 	if (typec_mode == POWER_SUPPLY_TYPEC_SINK_AUDIO_ADAPTER) {
 		chg->is_audio_adapter = true;
@@ -4949,7 +5009,6 @@ static void smblib_handle_typec_removal(struct smb_charger *chg)
 	if (chg->is_audio_adapter == true) {
 		/* wait for the audio driver to lower its en gpio */
 		msleep(*chg->audio_headset_drp_wait_ms);
-
 		chg->is_audio_adapter = false;
 		audio_adapter_flag = false;
 		pr_info("Type-C removal, audio_adapter_present=(%d),notify!\n",
@@ -5460,7 +5519,12 @@ static int op_charging_en(struct smb_charger *chg, bool en)
 {
 	int rc;
 
-	pr_err("enable=%d\n", en);
+	pr_info("enable=%d\n", en);
+	if (chg->chg_disabled && en) {
+		pr_info("chg_disabled just return\n");
+		return 0;
+	}
+
 	rc = smblib_masked_write(chg, CHARGING_ENABLE_CMD_REG,
 				 CHARGING_ENABLE_CMD_BIT,
 				 en ? CHARGING_ENABLE_CMD_BIT : 0);
@@ -5522,6 +5586,8 @@ bool is_fastchg_allowed(struct smb_charger *chg)
 	low_temp_full = op_get_fast_low_temp_full(chg);
 	fw_updated = get_fastchg_firmware_updated_status(chg);
 
+	if (chg->chg_disabled)
+		return false;
 	if (!fw_updated)
 		return false;
 	if (chg->usb_enum_status)
@@ -5598,9 +5664,12 @@ static void op_handle_usb_removal(struct smb_charger *chg)
 	chg->recovery_boost_count = 0;
 	chg->dash_check_count = 0;
 	chg->ffc_count = 0;
+	chg->chg_disabled = 0;
 	vote(chg->fcc_votable,
-	DEFAULT_VOTER, true, SDP_CURRENT_UA);
+		DEFAULT_VOTER, true, SDP_CURRENT_UA);
 	set_sdp_current(chg, USBIN_500MA);
+	vote(chg->chg_disable_votable,
+		FORCE_RECHARGE_VOTER, false, 0);
 	op_battery_temp_region_set(chg, BATT_TEMP_INVALID);
 }
 
@@ -5982,6 +6051,10 @@ static void retrigger_dash_work(struct work_struct *work)
 		return;
 	}
 	if (!chg->vbus_present) {
+		chg->ck_dash_count = 0;
+		return;
+	}
+	if (chg->chg_disabled) {
 		chg->ck_dash_count = 0;
 		return;
 	}
@@ -6934,6 +7007,9 @@ static int msm_drm_notifier_callback(struct notifier_block *self,
 		container_of(self, struct smb_charger, msm_drm_notifier);
 	int *blank;
 
+	if (!evdata)
+		return 0;
+
 	if (evdata->id != MSM_DRM_PRIMARY_DISPLAY)
 		return 0;
 	if (event != MSM_DRM_EARLY_EVENT_BLANK)
@@ -7359,7 +7435,6 @@ int plugin_update(struct smb_charger *chg)
 	return rc;
 }
 
-
 static void op_otg_switch(struct work_struct *work)
 {
 	int usb_pluged;
@@ -7373,6 +7448,7 @@ static void op_otg_switch(struct work_struct *work)
 		return;
 	}
 	pr_info("%s,usb_present:%d\n", __func__, usb_pluged);
+
 	if (usb_pluged) {
 		vote(g_chg->otg_toggle_votable, HW_DETECT_VOTER, 1, 0);
 		g_chg->hw_detect = 1;
@@ -7385,6 +7461,7 @@ static void op_otg_switch(struct work_struct *work)
 					__func__, g_chg->hw_detect, rc);
 	g_chg->pre_cable_pluged = usb_pluged;
 }
+
 
 static int get_usb_temp(struct smb_charger *chg)
 {
@@ -7514,6 +7591,10 @@ static void op_heartbeat_work(struct work_struct *work)
 	power_supply_changed(chg->batt_psy);
 	chg->dash_on = get_prop_fast_chg_started(chg);
 	if (chg->dash_on) {
+		if (chg->chg_disabled) {
+			set_usb_switch(chg, false);
+			goto out;
+		}
 		switch_fast_chg(chg);
 		pr_info("fast chg started, usb_switch=%d\n",
 				op_is_usb_switch_on(chg));
@@ -7686,14 +7767,7 @@ static int load_data(struct smb_charger *chg)
 		return SOC_INVALID;
 	}
 
-	/* the fist time connect battery, the PM 0x88d bit7 is 0, */
-	/* we do not need load this data. */
-	if (flag)
-		shutdown_soc = (stored_soc >> 1);
-	/* get data from bit1~bit7 */
-	else
-		shutdown_soc = SOC_INVALID;
-
+	shutdown_soc = (stored_soc >> 1);
 	pr_info("stored_soc[0x%x], shutdown_soc[%d]\n",
 		stored_soc, shutdown_soc);
 	return shutdown_soc;

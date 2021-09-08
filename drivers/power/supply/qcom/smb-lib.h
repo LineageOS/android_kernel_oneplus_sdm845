@@ -89,6 +89,7 @@ enum print_reason {
 #define OTG_VOTER			"OTG_VOTER"
 #define PL_FCC_LOW_VOTER		"PL_FCC_LOW_VOTER"
 #define WBC_VOTER			"WBC_VOTER"
+#define FORCE_RECHARGE_VOTER		"FORCE_RECHARGE_VOTER"
 #define MOISTURE_VOTER			"MOISTURE_VOTER"
 #define HVDCP2_ICL_VOTER		"HVDCP2_ICL_VOTER"
 #define OV_VOTER			"OV_VOTER"
@@ -284,9 +285,7 @@ struct smb_charger {
 	struct mutex		vconn_oc_lock;
 /* david.liu@bsp, 20171023 Battery & Charging porting */
 	struct mutex		sw_dash_lock;
-/*yangfb@bsp, 20180302,enable stm6620 sheepmode */
-	struct pinctrl_state *pinctrl_state_default;
-	struct pinctrl *pinctrl;
+
 	/* power supplies */
 	struct power_supply		*batt_psy;
 	struct power_supply		*usb_psy;
@@ -353,11 +352,10 @@ struct smb_charger {
 	struct delayed_work op_re_set_work;
 	struct delayed_work	op_check_apsd_work;
 	struct work_struct	get_aicl_work;
+	struct work_struct	otg_switch_work;
 	struct delayed_work	dash_check_work;
 	struct delayed_work	revertboost_recovery_work;
 	struct delayed_work	connecter_check_work;
-	struct delayed_work	op_icl_set_work;
-	struct work_struct	otg_switch_work;
 	struct wakeup_source	chg_wake_lock;
 	struct delayed_work	clear_hdc_work;
 	struct work_struct	otg_oc_work;
@@ -404,11 +402,11 @@ struct smb_charger {
 	int				ck_apsd_count;
 	int				ck_dash_count;
 	int				recovery_boost_count;
-	int				op_icl_val;
 	int				plug_irq;
-	int				sw_iterm_ma;
 	int				pre_cable_pluged;
 	int				hw_detect;
+	int				op_icl_val;
+	int				sw_iterm_ma;
 	bool				otg_switch;
 	bool				use_fake_chgvol;
 	bool				use_fake_temp;
@@ -425,6 +423,7 @@ struct smb_charger {
 	bool				disable_normal_chg_for_dash;
 	bool				ship_mode;
 	bool				dash_on;
+	bool				chg_disabled;
 	bool				chg_ovp;
 	bool				is_power_changed;
 	bool				recharge_pending;
@@ -634,8 +633,8 @@ bool op_get_fastchg_ing(struct smb_charger *chg);
 bool get_prop_fastchg_status(struct smb_charger *chg);
 int op_usb_icl_set(struct smb_charger *chg, int icl_ua);
 int op_get_aicl_result(struct smb_charger *chg);
-void op_disconnect_vbus(struct smb_charger *chg, bool enable);
 int plugin_update(struct smb_charger *chg);
+void op_disconnect_vbus(struct smb_charger *chg, bool enable);
 int smblib_set_prop_input_current_limited(struct smb_charger *chg,
 				const union power_supply_propval *val);
 
