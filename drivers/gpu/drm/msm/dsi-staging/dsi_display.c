@@ -161,6 +161,9 @@ int dsi_display_set_backlight(void *display, u32 bl_lvl)
 		goto error;
 	}
 
+	if (bl_lvl != 0 && panel->bl_config.bl_level == 0)
+		dsi_panel_apply_display_mode_locked(panel);
+
 	panel->bl_config.bl_level = bl_lvl;
 
 	/* scale backlight */
