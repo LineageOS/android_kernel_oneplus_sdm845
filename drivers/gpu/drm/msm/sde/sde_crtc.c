@@ -2818,6 +2818,8 @@ extern int aod_layer_hide;
 int oneplus_aod_fod = 0;
 int oneplus_aod_dc = 0;
 int oneplus_dim_status = 0;
+int backup_dim_status = 0;
+bool backup_dimlayer_hbm = false;
 
 ssize_t oneplus_display_notify_dim(struct device *dev,
 		struct device_attribute *attr,
@@ -2869,6 +2871,8 @@ ssize_t oneplus_display_notify_dim(struct device *dev,
 
 	oneplus_dim_status = dim_status;
 	oneplus_dimlayer_hbm_enable = oneplus_dim_status != 0;
+	backup_dimlayer_hbm = oneplus_dimlayer_hbm_enable;
+	backup_dim_status = oneplus_dim_status;
 	if (oneplus_dim_status == 1 && HBM_flag) {
 		pr_err("notify dim not commit");
 		return count;
@@ -4995,8 +4999,12 @@ static int sde_crtc_onscreenfinger_atomic_check(struct sde_crtc_state *cstate,
 	}
 	aod_mode = oneplus_aod_hid;
 
-	if ((oneplus_dim_status == 5) && display->panel->aod_status == 0)
+	if ((oneplus_dim_status == 5) && display->panel->aod_status == 0) {
 		dim_mode = 0;
+		oneplus_dim_status = 0;
+		oneplus_dimlayer_hbm_enable = false;
+		pr_err("current dim = %d, oneplus_dimlayer_hbm_enable = %d\n", oneplus_dim_status, oneplus_dimlayer_hbm_enable);
+	}
 
 	for (i = 0; i < cnt; i++) {
 		mode = sde_plane_check_fingerprint_layer(pstates[i].drm_pstate);
