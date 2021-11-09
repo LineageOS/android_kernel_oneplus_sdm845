@@ -398,6 +398,13 @@ extern ssize_t oneplus_display_notify_aod_hid(struct device *dev,
 					      const char *buf,
 					      size_t count);
 
+int oneplus_panel_status = 0;
+static ssize_t op_display_get_power_status(struct device *dev,
+				struct device_attribute *attr, char *buf)
+{
+	return sprintf(buf, "%d\n", oneplus_panel_status);
+}
+
 static DEVICE_ATTR_RW(status);
 static DEVICE_ATTR_RO(enabled);
 static DEVICE_ATTR_RO(dpms);
