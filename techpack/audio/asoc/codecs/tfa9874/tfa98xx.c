@@ -143,17 +143,17 @@ static inline char *tfa_cont_profile_name(struct tfa98xx *tfa98xx, int prof_idx)
 	return tfaContProfileName(tfa98xx->tfa->cnt, tfa98xx->tfa->dev_idx, prof_idx);
 }
 
-static enum tfa_error tfa98xx_write_re25(struct tfa_device *tfa, int value)
+static enum Tfa98xx_Error tfa98xx_write_re25(struct tfa_device *tfa, int value)
 {
-	enum tfa_error err;
+	enum Tfa98xx_Error err;
 
 	/* clear MTPEX */
 	err = tfa_dev_mtp_set(tfa, TFA_MTP_EX, 0);
-	if (err == tfa_error_ok) {
+	if (err == Tfa98xx_Error_Ok) {
 		/* set RE25 in shadow regiser */
 		err = tfa_dev_mtp_set(tfa, TFA_MTP_RE25_PRIM, value);
 	}
-	if (err == tfa_error_ok) {
+	if (err == Tfa98xx_Error_Ok) {
 		/* set MTPEX to copy RE25 into MTP  */
 		err = tfa_dev_mtp_set(tfa, TFA_MTP_EX, 2);
 	}
@@ -162,9 +162,9 @@ static enum tfa_error tfa98xx_write_re25(struct tfa_device *tfa, int value)
 }
 
 /* Wrapper for tfa start */
-static enum tfa_error tfa98xx_tfa_start(struct tfa98xx *tfa98xx, int next_profile, int vstep)
+static enum Tfa98xx_Error tfa98xx_tfa_start(struct tfa98xx *tfa98xx, int next_profile, int vstep)
 {
-	enum tfa_error err;
+	enum Tfa98xx_Error err;
 	ktime_t start_time, stop_time;
 	u64 delta_time;
 
@@ -184,10 +184,10 @@ static enum tfa_error tfa98xx_tfa_start(struct tfa98xx *tfa98xx, int next_profil
 		        next_profile, vstep, delta_time);
 	}
 
-	if ((err == tfa_error_ok) && (tfa98xx->set_mtp_cal)) {
-		enum tfa_error err_cal;
+	if ((err == Tfa98xx_Error_Ok) && (tfa98xx->set_mtp_cal)) {
+		enum Tfa98xx_Error err_cal;
 		err_cal = tfa98xx_write_re25(tfa98xx->tfa, tfa98xx->cal_data);
-		if (err_cal != tfa_error_ok) {
+		if (err_cal != Tfa98xx_Error_Ok) {
 			pr_err("Error, setting calibration value in mtp, err=%d\n", err_cal);
 		} else {
 			tfa98xx->set_mtp_cal = false;
@@ -372,7 +372,7 @@ static int tfa98xx_dbgfs_otc_set(void *data, u64 val)
 {
 	struct i2c_client *i2c = (struct i2c_client *)data;
 	struct tfa98xx *tfa98xx = i2c_get_clientdata(i2c);
-	enum tfa_error err;
+	enum Tfa98xx_Error err;
 
 	if (val != 0 && val != 1) {
 		pr_err("[0x%x] Unexpected value %llu\n", tfa98xx->i2c->addr, val);
@@ -383,7 +383,7 @@ static int tfa98xx_dbgfs_otc_set(void *data, u64 val)
 	err = tfa_dev_mtp_set(tfa98xx->tfa, TFA_MTP_OTC, val);
 	mutex_unlock(&tfa98xx->dsp_lock);
 
-	if (err != tfa_error_ok) {
+	if (err != Tfa98xx_Error_Ok) {
 		pr_err("[0x%x] Unable to check DSP access: %d\n", tfa98xx->i2c->addr, err);
 		return -EIO;
 	}
@@ -419,7 +419,7 @@ static int tfa98xx_dbgfs_mtpex_set(void *data, u64 val)
 {
 	struct i2c_client *i2c = (struct i2c_client *)data;
 	struct tfa98xx *tfa98xx = i2c_get_clientdata(i2c);
-	enum tfa_error err;
+	enum Tfa98xx_Error err;
 
 	if (val != 0) {
 		pr_err("[0x%x] Can only clear MTPEX (0 value expected)\n", tfa98xx->i2c->addr);
@@ -430,7 +430,7 @@ static int tfa98xx_dbgfs_mtpex_set(void *data, u64 val)
 	err = tfa_dev_mtp_set(tfa98xx->tfa, TFA_MTP_EX, val);
 	mutex_unlock(&tfa98xx->dsp_lock);
 
-	if (err != tfa_error_ok) {
+	if (err != Tfa98xx_Error_Ok) {
 		pr_err("[0x%x] Unable to check DSP access: %d\n", tfa98xx->i2c->addr, err);
 		return -EIO;
 	}
@@ -474,7 +474,7 @@ static ssize_t tfa98xx_dbgfs_start_set(struct file *file,
 {
 	struct i2c_client *i2c = file->private_data;
 	struct tfa98xx *tfa98xx = i2c_get_clientdata(i2c);
-	enum tfa_error ret;
+	enum Tfa98xx_Error ret;
 	char buf[32];
 	const char ref[] = "please calibrate now";
 	int buf_size;
@@ -494,10 +494,10 @@ static ssize_t tfa98xx_dbgfs_start_set(struct file *file,
 
 	mutex_lock(&tfa98xx->dsp_lock);
 	ret = tfa_calibrate(tfa98xx->tfa);
-	if (ret == tfa_error_ok)
+	if (ret == Tfa98xx_Error_Ok)
 		ret = tfa98xx_tfa_start(tfa98xx, tfa98xx->profile, tfa98xx->vstep);
-	if (ret == tfa_error_ok)
-			tfa_dev_set_state(tfa98xx->tfa, TFA_STATE_UNMUTE);
+	if (ret == Tfa98xx_Error_Ok)
+		tfa_dev_set_state(tfa98xx->tfa, TFA_STATE_UNMUTE);
 	mutex_unlock(&tfa98xx->dsp_lock);
 
 	if (ret) {
@@ -624,7 +624,7 @@ static ssize_t tfa98xx_dbgfs_dsp_state_set(struct file *file,
 {
 	struct i2c_client *i2c = file->private_data;
 	struct tfa98xx *tfa98xx = i2c_get_clientdata(i2c);
-	enum tfa_error ret;
+	enum Tfa98xx_Error ret;
 	char buf[32];
 	const char start_cmd[] = "start";
 	const char stop_cmd[] = "stop";
@@ -1326,14 +1326,14 @@ static int tfa98xx_set_cal_ctl(struct snd_kcontrol *kcontrol,
 
 	mutex_lock(&tfa98xx_mutex);
 	list_for_each_entry(tfa98xx, &tfa98xx_device_list, list) {
-		enum tfa_error err;
+		enum Tfa98xx_Error err;
 		int i = tfa98xx->tfa->dev_idx;
 
 		tfa98xx->cal_data = (uint16_t)ucontrol->value.integer.value[i];
 
 		mutex_lock(&tfa98xx->dsp_lock);
 		err = tfa98xx_write_re25(tfa98xx->tfa, tfa98xx->cal_data);
-		tfa98xx->set_mtp_cal = (err != tfa_error_ok);
+		tfa98xx->set_mtp_cal = (err != Tfa98xx_Error_Ok);
 		if (tfa98xx->set_mtp_cal == false) {
 			pr_info("Calibration value (%d) set in mtp\n",
 			        tfa98xx->cal_data);
@@ -1961,7 +1961,7 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
 {
 	nxpTfaContainer_t *container;
 	struct tfa98xx *tfa98xx = context;
-	enum tfa_error tfa_err;
+	enum Tfa98xx_Error tfa_err;
 	int container_size;
 	int ret;
 
@@ -1995,8 +1995,8 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
 		pr_info("%d ndev\n", container->ndev);
 		pr_info("%d nprof\n", container->nprof);
 
-		tfa_err = tfa_load_cnt(container, container_size);
-		if (tfa_err != tfa_error_ok) {
+		tfa_err = (enum Tfa98xx_Error)(tfa_load_cnt(container, container_size));
+		if (tfa_err != Tfa98xx_Error_Ok) {
 			mutex_unlock(&tfa98xx_mutex);
 			kfree(container);
 			dev_err(tfa98xx->dev, "Cannot load container file, aborting\n");

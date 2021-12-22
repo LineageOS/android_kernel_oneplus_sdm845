@@ -2981,7 +2981,7 @@ enum Tfa98xx_Error tfaRunWaitCalibration(struct tfa_device *tfa, int *calibrateD
  * tfa_dev_start will only do the basics: Going from powerdown to operating or a profile switch.
  * for calibrating or akoustic shock handling use the tfa98xxCalibration function.
  */
-enum tfa_error tfa_dev_start(struct tfa_device *tfa, int next_profile, int vstep)
+enum Tfa98xx_Error tfa_dev_start(struct tfa_device *tfa, int next_profile, int vstep)
 {
 	enum Tfa98xx_Error err = Tfa98xx_Error_Ok;
 	int active_profile = -1;
@@ -3067,10 +3067,10 @@ enum tfa_error tfa_dev_start(struct tfa_device *tfa, int next_profile, int vstep
 error_exit:
 	show_current_state(tfa);
 
-	return err;
+	return (enum Tfa98xx_Error)(err);
 }
 
-enum tfa_error tfa_dev_stop(struct tfa_device *tfa)
+enum Tfa98xx_Error tfa_dev_stop(struct tfa_device *tfa)
 {
 	enum Tfa98xx_Error err = Tfa98xx_Error_Ok;
         int times = 0, ready;
@@ -3104,7 +3104,7 @@ enum tfa_error tfa_dev_stop(struct tfa_device *tfa)
 		pr_debug("tfa stop: Not in PowerDown\n");
 	}
 
-	return (enum tfa_error)err;	//liuhaituo modify
+	return (enum Tfa98xx_Error)err;	//liuhaituo modify
 }
 
 /*
@@ -3547,9 +3547,9 @@ int tfa_dev_probe(int slave, struct tfa_device *tfa)
 	return 0;
 }
 
-enum tfa_error tfa_dev_set_state(struct tfa_device *tfa, enum tfa_state state)
+enum Tfa98xx_Error tfa_dev_set_state(struct tfa_device *tfa, enum tfa_state state)
 {
-	enum tfa_error err = tfa_error_ok;
+	enum Tfa98xx_Error err = Tfa98xx_Error_Ok;
 	int loop = 50, ready = 0;
 	int count;
 
@@ -3574,7 +3574,7 @@ enum tfa_error tfa_dev_set_state(struct tfa_device *tfa, enum tfa_state state)
 		/* Make sure the DSP is running! */
 		do {
 			err = tfa98xx_dsp_system_stable(tfa, &ready);
-			if (err != tfa_error_ok)
+			if (err != Tfa98xx_Error_Ok)
 				return err;
 			if (ready)
 				break;
@@ -3634,7 +3634,7 @@ enum tfa_error tfa_dev_set_state(struct tfa_device *tfa, enum tfa_state state)
 		break;
 	default:
 		if (state & 0x0f)
-			return tfa_error_bad_param;
+			return Tfa98xx_Error_Bad_Parameter;
 	}
 
 	/* state modifiers */
@@ -3647,7 +3647,7 @@ enum tfa_error tfa_dev_set_state(struct tfa_device *tfa, enum tfa_state state)
 
 	tfa->state = state;
 
-	return tfa_error_ok;
+	return Tfa98xx_Error_Ok;
 }
 
 enum tfa_state tfa_dev_get_state(struct tfa_device *tfa)
@@ -3719,9 +3719,9 @@ int tfa_dev_mtp_get(struct tfa_device *tfa, enum tfa_mtp item)
 	return value;
 }
 
-enum tfa_error tfa_dev_mtp_set(struct tfa_device *tfa, enum tfa_mtp item, int value)
+enum Tfa98xx_Error tfa_dev_mtp_set(struct tfa_device *tfa, enum tfa_mtp item, int value)
 {
-	enum tfa_error err = tfa_error_ok;
+	enum Tfa98xx_Error err = Tfa98xx_Error_Ok;
 
 	switch (item) {
 		case TFA_MTP_OTC:
@@ -3744,7 +3744,7 @@ enum tfa_error tfa_dev_mtp_set(struct tfa_device *tfa, enum tfa_mtp item, int va
 				TFA_SET_BF(tfa, R25CR, (uint16_t)value);
 			} else {
 				pr_debug("Error: Current device has no secondary Re25 channel \n");
-				err = tfa_error_bad_param;
+				err = Tfa98xx_Error_Bad_Parameter;
 			}
 			break;
 		case TFA_MTP_LOCK:
