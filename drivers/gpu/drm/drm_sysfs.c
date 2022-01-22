@@ -398,7 +398,23 @@ extern ssize_t oneplus_display_notify_aod_hid(struct device *dev,
 					      const char *buf,
 					      size_t count);
 
+int oneplus_auth_status = 0;
 int oneplus_panel_status = 0;
+static ssize_t op_display_get_auth_status(struct device *dev,
+				struct device_attribute *attr, char *buf)
+{
+	return sprintf(buf, "%d\n", oneplus_auth_status);
+}
+
+static ssize_t op_display_set_auth_status(struct device *dev,
+				struct device_attribute *attr,
+				const char *buf, size_t count)
+{
+	sscanf(buf, "%d", &oneplus_auth_status);
+
+	return count;
+}
+
 static ssize_t op_display_get_power_status(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
@@ -426,6 +442,7 @@ static DEVICE_ATTR(notify_fppress, S_IRUGO | S_IWUSR, NULL, oneplus_display_noti
 static DEVICE_ATTR(dim_alpha, S_IRUGO | S_IWUSR, oneplus_display_get_dim_alpha, oneplus_display_set_dim_alpha);
 static DEVICE_ATTR(notify_dim, S_IRUGO | S_IWUSR, NULL, oneplus_display_notify_dim);
 static DEVICE_ATTR(notify_aod, S_IRUGO | S_IWUSR, NULL, oneplus_display_notify_aod_hid);
+static DEVICE_ATTR(auth_status, S_IRUGO | S_IWUSR, op_display_get_auth_status, op_display_set_auth_status);
 static DEVICE_ATTR(power_status, S_IRUGO | S_IWUSR, op_display_get_power_status, op_display_set_power_status);
 
 static struct attribute *connector_dev_attrs[] = {
@@ -441,6 +458,7 @@ static struct attribute *connector_dev_attrs[] = {
 	&dev_attr_notify_fppress.attr,
 	&dev_attr_notify_dim.attr,
 	&dev_attr_notify_aod.attr,
+	&dev_attr_auth_status.attr,
 	&dev_attr_power_status.attr,
 	NULL
 };
