@@ -3981,7 +3981,7 @@ static long fastrpc_device_ioctl(struct file *file, unsigned int ioctl_num,
 	} i;
 	void *param = (char *)ioctl_param;
 	struct fastrpc_file *fl = (struct fastrpc_file *)file->private_data;
-	int size = 0, err = 0, req_complete = 0;
+	int size = 0, err = 0;
 	uint32_t info;
 	static bool isQueryDone;
 
@@ -4185,8 +4185,8 @@ static long fastrpc_device_ioctl(struct file *file, unsigned int ioctl_num,
 		if (err)
 			goto bail;
 		if ((fl->cid == CDSP_DOMAIN_ID) && !isQueryDone) {
-			req_complete = fastrpc_update_cdsp_support(fl);
-			if (!req_complete)
+			err = fastrpc_update_cdsp_support(fl);
+			if (!err)
 				isQueryDone = true;
 		}
 		break;
