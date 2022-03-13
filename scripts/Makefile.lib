@@ -288,7 +288,10 @@ DTC_FLAGS += -Wno-unit_address_vs_reg \
 	-Wno-graph_child_address \
 	-Wno-graph_port \
 	-Wno-unique_unit_address \
-	-Wno-pci_device_reg
+	-Wno-pci_device_reg \
+	-Wno-avoid_default_addr_size \
+	-Wno-interrupts_property \
+	-Wno-reg_format
 endif
 
 ifneq ($(findstring 2,$(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
