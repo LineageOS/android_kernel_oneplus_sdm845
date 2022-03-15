@@ -482,7 +482,7 @@ void get_ddr_manufacture_name(void)
         for (i = 0; i < length; i++) {
             if (ddr_manufacture_list[i].id ==
                 GET_PROJECT_INFO(ddr_manufacture_info)) {
-                snprintf(ddr_manufacture, BUF_SIZE, "%s",
+                snprintf(ddr_manufacture, sizeof(ddr_manufacture), "%s",
                     ddr_manufacture_list[i].name);
                 break;
             }
@@ -499,7 +499,7 @@ void get_cpu_type(void)
         for (i = 0; i < length; i++) {
             if (cpu_list_msm[i].id ==
                 GET_PROJECT_INFO(platform_id)) {
-                snprintf(cpu_type, BUF_SIZE,
+                snprintf(cpu_type, sizeof(cpu_type),
                     "%s", cpu_list_msm[i].name);
                 break;
             }
