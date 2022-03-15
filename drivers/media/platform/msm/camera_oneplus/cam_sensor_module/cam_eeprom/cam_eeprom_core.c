@@ -20,7 +20,6 @@
 
 #ifdef CONFIG_PROJECT_INFO
 #include <linux/project_info.h>
-#endif
 
 struct ois_vendor_match_tbl {
 	uint16_t ois_id;
@@ -31,6 +30,7 @@ static struct ois_vendor_match_tbl match_tbl[] = {
 	{0x24, "BU24218GWL", "Rohm"},
 	{0x28, "BU24228GWL", "Rohm"},
 };
+#endif
 
 /**
  * cam_eeprom_read_memory() - read map data into buffer
