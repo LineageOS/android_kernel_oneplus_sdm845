@@ -26,11 +26,14 @@ struct camera_vendor_match_tbl {
 	char sensor_name[32];
 	char vendor_name[32];
 };
+
+#ifdef CONFIG_PROJECT_INFO
 static struct camera_vendor_match_tbl match_tbl[] = {
 	{0x519, "imx519", "Sony"},
 	{0x376, "imx376k", "Sony"},
 	{0x371, "imx371", "Sony"},
 };
+#endif
 
 static struct cam_sensor_i2c_reg_array lotid_on_setting[2] = {
 	{
@@ -778,8 +781,8 @@ int32_t cam_sensor_driver_cmd(struct cam_sensor_ctrl_t *s_ctrl,
 	struct cam_sensor_power_setting *pd = NULL;
 	struct cam_sensor_power_ctrl_t *power_info =
 		&s_ctrl->sensordata->power_info;
-	uint32_t count = 0, i;
 #ifdef CONFIG_PROJECT_INFO
+	uint32_t count = 0, i;
 	enum COMPONENT_TYPE CameraID;
 #endif
 

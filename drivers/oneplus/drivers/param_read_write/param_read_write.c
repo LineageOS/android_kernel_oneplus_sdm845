@@ -25,7 +25,9 @@
 #define PARAM_PARTITION "/dev/block/bootdevice/by-name/param"
 #define READ_CHUNK_MAX_SIZE (1024)
 #define WRITE_CHUNK_MAX_SIZE (1024)
+#ifdef CONFIG_DEBUG_PARAM_DUMP
 static uint default_param_data_dump_size= DEFAULT_PARAM_DUMP_SIZE;
+#endif
 
 typedef struct{
 	phys_addr_t paddr;
@@ -323,7 +325,9 @@ struct miscdevice param_misc = {
 
 static int __init param_init(void)
 {
+#ifdef CONFIG_DEBUG_PARAM_DUMP
 	int i;
+#endif
 	int ret = 0;
 
 	if(param_ram_buffer_map((phys_addr_t)param_ram_zone.paddr,
