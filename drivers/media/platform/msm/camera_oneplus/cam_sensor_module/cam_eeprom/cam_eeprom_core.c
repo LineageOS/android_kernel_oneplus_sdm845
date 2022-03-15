@@ -27,10 +27,13 @@ struct ois_vendor_match_tbl {
 	char ois_name[32];
 	char vendor_name[32];
 };
+
+#ifdef CONFIG_PROJECT_INFO
 static struct ois_vendor_match_tbl match_tbl[] = {
 	{0x24, "BU24218GWL", "Rohm"},
 	{0x28, "BU24228GWL", "Rohm"},
 };
+#endif
 
 /**
  * cam_eeprom_read_memory() - read map data into buffer
