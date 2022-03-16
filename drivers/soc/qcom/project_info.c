@@ -21,6 +21,7 @@
 #include <linux/pinctrl/pinctrl.h>
 #include <linux/pinctrl/machine.h>
 #include <linux/pstore.h>
+#include <linux/swap.h>
 
 static struct component_info component_info_desc[COMPONENT_MAX];
 static struct kobject *project_info_kobj;
