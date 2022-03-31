@@ -417,8 +417,6 @@ static int hidinput_get_battery_property(struct power_supply *psy,
 
 		if (!dev->battery_reported)
 			val->intval = POWER_SUPPLY_STATUS_UNKNOWN;
-		else if (dev->battery_capacity == 100)
-			val->intval = POWER_SUPPLY_STATUS_FULL;
 		else
 			val->intval = POWER_SUPPLY_STATUS_DISCHARGING;
 		break;
@@ -520,15 +518,21 @@ static void hidinput_cleanup_battery(struct hid_device *dev)
 
 static void hidinput_update_battery(struct hid_device *dev, int value)
 {
+	int capacity;
+
 	if (!dev->battery)
 		return;
 
 	if (value == 0 || value < dev->battery_min || value > dev->battery_max)
 		return;
 
-	dev->battery_capacity = hidinput_scale_battery_capacity(dev, value);
-	dev->battery_reported = true;
-	power_supply_changed(dev->battery);
+	capacity = hidinput_scale_battery_capacity(dev, value);
+
+	if (!dev->battery_reported || capacity != dev->battery_capacity) {
+		dev->battery_capacity = capacity;
+		dev->battery_reported = true;
+		power_supply_changed(dev->battery);
+	}
 }
 #else  /* !CONFIG_HID_BATTERY_STRENGTH */
 static int hidinput_setup_battery(struct hid_device *dev, unsigned report_type,
@@ -992,6 +996,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
 		case 0x289: map_key_clear(KEY_REPLY);		break;
 		case 0x28b: map_key_clear(KEY_FORWARDMAIL);	break;
 		case 0x28c: map_key_clear(KEY_SEND);		break;
+
+		case 0x2a2: map_key_clear(KEY_ALL_APPLICATIONS);	break;
 
 		case 0x2c7: map_key_clear(KEY_KBDINPUTASSIST_PREV);		break;
 		case 0x2c8: map_key_clear(KEY_KBDINPUTASSIST_NEXT);		break;
