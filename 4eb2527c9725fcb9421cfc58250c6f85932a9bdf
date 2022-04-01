@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "669ce2db_e579ea1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16779
+      },
+      "writtenOn": "2022-04-01T11:40:05Z",
+      "side": 1,
+      "message": "The BCL changes seem to improve overall performance, and the smmu changes fix crash when using USB tethering (randomly goes into crashdump mode)",
+      "revId": "4eb2527c9725fcb9421cfc58250c6f85932a9bdf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
