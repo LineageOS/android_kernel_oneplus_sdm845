@@ -864,6 +864,8 @@ static int dsi_panel_led_bl_register(struct dsi_panel *panel,
 }
 #endif
 
+extern int op_dimlayer_bl_alpha;
+extern int op_dimlayer_bl_enabled;
 bool HBM_flag;
 
 int dsi_panel_update_backlight(struct dsi_panel *panel,
@@ -878,6 +880,10 @@ int dsi_panel_update_backlight(struct dsi_panel *panel,
 	}
 
 	dsi = &panel->mipi_device;
+
+	if (op_dimlayer_bl_enabled) {
+		bl_lvl = op_dimlayer_bl_alpha;
+	}
 
 	if (panel->bl_config.bl_high2bit) {
 		if (HBM_flag == true)
