@@ -22,6 +22,30 @@
       },
       "revId": "ef4caa50e784f4036ff1ad9db2e454c4270d4bd9",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de1d2164_9745029c",
+        "filename": "drivers/gpu/drm/msm/dsi-staging/dsi_panel.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 15734
+      },
+      "writtenOn": "2022-04-03T16:41:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db01e338_e04b16f0",
+      "range": {
+        "startLine": 885,
+        "startChar": 1,
+        "endLine": 887,
+        "endChar": 2
+      },
+      "revId": "ef4caa50e784f4036ff1ad9db2e454c4270d4bd9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
