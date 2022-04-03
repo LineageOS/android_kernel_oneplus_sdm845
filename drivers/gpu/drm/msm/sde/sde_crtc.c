@@ -2633,6 +2633,17 @@ static void _sde_crtc_set_dim_layer_v1(struct sde_crtc_state *cstate,
 	}
 }
 
+bool sde_crtc_get_dimlayer_mode(struct drm_crtc_state *crtc_state)
+{
+	struct sde_crtc_state *cstate;
+
+	if (!crtc_state)
+		return false;
+
+	cstate = to_sde_crtc_state(crtc_state);
+	return !!cstate->fingerprint_dim_layer;
+}
+
 bool sde_crtc_get_fingerprint_mode(struct drm_crtc_state *crtc_state)
 {
 	struct sde_crtc_state *cstate;
@@ -2688,6 +2699,27 @@ struct ba brightness_alpha_lut[] = {
 	{2000, 0x83},
 };
 
+struct ba brightness_alpha_lut_dc[] = {
+	{0, 0xff},
+	{1, 0xE0},
+	{2, 0xd5},
+	{3, 0xd3},
+	{4, 0xd0},
+	{5, 0xce},
+	{6, 0xcb},
+	{8, 0xc8},
+	{10, 0xc4},
+	{15, 0xba},
+	{20, 0xb0},
+	{30, 0xa0},
+	{45, 0x8b},
+	{70, 0x72},
+	{100, 0x5a},
+	{150, 0x38},
+	{227, 0xe},
+	{260, 0x00},
+};
+
 static int interpolate(int x, int xa, int xb, int ya, int yb)
 {
 	int bf, factor, plus;
@@ -2724,6 +2756,28 @@ int brightness_to_alpha(int brightness)
 			brightness_alpha_lut[i].alpha);
 }
 
+int bl_to_alpha_dc(int brightness)
+{
+	int level = ARRAY_SIZE(brightness_alpha_lut_dc);
+	int i = 0;
+
+	for (i = 0; i < ARRAY_SIZE(brightness_alpha_lut_dc); i++) {
+		if (brightness_alpha_lut_dc[i].brightness >= brightness)
+			break;
+	}
+
+	if (i == 0)
+		return brightness_alpha_lut_dc[0].alpha;
+	else if (i == level)
+		return brightness_alpha_lut_dc[level - 1].alpha;
+
+	return interpolate(brightness,
+			brightness_alpha_lut_dc[i - 1].brightness,
+			brightness_alpha_lut_dc[i].brightness,
+			brightness_alpha_lut_dc[i - 1].alpha,
+			brightness_alpha_lut_dc[i].alpha);
+}
+
 bool oneplus_dimlayer_hbm_enable;
 int oneplus_get_panel_brightness_to_alpha(void)
 {
@@ -2735,7 +2789,10 @@ int oneplus_get_panel_brightness_to_alpha(void)
 	if (oneplus_panel_alpha)
 		return oneplus_panel_alpha;
 
-	return brightness_to_alpha(display->panel->hbm_backlight);
+	if (oneplus_dimlayer_hbm_enable)
+		return brightness_to_alpha(display->panel->hbm_backlight);
+	else
+		return bl_to_alpha_dc(display->panel->hbm_backlight);
 }
 
 int oneplus_onscreenaod_hid = 0;
@@ -4967,7 +5024,12 @@ static int _sde_crtc_check_secure_state(struct drm_crtc *crtc,
 	return 0;
 }
 
+int op_dimlayer_bl_alpha = 260;
+int op_dimlayer_bl_enabled = 0;
+int op_dimlayer_bl = 0;
 bool finger_type = false;
+extern int op_dimlayer_bl_enable;
+extern int op_dp_enable;
 
 extern int sde_plane_check_fingerprint_layer(const struct drm_plane_state *drm_state);
 static int sde_crtc_onscreenfinger_atomic_check(struct sde_crtc_state *cstate,
@@ -5034,6 +5096,23 @@ static int sde_crtc_onscreenfinger_atomic_check(struct sde_crtc_state *cstate,
 	if (fppressed_index_rt < 0) {
 		oneplus_aod_fod = 0;
 		oneplus_aod_dc = 0;
+	}
+
+	if ((fp_index >= 0 && dim_mode != 0) ||
+		(display->panel->aod_status == 1 && oneplus_aod_dc == 0)) {
+		op_dimlayer_bl = 0;
+	} else {
+		if (op_dimlayer_bl_enable && !op_dp_enable) {
+			if (display->panel->bl_config.bl_level != 0 &&
+				display->panel->bl_config.bl_level < op_dimlayer_bl_alpha) {
+				dim_backlight = 1;
+				op_dimlayer_bl = 1;
+			} else {
+				op_dimlayer_bl = 0;
+			}
+		} else {
+			op_dimlayer_bl = 0;
+		}
 	}
 
 	if (oneplus_dimlayer_hbm_enable || oneplus_force_screenfp || dim_backlight == 1) {
