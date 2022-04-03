@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "717ce521_3a5ab6f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 15734
+      },
+      "writtenOn": "2022-04-03T12:12:35Z",
+      "side": 1,
+      "message": "This looks like the logic can be simplified (especially dsi_panel.c), but I likely know less about this than OnePlus themselves.",
+      "revId": "67109608eed2aa37c39b150aa70d8e689b4fb11f",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
