@@ -52,6 +52,24 @@
       "parentUuid": "87b537f0_d3f13f40",
       "revId": "29b31c5e966eeb74eaadbcedbc68aed9ee1a4da5",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85210b15_6d4f706f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10067
+      },
+      "writtenOn": "2022-04-04T18:19:06Z",
+      "side": 1,
+      "message": "all 6t devices have the same panel.",
+      "parentUuid": "d840912f_c9577fa9",
+      "revId": "29b31c5e966eeb74eaadbcedbc68aed9ee1a4da5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
