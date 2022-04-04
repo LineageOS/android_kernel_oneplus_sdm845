@@ -99,6 +99,7 @@ enum msm_mdp_plane_property {
 
 	/* range properties */
 	PLANE_PROP_ZPOS = PLANE_PROP_BLOBCOUNT,
+	//sandeep.vulluri@OnePlus.MultiMediaService,2021/04/19, add for fingerprint
 	PLANE_PROP_CUSTOM,
 	PLANE_PROP_ALPHA,
 	PLANE_PROP_COLOR_FILL,
@@ -632,8 +633,6 @@ struct msm_drm_private {
 
 	/* update the flag when msm driver receives shutdown notification */
 	bool shutdown_in_progress;
-
-	/* commit end time */
 	ktime_t commit_end_time;
 };
 

@@ -3831,7 +3831,9 @@ void sde_encoder_trigger_kickoff_pending(struct drm_encoder *drm_enc)
 	}
 }
 
-extern bool sde_crtc_get_fingerprint_mode(struct drm_crtc_state *crtc_state);
+/*force enable dither on Fingerprint scene */
+extern int op_dimlayer_bl_enable;
+extern bool sde_crtc_get_dimlayer_mode(struct drm_crtc_state *crtc_state);
 static bool
 _sde_encoder_setup_dither_for_onscreenfingerprint(struct sde_encoder_phys *phys,
 						  void *dither_cfg, int len)
@@ -3842,7 +3844,7 @@ _sde_encoder_setup_dither_for_onscreenfingerprint(struct sde_encoder_phys *phys,
 	if (!drm_enc || !drm_enc->crtc)
 		return -EFAULT;
 
-	if (!sde_crtc_get_fingerprint_mode(drm_enc->crtc->state))
+	if (!sde_crtc_get_dimlayer_mode(drm_enc->crtc->state))
 		return -EINVAL;
 
 	if (len != sizeof(dither))
@@ -3904,14 +3906,18 @@ static void _sde_encoder_setup_dither(struct sde_encoder_phys *phys)
 	if (TOPOLOGY_DUALPIPE_MERGE_MODE(topology)) {
 		for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
 			hw_pp = sde_enc->hw_pp[i];
-			if (hw_pp) {
+			if (hw_pp && _sde_encoder_setup_dither_for_onscreenfingerprint(phys,
+							 dither_cfg, len)) {
 				phys->hw_pp->ops.setup_dither(hw_pp, dither_cfg,
 								len);
 			}
 		}
 	} else {
-		if (_sde_encoder_setup_dither_for_onscreenfingerprint(phys, dither_cfg, len))
-			phys->hw_pp->ops.setup_dither(phys->hw_pp, dither_cfg, len);
+		/*force enable dither on Fingerprint scene */
+		if (_sde_encoder_setup_dither_for_onscreenfingerprint(phys,
+							dither_cfg, len))
+			phys->hw_pp->ops.setup_dither(phys->hw_pp, dither_cfg,
+									len);
 	}
 }
 
@@ -4153,6 +4159,7 @@ int sde_encoder_poll_line_counts(struct drm_encoder *drm_enc)
 	return -ETIMEDOUT;
 }
 
+extern int sde_connector_update_backlight(struct drm_connector *conn);
 int sde_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc,
 		struct sde_encoder_kickoff_params *params)
 {
@@ -4188,6 +4195,9 @@ int sde_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc,
 				sde_enc->cur_master);
 	else
 		ln_cnt1 = -EINVAL;
+
+	if (sde_enc->cur_master)
+		sde_connector_update_backlight(sde_enc->cur_master->connector);
 
 	/* prepare for next kickoff, may include waiting on previous kickoff */
 	SDE_ATRACE_BEGIN("enc_prepare_for_kickoff");

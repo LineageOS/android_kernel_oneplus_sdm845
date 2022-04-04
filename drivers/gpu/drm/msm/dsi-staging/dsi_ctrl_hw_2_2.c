@@ -40,14 +40,14 @@ void dsi_ctrl_hw_22_phy_reset_config(struct dsi_ctrl_hw *ctrl,
 	reg = DSI_DISP_CC_R32(ctrl, DISP_CC_CLAMP_REG_OFF);
 
 	/* Mask/unmask disable PHY reset bit */
-	if (enable) {
+	if (enable){
 		reg &= ~BIT(ctrl->index);
-		/* Enable GDSC retention flops during idle exit */
-		gdscr_reg = DSI_DISP_CC_R32(ctrl, DISP_CC_CORE_GDSCR);
-		gdscr_reg |= BIT(11);
-		DSI_DISP_CC_W32(ctrl, DISP_CC_CORE_GDSCR, gdscr_reg);
+	/* Enable GDSC retention flops during idle exit */
+	gdscr_reg = DSI_DISP_CC_R32(ctrl, DISP_CC_CORE_GDSCR);
+	gdscr_reg |= BIT(11);
+	DSI_DISP_CC_W32(ctrl, DISP_CC_CORE_GDSCR, gdscr_reg);
 	} else {
-		reg |= BIT(ctrl->index);
+			reg |= BIT(ctrl->index);
 	}
 	DSI_DISP_CC_W32(ctrl, DISP_CC_CLAMP_REG_OFF, reg);
 }
