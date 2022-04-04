@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37c7a5a8_e298d87f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16779
+      },
+      "writtenOn": "2022-04-04T05:31:06Z",
+      "side": 1,
+      "message": "Squashed since gerrit won\u0027t allow duplicate change IDs: https://github.com/EdwinMoq/android_kernel_oneplus_sdm845/commits/lineage-19.1\n\nAnti flicker works and brightness is fine on fajita, the only issue is that HBM isn\u0027t restoring after turning the display off or pressing FOD",
+      "revId": "56b99ede12954ddd5765a2e1b226bee10882b9b4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
