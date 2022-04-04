@@ -34,6 +34,24 @@
       "parentUuid": "959fb02e_0b6e15af",
       "revId": "29b31c5e966eeb74eaadbcedbc68aed9ee1a4da5",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d840912f_c9577fa9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16779
+      },
+      "writtenOn": "2022-04-04T14:27:21Z",
+      "side": 1,
+      "message": "With the current patch set brightness is fine, the only issue now is HBM that doesn\u0027t restore after turning display off/on and after pressing FOD. Also, if both anti flicker and HBM are on the display turns off completely when you press FOD\n\nIf you don\u0027t have these issues maybe it\u0027s a panel specific thing...",
+      "parentUuid": "87b537f0_d3f13f40",
+      "revId": "29b31c5e966eeb74eaadbcedbc68aed9ee1a4da5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
