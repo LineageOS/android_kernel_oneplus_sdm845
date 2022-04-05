@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fa62ed1_6210ddb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16779
+      },
+      "writtenOn": "2022-04-05T00:34:57Z",
+      "side": 1,
+      "message": "So turns out the HBM issue happens even without this change, I just hadn\u0027t noticed since I don\u0027t use it that much. Sorry about that",
+      "revId": "571ceae95c944656767734d730720762b2a91521",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
