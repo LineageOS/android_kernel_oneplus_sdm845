@@ -569,7 +569,7 @@ static ssize_t fp_irq_get(struct device *device,
 {
 	struct synaptics_ts_data *ts = ts_g;
 
-	return scnprintf(buf, PAGE_SIZE, "%i\n", ts->fp_up_down);
+	return scnprintf(buf, PAGE_SIZE, "%i,%i,%i\n", recored_pointx[0], recored_pointy[0], ts->fp_up_down);
 }
 static DEVICE_ATTR(fp_irq, 0400, fp_irq_get, NULL);
 
@@ -1278,6 +1278,7 @@ static void fp_detect(struct synaptics_ts_data *ts)
 	switch (gesture_sign) {
 	case FINGER_DOWN:
 		ts->fp_up_down = 1;
+		recored_xy(ts, 0);
 		sysfs_notify(&ts->dev->kobj, NULL,
 			dev_attr_fp_irq.attr.name);
 		TPD_DEBUG("%s:FINGER_DOWN %d\n", __func__,
