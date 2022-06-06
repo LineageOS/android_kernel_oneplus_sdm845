@@ -2079,33 +2079,3 @@ status = "disabled";
     };
 };
 
-&qupv3_se3_i2c {
-
-	nq@28 {
-	      status = "disabled";
-	};
-
-	pn5xx@28 {
-		compatible = "nxp,pn544";
-		reg = <0x28>;
-		nxp,pn544-irq = <&tlmm 63 0x00>;
-		nxp,pn544-ven = <&tlmm 12 0x00>;
-		nxp,pn544-fw-dwnld = <&tlmm 62 0x00>;
-		nxp,pn544-clk-gpio = <&pm8998_gpios 21 0x00>;
-		nxp,pn544-ese-pwr = <&tlmm 116 0x00>;
-		nfc_voltage_s4-supply = <&pm8998_s4>;
-		nxp,pn544-wake-up = <&tlmm 129 0x00>;
-		interrupt-parent = <&tlmm>;
-		qcom,clk-src = "BBCLK3";
-		interrupts = <63 0>;
-		interrupt-names = "nfc_irq";
-		pinctrl-names = "nfc_active", "nfc_suspend";
-		pinctrl-0 = <&nfc_int_active
-			     &nfc_enable_active
-			     &nfc_clk_default>;
-		pinctrl-1 = <&nfc_int_suspend &nfc_enable_suspend>;
-		clocks = <&clock_rpmh RPMH_LN_BB_CLK3>;
-		clock-names = "ref_clk";
-	};
-};
-
