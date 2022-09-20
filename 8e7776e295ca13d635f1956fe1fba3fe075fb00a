@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24b145bd_fb8376a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13648
+      },
+      "writtenOn": "2022-09-20T12:42:29Z",
+      "side": 1,
+      "message": "Why don\u0027t you commit this to lineage-19.1 right away? It\u0027s not like it\u0027s needed sepcfifically in this branch.",
+      "revId": "8e7776e295ca13d635f1956fe1fba3fe075fb00a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
