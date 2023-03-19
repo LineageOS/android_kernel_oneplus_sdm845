@@ -742,6 +742,8 @@ static bool is_spectre_bhb_fw_affected(int scope)
 	static const struct midr_range spectre_bhb_firmware_mitigated_list[] = {
 		MIDR_ALL_VERSIONS(MIDR_CORTEX_A73),
 		MIDR_ALL_VERSIONS(MIDR_CORTEX_A75),
+		MIDR_ALL_VERSIONS(MIDR_KRYO3G),
+		MIDR_ALL_VERSIONS(MIDR_KRYO2XX_GOLD),
 		{},
 	};
 	bool cpu_in_list = is_midr_in_range_list(read_cpuid_id(),
@@ -877,8 +879,16 @@ static void kvm_setup_bhb_slot(const char *hyp_vecs_start) { };
 
 static bool is_spectrev2_safe(void)
 {
+	static const struct midr_range arm64_psci_bp_harden_cpus[] = {
+		MIDR_ALL_VERSIONS(MIDR_KRYO3G),
+		MIDR_ALL_VERSIONS(MIDR_KRYO2XX_GOLD),
+		{},
+	};
+
 	return !is_midr_in_range_list(read_cpuid_id(),
-				      arm64_bp_harden_smccc_cpus);
+				      arm64_psci_bp_harden_cpus) &&
+			!is_midr_in_range_list(read_cpuid_id(),
+				               arm64_bp_harden_smccc_cpus);
 }
 
 void spectre_bhb_enable_mitigation(const struct arm64_cpu_capabilities *entry)
