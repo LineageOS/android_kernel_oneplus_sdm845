@@ -709,8 +709,8 @@ static int fastrpc_mmap_remove(struct fastrpc_file *fl, uintptr_t va,
 	}
 	hlist_for_each_entry_safe(map, n, &fl->maps, hn) {
 		/* Remove if only one reference map and no context map */
-		if (map->refs == 1 && !map->ctx_refs && map->raddr == va &&
-			map->raddr + map->len == va + len &&
+		if (map->refs == 1 && !map->ctx_refs &&
+			map->raddr == va && map->raddr + map->len == va + len &&
 			/* Remove map if not used in process initialization */
 			!map->is_filemap) {
 			match = map;
@@ -1548,8 +1548,11 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 		if (!err && ctx->maps[i])
 			ctx->maps[i]->ctx_refs++;
 		if (err) {
-			for (j = bufs; j < i; j++)
+			for (j = bufs; j < i; j++) {
+				if (ctx->maps[j] && ctx->maps[j]->ctx_refs)
+					ctx->maps[j]->ctx_refs--;
 				fastrpc_mmap_free(ctx->maps[j], 0);
+			}
 			mutex_unlock(&ctx->fl->fl_map_mutex);
 			goto bail;
 		}
