@@ -1768,6 +1768,7 @@ int msm_pinctrl_probe(struct platform_device *pdev,
 	key = "spi_cfg_regs";
 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, key);
 	if (res) {
+		pctrl->spi_base = devm_ioremap_resource(&pdev->dev, res);
 		pctrl->spi_cfg_regs = res->start;
 		pctrl->spi_cfg_end = res->end;
 	}
