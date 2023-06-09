@@ -16,6 +16,24 @@
       "message": "Do you really have to revert it though? You just set a different node in BoardConfig and the HAL will use that instead.",
       "revId": "a1485217fbf3328fe1645067b958892fa649856e",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc555e0b_6cc539b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16779
+      },
+      "writtenOn": "2023-06-09T18:48:39Z",
+      "side": 1,
+      "message": "It breaks build because oneplus added their own POWER_SUPPLY_PROP_CHARGING_ENABLED prop, and I don\u0027t think it\u0027s worth it to rename it",
+      "parentUuid": "30ed045d_6905b967",
+      "revId": "a1485217fbf3328fe1645067b958892fa649856e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
