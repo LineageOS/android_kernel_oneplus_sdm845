@@ -507,10 +507,12 @@ int f2fs_getxattr(struct inode *inode, int index, const char *name,
 	if (len > F2FS_NAME_LEN)
 		return -ERANGE;
 
-	down_read(&F2FS_I(inode)->i_xattr_sem);
+	if (!ipage)
+		down_read(&F2FS_I(inode)->i_xattr_sem);
 	error = lookup_all_xattrs(inode, ipage, index, len, name,
 				&entry, &base_addr, &base_size);
-	up_read(&F2FS_I(inode)->i_xattr_sem);
+	if (!ipage)
+		up_read(&F2FS_I(inode)->i_xattr_sem);
 	if (error)
 		return error;
 

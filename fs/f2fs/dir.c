@@ -609,9 +609,16 @@ int f2fs_add_dentry(struct inode *dir, struct fscrypt_name *fname,
 	new_name.name = fname_name(fname);
 	new_name.len = fname_len(fname);
 
-	if (f2fs_has_inline_dentry(dir))
+	if (f2fs_has_inline_dentry(dir)) {
+		/*
+		 * Should get i_xattr_sem to keep the lock order:
+		 * i_xattr_sem -> inode_page lock used by f2fs_setxattr.
+		 */
+		down_read(&F2FS_I(dir)->i_xattr_sem);
 		err = f2fs_add_inline_entry(dir, &new_name, fname->usr_fname,
 							inode, ino, mode);
+		up_read(&F2FS_I(dir)->i_xattr_sem);
+	}
 	if (err == -EAGAIN)
 		err = f2fs_add_regular_entry(dir, &new_name, fname->usr_fname,
 							inode, ino, mode);
