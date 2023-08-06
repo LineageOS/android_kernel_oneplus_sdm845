@@ -335,13 +335,11 @@ struct param_info {
     char name[80];
     int q_val;
 };
-
+#endif
 
 //MULTIPLE = 3.33,  rdc/(1<<27) * MULTIPLE = [min, max] ohm
 #define RDC_MIN  (241833636)  //1.801801 * (1<<27), 1.801801 * MULTIPLE = 6 ohm
 #define RDC_MAX  (403056239)  //3.003003 * (1<<27), 3.003003 * MULTIPLE = 10 ohm
-
-#endif
 
 static uint32_t gParam[PKG_HEADER+PAYLOAD_COUNT];
 
@@ -419,7 +417,6 @@ static struct miscdevice dsm_ctrl_miscdev = {
 };
 #endif
 
-#ifdef CONFIG_DEBUG_FS
 /* max. length of a alsa mixer control name */
 #define MAX_CONTROL_NAME        48
 #define CALIBRATE_FILE   "/persist/spkr_calibration.bin"
@@ -511,6 +508,7 @@ static bool rdc_check_valid(uint32_t rdc)
     return false;
 }
 
+#ifdef CONFIG_DEBUG_FS
 static ssize_t max989xx_dbgfs_calibrate_read(struct file *file,
                      char __user *user_buf, size_t count,
                      loff_t *ppos)
@@ -623,6 +621,7 @@ exit:
 
     return ret;
 }
+#endif
 
 static struct snd_kcontrol_new max98927_at_controls[] = {
 	{
@@ -712,7 +711,7 @@ exit:
 static struct device_attribute max98927_state_attr =
      __ATTR(calibra, 0444, max98927_state_show, max98927_state_store);
 
-
+#ifdef CONFIG_DEBUG_FS
 struct dsm_info_t {
     int32_t averageTemp[2];
 	int32_t	bits_per_sample;
