@@ -393,6 +393,12 @@ void *vidc_get_drv_data(struct device *dev)
 
 	driver_data->enable_feature_config = 0;
 
+	if (!strcmp(match->compatible, "qcom,sdm845-vidc")) {
+
+		driver_data->enable_feature_config |= DEC_DYNAMIC_CROP;
+
+	}
+
 	if (!of_find_property(dev->of_node, "sku-index", NULL) ||
 			!driver_data) {
 		goto exit;
