@@ -1,4 +1,5 @@
 /* Copyright (c) 2012-2020, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -2124,9 +2125,10 @@ static int venus_hfi_session_init(void *device, void *session_id,
 
 	__set_default_sys_properties(device);
 	if (dev->res) {
-		if (dev->res->enable_max_resolution) {
+		if (dev->res->enable_feature_config) {
 			if (call_hfi_pkt_op(dev, sys_feature_config,
-				&feature_pkt)) {
+				&feature_pkt,
+				dev->res->enable_feature_config)) {
 				dprintk(VIDC_ERR,
 					"Failed to create feature config pkt\n");
 				goto err_session_init_fail;
