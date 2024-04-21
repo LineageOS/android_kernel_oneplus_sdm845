@@ -2130,7 +2130,6 @@ static int venus_hfi_session_init(void *device, void *session_id,
 	__set_default_sys_properties(device);
 	if (dev->res) {
 		if (dev->res->enable_feature_config) {
-			dprintk(VIDC_DBG, "session init: sys_feature_config is enabled with value - %d\n", dev->res->enable_feature_config);
 			if (call_hfi_pkt_op(dev, sys_feature_config,
 				feature_pkt,
 				dev->res->enable_feature_config)) {
