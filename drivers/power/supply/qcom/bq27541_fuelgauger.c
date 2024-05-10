@@ -903,6 +903,7 @@ static int bq27541_design_capacity(struct bq27541_device_info *di)
 			pr_err("error reading design capacity.\n");
 			return ret;
 		}
+		cap *= 1000;
 	}
 
 	return cap;
@@ -947,6 +948,7 @@ static int bq27541_full_chg_capacity(struct bq27541_device_info *di)
 			pr_err("error reading full chg capacity.\n");
 			return ret;
 		}
+		cap *= 1000;
 	}
 
 	return cap;
