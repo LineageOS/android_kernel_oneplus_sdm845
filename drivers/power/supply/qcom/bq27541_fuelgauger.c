@@ -234,6 +234,8 @@ struct bq27541_device_info {
 	int soc_pre;
 	int  batt_vol_pre;
 	int current_pre;
+	int dcap_pre;
+	int fcc_pre;
 	int health_pre;
 	int get_over_temp;
 	unsigned long rtc_resume_time;
@@ -897,16 +899,20 @@ static int bq27541_design_capacity(struct bq27541_device_info *di)
 	int ret;
 	int cap = 0;
 
+	/* Add for get right soc when sleep long time */
+	if (atomic_read(&di->suspended) == 1)
+		return di->dcap_pre;
+
 	if (di->allow_reading) {
 		ret = bq27541_read(BQ27541_REG_DCAP, &cap, 0, di);
 		if (ret) {
 			pr_err("error reading design capacity.\n");
 			return ret;
 		}
-		cap *= 1000;
+		di->dcap_pre = cap * 1000;
 	}
 
-	return cap;
+	return di->dcap_pre;
 }
 
 static int bq27541_remaining_capacity(struct bq27541_device_info *di)
@@ -936,6 +942,10 @@ static int bq27541_full_chg_capacity(struct bq27541_device_info *di)
 	int ret;
 	int cap = 0;
 
+	/* Add for get right soc when sleep long time */
+	if (atomic_read(&di->suspended) == 1)
+		return di->fcc_pre;
+
 	if (di->allow_reading) {
 #ifdef CONFIG_GAUGE_BQ27411
 		/* david.liu@bsp, 20161004 Add BQ27411 support */
@@ -948,10 +958,10 @@ static int bq27541_full_chg_capacity(struct bq27541_device_info *di)
 			pr_err("error reading full chg capacity.\n");
 			return ret;
 		}
-		cap *= 1000;
+		di->fcc_pre = cap * 1000;
 	}
 
-	return cap;
+	return di->fcc_pre;
 }
 
 static int bq27541_batt_health(struct bq27541_device_info *di)
