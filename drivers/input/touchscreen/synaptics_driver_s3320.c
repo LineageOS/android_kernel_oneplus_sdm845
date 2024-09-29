@@ -1298,7 +1298,7 @@ static void fp_detect(struct synaptics_ts_data *ts)
 		gf_opticalfp_irq_handler(0);
 		if (ts->fp_aod_cnt > 0)
 			need_reset = 1;
-			not_getbase = 0;
+		not_getbase = 0;
 		ts->fp_aod_cnt = 0;
 		break;
 	}
@@ -2231,8 +2231,10 @@ static ssize_t synap_write_address(struct file *file, const char __user *buffer,
             TPD_DEBUG("reg=0x%x\n",reg[i]);
         }
     }
-    else
+    else {
         block = temp_block;
+    }
+
 	return count;
 }
 
