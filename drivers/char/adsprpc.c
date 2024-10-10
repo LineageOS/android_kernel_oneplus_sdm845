@@ -364,6 +364,8 @@ struct fastrpc_mmap {
 	uintptr_t attr;
 	bool is_filemap; /* flag to indicate map used in process init */
 	unsigned int ctx_refs; /* Indicates reference count for context map */
+	/* Map in use for dma handle */
+	unsigned int dma_handle_refs;
 };
 
 enum fastrpc_perfkeys {
@@ -709,8 +711,12 @@ static int fastrpc_mmap_remove(struct fastrpc_file *fl, uintptr_t va,
 	}
 	hlist_for_each_entry_safe(map, n, &fl->maps, hn) {
 		/* Remove if only one reference map and no context map */
-		if (map->refs == 1 && !map->ctx_refs && map->raddr == va &&
+		if (map->refs == 1 &&
+			!map->ctx_refs &&
+			map->raddr == va &&
 			map->raddr + map->len == va + len &&
+			/* Remove map only if it isn't being used by DSP */
+			!map->dma_handle_refs &&
 			/* Remove map if not used in process initialization */
 			!map->is_filemap) {
 			match = map;
@@ -755,15 +761,21 @@ static void fastrpc_mmap_free(struct fastrpc_mmap *map, uint32_t flags)
 	if (map->flags == ADSP_MMAP_HEAP_ADDR ||
 				map->flags == ADSP_MMAP_REMOTE_HEAP_ADDR) {
 		spin_lock(&me->hlock);
-		map->refs--;
-		if (!map->refs && !map->ctx_refs)
+		if (map->refs)
+			map->refs--;
+		if (!map->refs)
 			hlist_del_init(&map->hn);
 		spin_unlock(&me->hlock);
 		if (map->refs > 0)
 			return;
 	} else {
-		map->refs--;
-		if (!map->refs && !map->ctx_refs)
+		if (map->refs)
+			map->refs--;
+		/* flags is passed as 1 during fastrpc_file_free
+		 * (ie process exit), so that maps will be cleared
+		 * even though references are present.
+		 */
+		if (!map->refs && !map->ctx_refs && !map->dma_handle_refs)
 			hlist_del_init(&map->hn);
 		if (map->refs > 0 && !flags)
 			return;
@@ -1502,7 +1514,7 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 	uintptr_t args;
 	size_t rlen = 0, copylen = 0, metalen = 0, lrpralen = 0;
 	int i, oix;
-	int err = 0;
+	int err = 0, j = 0;
 	int mflags = 0;
 	uint64_t *fdlist;
 	uint32_t *crclist;
@@ -1546,8 +1558,15 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 		VERIFY(err, !fastrpc_mmap_create(ctx->fl, ctx->fds[i],
 			FASTRPC_ATTR_NOVA, 0, 0, dmaflags, &ctx->maps[i]));
 		if (!err && ctx->maps[i])
-			ctx->maps[i]->ctx_refs++;
+			ctx->maps[i]->dma_handle_refs++;
 		if (err) {
+			for (j = bufs; j < i; j++) {
+				if (ctx->maps[j] &&
+					ctx->maps[j]->dma_handle_refs) {
+					ctx->maps[j]->dma_handle_refs--;
+					fastrpc_mmap_free(ctx->maps[j], 0);
+				}
+			}
 			mutex_unlock(&ctx->fl->fl_map_mutex);
 			goto bail;
 		}
@@ -1663,13 +1682,33 @@ static int get_args(uint32_t kernel, struct smq_invoke_ctx *ctx)
 		rpra[i].buf.pv = lrpra[i].buf.pv = buf;
 	}
 	PERF_END);
+	/* Since we are not holidng map_mutex during get args whole time
+	 * it is possible that dma handle map may be removed by some invalid
+	 * fd passed by DSP. Inside the lock check if the map present or not
+	 */
+	mutex_lock(&ctx->fl->fl_map_mutex);
 	for (i = bufs; i < bufs + handles; ++i) {
-		struct fastrpc_mmap *map = ctx->maps[i];
-		if (map) {
-			pages[i].addr = map->phys;
-			pages[i].size = map->size;
+		struct fastrpc_mmap *mmap = NULL;
+		/* check if map  was created */
+		if (ctx->maps[i]) {
+			/* check if map still exist */
+			if (!fastrpc_mmap_find(ctx->fl, ctx->fds[i], 0, 0,
+				0, 0, &mmap)) {
+				if (mmap) {
+					pages[i].addr = mmap->phys;
+					pages[i].size = mmap->size;
+				}
+
+			} else {
+				/* map already freed by some other call */
+				mutex_unlock(&ctx->fl->fl_map_mutex);
+				pr_err("could not find map associated with dma handle fd %d\n",
+					ctx->fds[i]);
+				goto bail;
+			}
 		}
 	}
+	mutex_unlock(&ctx->fl->fl_map_mutex);
 	if (!me->legacy) {
 		fdlist = (uint64_t *)&pages[bufs + handles];
 		for (i = 0; i < M_FDLIST; i++)
@@ -1809,9 +1848,10 @@ static int put_args(uint32_t kernel, struct smq_invoke_ctx *ctx,
 				break;
 			if (!fastrpc_mmap_find(ctx->fl, (int)fdlist[i], 0, 0,
 						0, 0, &mmap)) {
-				if (mmap && mmap->ctx_refs)
-					mmap->ctx_refs--;
-				fastrpc_mmap_free(mmap, 0);
+				if (mmap && mmap->dma_handle_refs) {
+					mmap->dma_handle_refs = 0;
+					fastrpc_mmap_free(mmap, 0);
+				}
 			}
 		}
 	}
