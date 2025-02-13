@@ -16,6 +16,24 @@
       "message": "still have no idea what this is for.",
       "revId": "b32ca1725588a2365439610b1fdc5cc9078b5f05",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d42b15f2_973b0d09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 32561
+      },
+      "writtenOn": "2025-02-13T09:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d51bd520_5fda8db1",
+      "revId": "b32ca1725588a2365439610b1fdc5cc9078b5f05",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
